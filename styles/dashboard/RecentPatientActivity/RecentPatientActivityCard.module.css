@@ -1,0 +1,124 @@
+.card_outer_container {
+    background-color: white;
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+}
+
+.card_outer_container>div {
+    width: 20%;
+}
+
+.patient_details_sec {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.patient_details_sec h4 {
+    margin: 0px !important;
+}
+
+.patient_details_sec p {
+    margin: 0px !important;
+}
+
+.patient_details_left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.patient_details_sec h4 {
+    font-size: 14px;
+    font-weight: 400;
+    color: black;
+}
+
+.patient_details_sec p {
+    color: #4C5563;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.status {
+    border-radius: 200px;
+    padding: 4px 20px;
+    color: #147129;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #EAFDEE;
+}
+
+.Prescription_status_cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.patient_phone_number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.patient_phone_number p {
+    font-size: 12px;
+    font-weight: 400;
+    color: black;
+}
+
+.patient_date {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.patient_date p {
+    font-size: 12px;
+    font-weight: 400;
+    color: black;
+}
+
+.patient_action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+
+
+
+
+@media only screen and (max-width:650px) {
+    .card_outer_container {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .card_outer_container>div {
+        width: 100%;
+    }
+
+    .patient_details_sec {
+        justify-content: start;
+    }
+
+    .Prescription_status_cont {
+        justify-content: start;
+    }
+
+    .patient_phone_number {
+        justify-content: start;
+    }
+
+    .patient_date {
+        justify-content: start;
+    }
+
+    .patient_action {
+        justify-content: start;
+    }
+}

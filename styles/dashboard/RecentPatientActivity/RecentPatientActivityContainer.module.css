@@ -1,0 +1,53 @@
+.container {
+    background-color: #F9FAFB !important;
+    padding: 10px;
+}
+
+.head-txt {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.titles>div {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titles {
+    display: flex;
+}
+
+.titles p {
+    font-size: 12px;
+    color: #4C5563;
+    font-weight: 400;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.pagination button {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.activePage {
+    background: #007bff;
+
+    border-color: #007bff;
+    background: #BDBDBD !important;
+}

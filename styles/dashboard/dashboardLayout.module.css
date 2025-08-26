@@ -1,0 +1,14 @@
+.dashboardContainer{
+    display: flex;
+}
+.left_side{
+    /* margin-left: 300px; */
+    padding: 20px;
+    width: 100%;
+}
+
+@media only screen and (max-width:900px){
+    .left_side{
+        /* margin-left: 80px; */
+    }
+}

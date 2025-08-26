@@ -1,0 +1,79 @@
+.patient_container {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.second_section {
+    display: flex;
+    flex-direction: row;
+    width: 100% !important;
+    align-items: stretch;
+
+}
+
+.second_section_left {
+    width: 50%;
+    flex: 1;
+}
+
+.second_section_right {
+    width: 50%;
+    flex: 1;
+}
+
+
+@media only screen and (max-width:900px) {
+    .patient_container {
+        flex-direction: column;
+    }
+
+    .second_section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .second_section_left {
+        width: 100%;
+    }
+
+    .second_section_right {
+        width: 100%;
+    }
+}
+
+.second_section {
+    display: flex;
+    flex-direction: row;
+    width: 100% !important;
+    align-items: stretch;
+    /* 🔑 makes children same height */
+    gap: 20px;
+    /* optional spacing */
+}
+
+.second_section_left,
+.second_section_right {
+    flex: 1;
+    /* equal width */
+    display: flex;
+    /* allow children to stretch */
+}
+
+.second_section_left>*,
+.second_section_right>* {
+    flex: 1;
+    /* forces PatientSegmentation & UpcommingPatient to fill full height */
+}
+
+@media only screen and (max-width:900px) {
+    .second_section {
+        flex-direction: column;
+    }
+
+    .second_section_left,
+    .second_section_right {
+        width: 100%;
+        display: block;
+        /* reset flex on mobile if needed */
+    }
+}
