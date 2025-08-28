@@ -4,8 +4,14 @@ import { useSelector } from 'react-redux'
 
 export const PatientSegmentation = () => {
 
-    const { prescribed, nurture ,not_prescribed} = useSelector((state) => state.doctor)
-    
+    const { prescribed, nurture, not_prescribed } = useSelector((state) => state.doctor);
+const total = prescribed.length + nurture.length + not_prescribed.length;
+
+const prescribedPercentage = total ? (prescribed.length / total) * 100 : 0;
+const nurturePercentage = total ? (nurture.length / total) * 100 : 0;
+const not_prescribedPercentage = total ? (not_prescribed.length / total) * 100 : 0;
+
+
     return (
         <>
             <div className={styles.PatientSegmentation_container}>
@@ -17,9 +23,10 @@ export const PatientSegmentation = () => {
                         </div>
                     </div>
                     <div className={styles.status_cont}>
-                        <p className={styles.status_li} ><span className={styles.green_Circle}></span>Prescribed 65%</p>
-                        <p className={styles.status_li} ><span className={styles.Blue_CLr_Circle}></span>Nurture 25%</p>
-                        <p className={styles.status_li} ><span className={styles.gray_Circle}></span>Not Prescribed 15%</p>
+                       <p className={styles.status_li}><span className={styles.green_Circle}></span>Prescribed {prescribedPercentage.toFixed(2)}%</p>
+<p className={styles.status_li}><span className={styles.Blue_CLr_Circle}></span>Nurture {nurturePercentage.toFixed(2)}%</p>
+<p className={styles.status_li}><span className={styles.gray_Circle}></span>Not Prescribed {not_prescribedPercentage.toFixed(2)}%</p>
+
                     </div>
                 </div>
             </div>
