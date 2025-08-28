@@ -3,6 +3,12 @@
     display: flex;
     margin: 10px;
     padding: 10px;
+
+}
+
+.card_outer_container:hover {
+    background-color: #FFFBF3;
+    transition: 0.1s;
 }
 
 .card_outer_container>div {
