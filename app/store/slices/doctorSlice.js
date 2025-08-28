@@ -48,6 +48,8 @@ const DoctorSlice = createSlice({
                 state.nurture = patients.filter(
                     (p) => p.StatusPrespcription === "Celevida_Nurture"
                 );
+
+                
                 state.not_prescribed = patients.filter(
                     (patient) =>
                         patient.status !== "Celevida_Nurture" &&

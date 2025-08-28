@@ -1,4 +1,4 @@
-"use client"; // ensures client-side rendering in Next.js App Directory
+"use client";
 
 import {
   Chart as ChartJS,
@@ -11,7 +11,7 @@ import { Doughnut } from "react-chartjs-2";
 // register necessary ChartJS components
 ChartJS.register(ArcElement, Tooltip,);
 
-export default function DoughnutChart({prescribed,nurture,not_prescribed}) {
+export default function DoughnutChart({ prescribed, nurture, not_prescribed }) {
   const data = {
     labels: ["prescribed", "nurture", "not prescribed"],
     datasets: [
@@ -27,9 +27,9 @@ export default function DoughnutChart({prescribed,nurture,not_prescribed}) {
   const options = {
     responsive: true,
     plugins: {
-    //   legend: {
-    //     position: "bottom",
-    //   },
+      //   legend: {
+      //     position: "bottom",
+      //   },
     },
     cutout: "50%", // for doughnut effect
   };
