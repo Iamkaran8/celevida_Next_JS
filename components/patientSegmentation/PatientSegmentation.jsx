@@ -1,4 +1,5 @@
 import styles from '@/styles/dashboard/PatientSegmentation/PatientSegmentation.module.css'
+import DoughnutChart from '../charts/Doughnut'
 
 export const PatientSegmentation = () => {
     return (
@@ -8,7 +9,7 @@ export const PatientSegmentation = () => {
                 <div className={styles.pie_chart_Outer_cont}>
                     <div className={styles.pie_chart_Cont}>
                         <div className={styles.chart_circle}>
-                            l
+                            <DoughnutChart/>
                         </div>
                     </div>
                     <div className={styles.status_cont}>
