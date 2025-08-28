@@ -1,0 +1,12 @@
+.btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #FCF8F8;
+    border-radius: 9px;
+    padding: 10px 30px;
+    background-color: white;
+    gap: 10px;
+    box-shadow: 0 15.79px 28.08px rgba(55, 56, 56, .15);
+    cursor: pointer;
+}

@@ -1,7 +1,11 @@
 import styles from '@/styles/dashboard/PatientSegmentation/PatientSegmentation.module.css'
 import DoughnutChart from '../charts/Doughnut'
+import { useSelector } from 'react-redux'
 
 export const PatientSegmentation = () => {
+
+    const { prescribed, nurture ,not_prescribed} = useSelector((state) => state.doctor)
+    
     return (
         <>
             <div className={styles.PatientSegmentation_container}>
@@ -9,7 +13,7 @@ export const PatientSegmentation = () => {
                 <div className={styles.pie_chart_Outer_cont}>
                     <div className={styles.pie_chart_Cont}>
                         <div className={styles.chart_circle}>
-                            <DoughnutChart/>
+                            <DoughnutChart prescribed={prescribed.length} nurture={nurture.length} not_prescribed={not_prescribed} />
                         </div>
                     </div>
                     <div className={styles.status_cont}>

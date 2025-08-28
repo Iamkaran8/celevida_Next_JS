@@ -9,6 +9,11 @@
     width: 265px;
     margin: 10px;
     gap: 20px !important;
+    cursor: pointer;
+}
+.Patient_container:hover{
+    transition: all .5s;
+    box-shadow: 0 15.79px 28.08px rgba(55, 56, 56, .15);
 }
 
 

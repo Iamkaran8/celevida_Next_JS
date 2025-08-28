@@ -1,18 +1,26 @@
+"use client"
+
 import Image from 'next/image'
 import styles from '../../styles/dashboard/patientStatusDetails/patientStatusDetails.module.css'
+import { useRouter } from 'next/navigation';
 
-export const PatientStatusDetails = () => {
-    return (
+export const PatientStatusDetails = ({ title, logo, color, count,navigate }) => {
+    const router = useRouter();
+
+    const handleNavigate = () => {
+        router.push(`/doctor/${navigate}`);
+    };
+    return (    
         <>
-            <div className={styles.Patient_container}>
+            <div className={styles.Patient_container} onClick={()=>handleNavigate()}>
                 <div className={styles.cont_left}>
                     <div className={styles.circle_blue}>
-                        <Image src="/images/onboardedpatients.svg" height={20} width={32} alt="onboarded patients" />
+                        <Image src={logo} height={20} width={32} alt="onboarded patients" />
                     </div>
                 </div>
                 <div className={styles.cont_right}>
-                    <span>Onboarded Patients</span>
-                    <h6>350</h6>
+                    <span>{title}</span>
+                    <h6 style={{ color: color }}>{count}</h6>
                 </div>
             </div>
         </>

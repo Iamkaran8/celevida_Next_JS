@@ -11,14 +11,14 @@ import { Doughnut } from "react-chartjs-2";
 // register necessary ChartJS components
 ChartJS.register(ArcElement, Tooltip,);
 
-export default function DoughnutChart() {
+export default function DoughnutChart({prescribed,nurture,not_prescribed}) {
   const data = {
-    labels: ["Red", "Blue", "Yellow"],
+    labels: ["prescribed", "nurture", "not prescribed"],
     datasets: [
       {
-        label: "My Dataset",
-        data: [300, 50, 100],
-        backgroundColor: ["#ff6384", "#36a2eb", "#ffcd56"],
+        label: "Patient Segmentation",
+        data: [prescribed, nurture, not_prescribed],
+        backgroundColor: ["#23b883", "#4085f3", "#ffcd56"],
         hoverOffset: 4,
       },
     ],

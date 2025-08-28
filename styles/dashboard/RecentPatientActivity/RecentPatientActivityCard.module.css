@@ -42,7 +42,7 @@
     font-weight: 400;
 }
 
-.status {
+.status_onboarded {
     border-radius: 200px;
     padding: 4px 20px;
     color: #147129;
@@ -50,6 +50,24 @@
     font-weight: 500;
     background-color: #EAFDEE;
 }
+
+.status__nurture {
+    border-radius: 200px;
+    padding: 4px 20px;
+    color: #4085F3;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #E0ECFF;
+}
+
+/* .defaultStatus {
+    border-radius: 200px;
+    padding: 4px 20px;
+    color: #4085F3;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #E0ECFF;
+} */
 
 .Prescription_status_cont {
     display: flex;
@@ -93,9 +111,12 @@
 
 
 @media only screen and (max-width:650px) {
+
     .card_outer_container {
         flex-direction: row;
         gap: 10px;
+        width: 200vw;
+        overflow-x: scroll;
     }
 
     .card_outer_container>div {

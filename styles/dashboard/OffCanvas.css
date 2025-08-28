@@ -1,0 +1,78 @@
+/* Button */
+.Offcavas_open-btn {
+  padding: 10px 15px;
+  background: #0070f3;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* Sidebar */
+.Offcavas_sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  /* hide it on the right */
+  width: 250px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+  /* shadow from left */
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 1001;
+}
+
+.Offcavas_sidebar.open {
+  right: 0;
+  /* slide in from right */
+}
+
+
+/* Sidebar header */
+.Offcavas_sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Offcavas_close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Overlay */
+.Offcavas_overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.Offcavas_overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Menu items */
+.Offcavas_sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.Offcavas_sidebar ul li {
+  padding: 10px 0;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.Offcavas_sidebar ul li:hover {
+  color: #0070f3;
+}

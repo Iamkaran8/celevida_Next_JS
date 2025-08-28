@@ -51,3 +51,18 @@
     border-color: #007bff;
     background: #BDBDBD !important;
 }
+
+
+
+
+
+
+@media only screen and (max-width:650px){
+    .container{
+        overflow-x: scroll;
+    }
+    .titles {
+    width: 200vw;
+}
+
+}

@@ -64,6 +64,7 @@
     height: 7px !important;
     width: 7px !important;
     border-radius: 30px;
+    
 }
 
 .chart_circle {
@@ -75,6 +76,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
 }
 
 

@@ -1,16 +1,14 @@
-
-
 "use client";
 
 import { useState } from "react";
 import styles from "@/styles/dashboard/RecentPatientActivity/RecentPatientActivityContainer.module.css";
-import { PatientActivityCard } from '@/components/recentPatientActivity/PatientActivityCard' // ✅ FIXED
+import { PatientActivityCard } from '@/components/recentPatientActivity/PatientActivityCard';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 5; // rows per page
+    const pageSize = 30; // rows per page
 
     const totalPages = Math.ceil(patientsDetails.length / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
@@ -18,14 +16,61 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
     const router = useRouter();
 
     const handleNavigate = () => {
-        router.push("/doctor/dashboard"); // 👈 target route
+        router.push("/doctor/dashboard");
+    };
+
+    const renderPageNumbers = () => {
+        const pages = [];
+        const maxVisible = 5; // show max 5 numbers around current page
+
+        if (totalPages <= 7) {
+            // Show all pages if total is small
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            pages.push(1); // Always show first page
+
+            if (currentPage > 3) {
+                pages.push("..."); // Ellipsis before current
+            }
+
+            const start = Math.max(2, currentPage - 1);
+            const end = Math.min(totalPages - 1, currentPage + 1);
+
+            for (let i = start; i <= end; i++) {
+                pages.push(i);
+            }
+
+            if (currentPage < totalPages - 2) {
+                pages.push("..."); // Ellipsis after current
+            }
+
+            pages.push(totalPages); // Always show last page
+        }
+
+        return pages.map((p, i) =>
+            p === "..." ? (
+                <span key={i} className={styles.ellipsis}>...</span>
+            ) : (
+                <button
+                    key={i}
+                    onClick={() => setCurrentPage(p)}
+                    className={currentPage === p ? styles.activePage : ""}
+                >
+                    {p}
+                </button>
+            )
+        );
     };
 
     return (
         <>
             <div style={{ display: 'flex', justifyContent: "start", alignItems: "center", gap:"20px" }}>
-                <Image src='/images/Left-arrow.svg' style={{cursor:"pointer"}} height={27} width={27} alt="navigate" onClick={() => handleNavigate()} /><h3 className="head-txt"> {title}</h3>
+                <Image src='/images/Left-arrow.svg' style={{cursor:"pointer"}} height={27} width={27} alt="navigate" onClick={handleNavigate} />
+                <h3 className="head-txt">{title}</h3>
             </div>
+
             <div className={styles.container}>
                 <div className={styles.titles}>
                     <div><p>PATIENT</p></div>
@@ -57,15 +102,7 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
                     Previous
                 </button>
 
-                {Array.from({ length: totalPages }, (_, i) => (
-                    <button
-                        key={i}
-                        onClick={() => setCurrentPage(i + 1)}
-                        className={currentPage === i + 1 ? styles.activePage : ""}
-                    >
-                        {i + 1}
-                    </button>
-                ))}
+                {renderPageNumbers()}
 
                 <button
                     disabled={currentPage === totalPages}
