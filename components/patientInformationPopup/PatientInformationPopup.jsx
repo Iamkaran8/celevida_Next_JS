@@ -53,9 +53,19 @@ export default function PatientInformationPopup({ name, age, weight, height, gen
 
                 <div className={styles.btn_container}>
                     <button onClick={onClose}>Close</button>
-                    <button>View Report</button>
+                    <button onClick={()=>handleOpenThePopup()}>View Report</button>
                 </div>
             </div>
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+

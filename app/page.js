@@ -1,14 +1,13 @@
 "use client";
 
-import PatientInformationPopup from '@/components/patientInformationPopup/PatientInformationPopup';
-import RecentPatientsList from '@/components/patientLists/RecentPatientsList';
+import  AssesmentReport  from '@/components/assesmentReport/AssesmentReport';
+
 
 export default function Home() {
-  
+
   return (
     <>
-      <PatientInformationPopup />
-      
+      <AssesmentReport />
     </>
   );
 }

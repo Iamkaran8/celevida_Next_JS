@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import { ReduxProvider } from "./providers/ReduxProvider";
 
 
 const poppins = Poppins({
@@ -17,9 +18,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${poppins.variable} `} >
-        <Providers>
+        
+          <ReduxProvider>
           {children}
-        </Providers>
+          </ReduxProvider>
+        
       </body>
     </html>
   );

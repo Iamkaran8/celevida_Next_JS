@@ -10,6 +10,8 @@ import { PatientActivityCard } from '@/components/recentPatientActivity/PatientA
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PatientInformationPopup from "../patientInformationPopup/PatientInformationPopup";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDoctorApi } from "@/app/utils/FetchDoctorApi";
 
 export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -31,6 +33,9 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
     const handleClosePopup = () => {
         setSelectedPatient(null);
     };
+    
+    const [showReport, setShowReport] = useState(false); // 👈 controls report popup
+
 
     const renderPageNumbers = () => {
         const pages = [];
@@ -65,11 +70,26 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
         );
     };
 
+    const dispatch = useDispatch()
+
+    const handleRefresh = () => {
+        dispatch(fetchDoctorApi());
+    }
+
+    const { loading, error } = useSelector((state) => state.doctor);
+    if (loading) return <Loader />
+    if (error) return <p>Error While Fetching APi: {error}</p>;
+
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: "start", alignItems: "center", gap: "20px" }}>
-                <Image src='/images/Left-arrow.svg' style={{ cursor: "pointer" }} height={27} width={27} alt="navigate" onClick={handleNavigate} />
-                <h3 className="head-txt">{title}</h3>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between", alignItems: "center", gap: "20px" }}>
+                <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', gap: '15px' }}>
+                    <Image src='/images/Left-arrow.svg' style={{ cursor: "pointer" }} height={27} width={27} alt="navigate" onClick={handleNavigate} />
+                    <h3 className="head-txt">{title}</h3>
+                </div>
+                <div>
+                    <button className={styles.refresh_bnt} onClick={() => { handleRefresh() }}>Refresh</button>
+                </div>
             </div>
 
             <div className={styles.container}>
@@ -85,7 +105,7 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
                     <PatientActivityCard
                         key={card.id}
                         {...card}
-                        onShowPopup={() => handleShowPopup(card)} // 👈 Pass callback
+                        onShowPopup={() => handleShowPopup(card)}
                     />
                 ))}
             </div>
@@ -112,3 +132,19 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
         </>
     );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

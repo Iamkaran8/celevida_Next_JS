@@ -23,13 +23,6 @@ export default function layout({ children }) {
     if (error) return <p>Error While Fetching APi: {error}</p>;
 
 
-
-    console.log("this is nurture", nurture)
-
-
-    console.log("doctors data", doctors)
-    console.log("onboarded patients", onboarded_Patients)
-
     return (
         <>
             <div className={styles.dashboardContainer}>

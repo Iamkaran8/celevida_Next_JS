@@ -1,0 +1,282 @@
+.container {
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(217, 217, 217, 0.53);
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+}
+
+
+.container p {
+    font-size: 16px;
+    font-weight: 400;
+    color: black;
+}
+
+.inner_container {
+    background-color: white;
+    padding: 20px;
+    width: 70%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 45px;
+}
+
+.patient_information_cont {
+    background-color: #F8FAFC;
+    padding: 20px;
+    border-left: 8px solid #2A73BC;
+    border-radius: 14px;
+
+}
+
+.coach_details_cont {
+    background-color: #FFFBF3;
+    border-left: 8px solid rgba(253, 200, 88, 1);
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.coach_name {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px
+}
+
+.coach_name p {
+    font-size: 15px;
+    font-weight: 600;
+    color: black;
+}
+
+.information_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.head {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.status_onboarded {
+    border-radius: 200px;
+    padding: 4px 20px;
+    color: #147129;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #EAFDEE;
+}
+
+.status__nurture {
+    border-radius: 200px;
+    padding: 4px 20px;
+    color: #4085F3;
+    font-size: 12px;
+    font-weight: 500;
+    background-color: #E0ECFF;
+}
+
+.btn_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.btn_container button {
+    background-color: #2B68E8;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border: none !important;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.bmi_container {
+    background-color: #FEF2F2;
+    border-left: 8px solid #D12C2E;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.bmi_head {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.bmi_red {
+    color: #D12C2E !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.bmi_category {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.bmi_action_txt {
+    font-size: 14px;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.action_required {
+    background-color: #FEF2F2;
+    border: 1px solid #D12C2E;
+    padding: 20px;
+    border-radius: 9px;
+}
+
+.action_required_header {
+    color: #D12C2E !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.action_required_heade_para {
+    color: #D12C2E !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+.border {
+    border-bottom: 2px solid #D9D9D9;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.report_generate_cont .para_txt {
+    text-align: center;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    color: #000000 !important;
+}
+
+.blue_txt {
+    text-align: center;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #2A73BC !important;
+}
+
+.nutrition_assesment_container {
+    background-color: #F8FAFC;
+    border-left: 9px solid #2A73BC;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.nutrition_assesment {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 10px;
+}
+
+.nutrition_assesment_result_Outer_cont {}
+
+.nutrition_assesment_result_inner_cont {
+    border: 1px solid #D12C2E;
+    background-color: #FEF2F2;
+    border-radius: 9px;
+    
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.nutrition_assesment_result_inner_cont p {
+    padding: 0px !important;
+    margin: 0px !important;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.nutrition_assesment_result_inner_cont h3 {
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.red_clr_result_txt {
+    color: #D12C2E;
+}
+
+.green_clr_result_txt {
+    color: #28a745;
+}
+
+.green_bg_color {
+    background-color: #22c55e;
+}
+
+
+.red_circle {
+    background-color: #D12C2E;
+}
+
+.circle_cont {
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.count_txt {
+    font-size: 22px;
+    font-weight: 600;
+    color: white;
+}
+
+
+.cont_Nutri{
+    display: flex;
+    flex-wrap: wrap;
+    gap:20px
+}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width:650px) {
+    .inner_container {
+        padding: 20px;
+        margin-top: 120px;
+    }
+
+    .container h3 {
+        font-size: 15px;
+    }
+
+    .information_header {
+        flex-direction: column;
+    }
+
+}

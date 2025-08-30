@@ -54,15 +54,23 @@
 
 
 
+.refresh_bnt {
+    background: #007bff;
+    color: white;
+    border: none !important;
+    border-radius: 9px;
+    padding: 10px 25px;
+    cursor: pointer;
+}
 
 
-
-@media only screen and (max-width:650px){
-    .container{
+@media only screen and (max-width:650px) {
+    .container {
         overflow-x: scroll;
     }
+
     .titles {
-    width: 200vw;
-}
+        width: 200vw;
+    }
 
 }
