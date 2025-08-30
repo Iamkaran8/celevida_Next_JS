@@ -5,7 +5,6 @@ import styles from '../../styles/dashboard/dashboardLayout.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDoctorApi } from '../utils/FetchDoctorApi'
 import { Loader } from '@/components/loader/Loader'
-import { PatientInformationPopup } from '@/components/patientInformationPopup/PatientInformationPopup'
 
 
 
@@ -42,7 +41,7 @@ export default function layout({ children }) {
                 </div>
             </div>
             <div>
-                
+
             </div>
         </>
     )

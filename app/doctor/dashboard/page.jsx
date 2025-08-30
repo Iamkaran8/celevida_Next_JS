@@ -7,6 +7,8 @@ import { PatientSegmentation } from "@/components/patientSegmentation/PatientSeg
 import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
 import { Header } from "@/components/header/Header";
 import { useSelector } from "react-redux";
+import RecentPatientsList from "@/components/patientLists/RecentPatientsList";
+import { PatientActivityCard } from "@/components/recentPatientActivity/PatientActivityCard";
 
 
 

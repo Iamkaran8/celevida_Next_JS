@@ -1,15 +1,20 @@
+
+
+
 "use client";
 
 import { useState } from "react";
 import styles from "@/styles/dashboard/RecentPatientActivity/RecentPatientActivityContainer.module.css";
 import { PatientActivityCard } from '@/components/recentPatientActivity/PatientActivityCard';
+// import PatientInformationPopup from '@/components/popups/PatientInformationPopup'; // Adjust path as needed
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import PatientInformationPopup from "../patientInformationPopup/PatientInformationPopup";
 
 export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 30; // rows per page
-
+    const [selectedPatient, setSelectedPatient] = useState(null); // 👈 selected patient
+    const pageSize = 30;
     const totalPages = Math.ceil(patientsDetails.length / pageSize);
     const startIndex = (currentPage - 1) * pageSize;
     const currentData = patientsDetails.slice(startIndex, startIndex + pageSize);
@@ -19,34 +24,30 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
         router.push("/doctor/dashboard");
     };
 
+    const handleShowPopup = (patient) => {
+        setSelectedPatient(patient);
+    };
+
+    const handleClosePopup = () => {
+        setSelectedPatient(null);
+    };
+
     const renderPageNumbers = () => {
         const pages = [];
-        const maxVisible = 5; // show max 5 numbers around current page
+        const maxVisible = 5;
 
         if (totalPages <= 7) {
-            // Show all pages if total is small
             for (let i = 1; i <= totalPages; i++) {
                 pages.push(i);
             }
         } else {
-            pages.push(1); // Always show first page
-
-            if (currentPage > 3) {
-                pages.push("..."); // Ellipsis before current
-            }
-
+            pages.push(1);
+            if (currentPage > 3) pages.push("...");
             const start = Math.max(2, currentPage - 1);
             const end = Math.min(totalPages - 1, currentPage + 1);
-
-            for (let i = start; i <= end; i++) {
-                pages.push(i);
-            }
-
-            if (currentPage < totalPages - 2) {
-                pages.push("..."); // Ellipsis after current
-            }
-
-            pages.push(totalPages); // Always show last page
+            for (let i = start; i <= end; i++) pages.push(i);
+            if (currentPage < totalPages - 2) pages.push("...");
+            pages.push(totalPages);
         }
 
         return pages.map((p, i) =>
@@ -66,8 +67,8 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: "start", alignItems: "center", gap:"20px" }}>
-                <Image src='/images/Left-arrow.svg' style={{cursor:"pointer"}} height={27} width={27} alt="navigate" onClick={handleNavigate} />
+            <div style={{ display: 'flex', justifyContent: "start", alignItems: "center", gap: "20px" }}>
+                <Image src='/images/Left-arrow.svg' style={{ cursor: "pointer" }} height={27} width={27} alt="navigate" onClick={handleNavigate} />
                 <h3 className="head-txt">{title}</h3>
             </div>
 
@@ -83,34 +84,31 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
                 {currentData.map((card) => (
                     <PatientActivityCard
                         key={card.id}
-                        patient_name={card.patient_name}
-                        patient_id={card.patient_id}
-                        status={card.status}
-                        phone_number={card.phone_number}
-                        date={card.date}
-                        id={card.id}
+                        {...card}
+                        onShowPopup={() => handleShowPopup(card)} // 👈 Pass callback
                     />
                 ))}
             </div>
 
-            {/* Pagination Controls */}
             <div className={styles.pagination}>
-                <button
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage((prev) => prev - 1)}
-                >
-                    Previous
-                </button>
-
+                <button disabled={currentPage === 1} onClick={() => setCurrentPage(prev => prev - 1)}>Previous</button>
                 {renderPageNumbers()}
-
-                <button
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage((prev) => prev + 1)}
-                >
-                    Next
-                </button>
+                <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(prev => prev + 1)}>Next</button>
             </div>
+
+            {/* 👇 Conditionally render popup */}
+            {selectedPatient && (
+                <PatientInformationPopup
+                    name={selectedPatient.patient_name}
+                    phone={selectedPatient.phone_number}
+                    status={selectedPatient.status}
+                    age={selectedPatient.age}
+                    gender={selectedPatient.gender}
+                    weight={selectedPatient.weight}
+                    height={selectedPatient.height}
+                    onClose={handleClosePopup}
+                />
+            )}
         </>
     );
 };
