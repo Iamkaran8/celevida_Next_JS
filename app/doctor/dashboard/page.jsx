@@ -38,9 +38,9 @@ export default function Dashboard() {
         <Header />
       </div>
       <div className={styles.patient_container}>
-        <PatientStatusDetails title="Onboarded Patients" logo="/images/onboardedpatients.svg" color="#1B2559" count={onboarded_Patients.length} navigate="onboarded" />
-        <PatientStatusDetails title="Prescribed" logo="/images/Prescribed.svg" color="#23B883" count={prescribed.length} navigate="prescribed" />
-        <PatientStatusDetails title="Nurture Patients" logo="/images/Nurture.svg" color="#4085F3" count={nurture.length} navigate="nurture" />
+        <PatientStatusDetails title="Onboarded Patients" logo="/images/onboardedpatients.svg" color="#1B2559" count={onboarded_Patients.length} navigate="doctor/onboarded" />
+        <PatientStatusDetails title="Prescribed" logo="/images/Prescribed.svg" color="#23B883" count={prescribed.length} navigate="doctor/prescribed" />
+        <PatientStatusDetails title="Nurture Patients" logo="/images/Nurture.svg" color="#4085F3" count={nurture.length} navigate="doctor/nurture" />
       </div>
       <div className={styles.second_section}>
         <div className={styles.second_section_left}>

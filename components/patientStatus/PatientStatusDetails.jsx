@@ -2,13 +2,12 @@
 
 import Image from 'next/image'
 import styles from '../../styles/dashboard/patientStatusDetails/patientStatusDetails.module.css'
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 export const PatientStatusDetails = ({ title, logo, color, count,navigate }) => {
     const router = useRouter();
-
     const handleNavigate = () => {
-        router.push(`/doctor/${navigate}`);
+        router.push(`/${navigate}`);
     };
     return (    
         <>

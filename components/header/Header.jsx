@@ -5,14 +5,14 @@ import Image from "next/image";
 import styles from "../../styles/header/header.module.css";
 import OffCanvas from "../offCanvas/OffCanvas";
 
-export const Header = () => {
+export const Header = ({title}) => {
     const [open, setOpen] = useState(false);
 
     return (
         <>
             <div className={styles.header}>
                 <div className={styles.header_cont_left}>
-                    <h2>Hello Doctor</h2>
+                    <h2>Hello {title}</h2>
                 </div>
                 <div className={styles.header_cont_right}>
                     <div className={styles.profile_cont} onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>

@@ -1,10 +1,22 @@
 import styles from '@/styles/dashboard/AssesmentReport/AssesmentReport.module.css'
 import Image from 'next/image';
 
-export default function AssesmentReport({ name, age, weight, height, gender, phone, status, onClose }) {
+export default function AssesmentReport({ name, age, weight, height, gender, phone, status,onClose  }) {
     return (
         <div className={styles.container}>
             <div className={styles.inner_container}>
+
+
+                <div className={styles.program_header}>
+                    <div className={styles.close_button}>
+                        <button onClick={()=>onClose()}>X</button>
+                    </div>
+                    <h1 > 🩺  Celevida Gluco Control Program</h1>
+                    <p>Nutrition Tracker - Assessment Report</p>
+                    <div className={styles.purple_clr_line}>
+
+                    </div>
+                </div>
                 <div className={styles.patient_information_cont}>
                     <div className={styles.information_header}>
                         <div className={styles.head}>

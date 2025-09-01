@@ -9,18 +9,20 @@
 } */
 
 .container {
-    position: fixed; /* 👈 makes it overlay the screen */
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 9999; /* 👈 ensures it's above other elements */
+    z-index: 9999;
+    /* 👈 ensures it's above other elements */
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgba(217, 217, 217, 0.53);
     width: 100vw;
     height: 100vh;
-       transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     opacity: 1;
+    overflow-x: scroll;
 
 }
 

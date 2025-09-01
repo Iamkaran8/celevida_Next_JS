@@ -74,6 +74,26 @@
 
 .input_box_container {}
 
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 4px;
+    display: block;
+}
+
+.input_box_container select {
+    border: 1px solid #B9B9B9 !important;
+    border-radius: 9px;
+    padding: 10px !important;
+    height: 100%;
+    width: 100%;
+    padding: 20px !important;
+    width: 88%;
+    font-family: var(--font-poppins), sans-serif;
+    font-size: 15px !important;
+    font-weight: 500;
+}
+
 .sign_in_btn {
     background-color: #E48700;
     font-size: 16px;
@@ -99,6 +119,11 @@
     .container {
         flex-direction: column-reverse;
     }
+
+    .right_container {
+        width: 100%;
+        margin-top: 100px;
+    }
 }
 
 @media only screen and (max-width:650px) {
@@ -106,5 +131,16 @@
     .phone_number_input_box {
         padding: 10px 10px !important;
         height: 47px;
+    }
+    .phone_number_input{
+    padding: 10px !important;
+    }
+
+    .right_container {
+        width: 100%;
+        margin-top: 50px;
+    }
+    .input_box_container select{
+        padding: 10px !important;
     }
 }

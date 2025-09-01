@@ -1,17 +1,55 @@
 .container {
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 9999;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     background-color: rgba(217, 217, 217, 0.53);
     width: 100%;
     height: 100%;
     transition: opacity 0.3s ease-in-out;
     opacity: 1;
+    overflow-y: scroll;
 }
 
+.program_header h1 {
+    text-align: center;
+}
+
+.program_header p {
+    text-align: center;
+    color: #4C4F52;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.purple_clr_line {
+    border-bottom: 2px solid #7C44EA;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+.close_button {
+    display: flex;
+    justify-content: end;
+}
+
+.close_button button {
+    border: 0px transparent;
+    background-color: white;
+    border: 1px solid #D9D9D9;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.close_button button:hover {
+    box-shadow: 0px 15.79px 28.08px 0px #D0D2DA26;
+
+}
 
 .container p {
     font-size: 16px;
@@ -22,10 +60,11 @@
 .inner_container {
     background-color: white;
     padding: 20px;
-    width: 70%;
+    width: 85%;
     padding: 50px;
     display: flex;
     flex-direction: column;
+
     gap: 45px;
 }
 
@@ -196,7 +235,7 @@
     border: 1px solid #D12C2E;
     background-color: #FEF2F2;
     border-radius: 9px;
-    
+
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -250,10 +289,10 @@
 }
 
 
-.cont_Nutri{
+.cont_Nutri {
     display: flex;
     flex-wrap: wrap;
-    gap:20px
+    gap: 20px
 }
 
 
@@ -277,6 +316,14 @@
 
     .information_header {
         flex-direction: column;
+    }
+
+    .program_header h1 {
+        font-size: 17px;
+    }
+
+    .program_header p {
+        font-size: 14px;
     }
 
 }

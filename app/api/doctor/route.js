@@ -56,12 +56,12 @@ export async function GET(request) {
       }
     });
     const leadsResponse = await fetch(`https://www.zohoapis.in/crm/v8/Leads?fields=${fields}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Zoho-oauthtoken ${accessToken}`,
-          'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
-        }
-      });
+      method: 'GET',
+      headers: {
+        'Authorization': `Zoho-oauthtoken ${accessToken}`,
+        'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
+      }
+    });
 
     if (!contactsResponse.ok) {
       throw new Error(`Contacts API failed: ${contactsResponse.status}`);
@@ -76,7 +76,7 @@ export async function GET(request) {
     // Return the contacts data
     return Response.json({
       success: true,
-      data:[
+      data: [
         ...contactsData?.data,
         ...leadsData?.data
       ]
