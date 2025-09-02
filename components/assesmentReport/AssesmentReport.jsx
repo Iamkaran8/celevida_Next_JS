@@ -1,7 +1,7 @@
 import styles from '@/styles/dashboard/AssesmentReport/AssesmentReport.module.css'
 import Image from 'next/image';
 
-export default function AssesmentReport({ name, age, weight, height, gender, phone, status,onClose  }) {
+export default function AssesmentReport({ name, age, weight, height, gender, phone, status, onClose }) {
     return (
         <div className={styles.container}>
             <div className={styles.inner_container}>
@@ -9,7 +9,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
 
                 <div className={styles.program_header}>
                     <div className={styles.close_button}>
-                        <button onClick={()=>onClose()}>X</button>
+                        <button onClick={() => onClose()}>X</button>
                     </div>
                     <h1 > 🩺  Celevida Gluco Control Program</h1>
                     <p>Nutrition Tracker - Assessment Report</p>
@@ -41,10 +41,10 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
 
                     <div className={styles.personal_details}>
                         <p>Name : {name}</p>
-                        <p>Age : {age ?? "22 years"}</p>
-                        <p>Weight : {weight ?? "65kg"}</p>
-                        <p>Height : {height ?? "5'10\""}</p>
-                        <p>Gender : {gender ?? "Male"}</p>
+                        <p>Age : {age}</p>
+                        <p>Weight : {weight}</p>
+                        <p>Height : {height}</p>
+                        <p>Gender : {gender}</p>
                         <p>Phone : {phone}</p>
                     </div>
                 </div>

@@ -35,7 +35,7 @@ export default function Dashboard() {
   return (
     <div>
       <div>
-        <Header />
+        <Header title="Welcome Doctor" />
       </div>
       <div className={styles.patient_container}>
         <PatientStatusDetails title="Onboarded Patients" logo="/images/onboardedpatients.svg" color="#1B2559" count={onboarded_Patients.length} navigate="doctor/onboarded" />

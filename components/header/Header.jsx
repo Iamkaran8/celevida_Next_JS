@@ -12,7 +12,7 @@ export const Header = ({title}) => {
         <>
             <div className={styles.header}>
                 <div className={styles.header_cont_left}>
-                    <h2>Hello {title}</h2>
+                    <h2> {title}</h2>
                 </div>
                 <div className={styles.header_cont_right}>
                     <div className={styles.profile_cont} onClick={() => setOpen(true)} style={{ cursor: 'pointer' }}>

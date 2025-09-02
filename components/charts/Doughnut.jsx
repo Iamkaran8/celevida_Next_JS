@@ -27,9 +27,9 @@ export default function DoughnutChart({ prescribed, nurture, not_prescribed }) {
   const options = {
     responsive: true,
     plugins: {
-      //   legend: {
-      //     position: "bottom",
-      //   },
+      legend: {
+        display: false, // 👈 hides the legend
+      },
     },
     cutout: "50%", // for doughnut effect
   };

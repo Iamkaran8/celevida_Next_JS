@@ -7,8 +7,9 @@ import { PatientSegmentation } from "@/components/patientSegmentation/PatientSeg
 import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
 import { Header } from "@/components/header/Header";
 import { useSelector } from "react-redux";
-import RecentPatientsList from "@/components/patientLists/RecentPatientsList";
-import { PatientActivityCard } from "@/components/recentPatientActivity/PatientActivityCard";
+import { Leads } from "@/components/leadsGraph/Leads";
+
+
 
 
 
@@ -47,15 +48,15 @@ export default function Dashboard() {
                     <PatientSegmentation />
                 </div>
                 <div className={styles.second_section_right}>
-                    <UpcommingPatient />
+                    <Leads/>
                 </div>
             </div>
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <PatientSegmentation />
+                    <Leads/>
                 </div>
                 <div className={styles.second_section_right}>
-                    <UpcommingPatient />
+                    <PatientSegmentation />
                 </div>
             </div>
             <div>

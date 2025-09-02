@@ -14,8 +14,16 @@
 .Patient_container:hover{
     transition: all .5s;
     box-shadow: 0 15.79px 28.08px rgba(55, 56, 56, .15);
+    background-color: #4085F3;
+    color: white;
+}
+.Patient_container:hover span{
+    color: white;
 }
 
+.Patient_container:hover h6{
+    color: white !important;
+}
 
 .Patient_container .cont_right{
     display: flex;
