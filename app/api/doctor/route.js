@@ -70,8 +70,20 @@ export async function GET(request) {
       throw new Error(`Leads API failed: ${leadsResponse.status}`);
     }
 
-    const contactsData = await contactsResponse.json();
-    const leadsData = await leadsResponse.json();
+    let contactsData = await contactsResponse.json();
+    // console.log(contactsData.data[0], "contactsData");
+
+    contactsData.data = contactsData?.data.map(item => ({
+      ...item,
+      moduleName: 'Contacts'
+    }));
+
+    let leadsData = await leadsResponse.json();
+
+    leadsData.data = leadsData?.data.map(item => ({
+      ...item,
+      moduleName: 'Leads'
+    }));
 
     // Return the contacts data
     return Response.json({
