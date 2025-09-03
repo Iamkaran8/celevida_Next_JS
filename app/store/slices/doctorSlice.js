@@ -38,7 +38,6 @@ const DoctorSlice = createSlice({
 
                 // Onboarded = ALL patients (complete list)
                 state.onboarded_Patients = patients;
-                console.log(patients.length, "length of all")
 
                 // Prescribed = only Celevida_Onboarded
                 state.prescribed = patients.filter(
@@ -53,9 +52,6 @@ const DoctorSlice = createSlice({
                 state.not_prescribed = patients.filter(
                     (p) => !["Celevida_Nurture", "Celevida_Onboarded"].includes(p.StatusPrespcription)
                 );
-
-                console.log("not prescribed", state.not_prescribed)
-
             })
 
 

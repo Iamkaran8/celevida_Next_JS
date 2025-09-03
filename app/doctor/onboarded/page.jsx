@@ -28,6 +28,7 @@ const mappedPatients = [...onboarded_Patients] // copy so Redux state not mutate
     date: p.Created_Time
       ? new Date(p.Created_Time).toLocaleDateString("en-GB") // format dd/mm/yyyy
       : "N/A",
+      moduleName: p.moduleName,
   }));
 
     return (

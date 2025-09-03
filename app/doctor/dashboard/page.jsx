@@ -7,8 +7,7 @@ import { PatientSegmentation } from "@/components/patientSegmentation/PatientSeg
 import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
 import { Header } from "@/components/header/Header";
 import { useSelector } from "react-redux";
-import RecentPatientsList from "@/components/patientLists/RecentPatientsList";
-import { PatientActivityCard } from "@/components/recentPatientActivity/PatientActivityCard";
+
 
 
 
@@ -16,18 +15,24 @@ import { PatientActivityCard } from "@/components/recentPatientActivity/PatientA
 
 export default function Dashboard() {
 
-  const { onboarded_Patients, prescribed, nurture } = useSelector((state) => state.doctor)
-  const mappedPatients = [...onboarded_Patients] // copy so original state not mutated
-    .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time)) // 🆕 sort by date DESC
-    .map((p, index) => ({
-      id: p.id || index, // fallback in case id missing
+  const { onboarded_Patients, prescribed, nurture } = useSelector((state) => state.doctor);
+
+  const mappedPatients = [...onboarded_Patients]
+    .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
+    .map((p) => ({
+      id: p.id,
       patient_name: p.Last_Name || "Unknown",
       patient_id: `ID:#${p.id}`,
       status: p.StatusPrespcription || "N/A",
       phone_number: p.Mobile || "N/A",
+      age: p.Age || "N/A",
+      gender: p.Gender || "N/A",
+      weight: p.weight || "N/A",
+      height: p.weight || "N/A",
       date: p.Created_Time
-        ? new Date(p.Created_Time).toLocaleDateString("en-GB") // format dd/mm/yyyy
+        ? new Date(p.Created_Time).toLocaleDateString("en-GB")
         : "N/A",
+      moduleName: p.moduleName,
     }));
 
 

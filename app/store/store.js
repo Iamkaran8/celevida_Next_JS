@@ -3,6 +3,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { persistReducer, persistStore } from "redux-persist";
 import DoctorSliceReducer from "./slices/doctorSlice";
+import  patientSliceReducer  from "./slices/patientSlice";
 
 const persistConfig = {
   key: "root",        // key for localStorage
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   doctor: DoctorSliceReducer,
+  patient: patientSliceReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

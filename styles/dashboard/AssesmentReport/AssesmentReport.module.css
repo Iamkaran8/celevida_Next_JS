@@ -229,19 +229,27 @@
     gap: 10px;
 }
 
-.nutrition_assesment_result_Outer_cont {}
+.nutrition_assesment_result_Outer_cont {
+    width: 20%;
+}
 
 .nutrition_assesment_result_inner_cont {
-    border: 1px solid #D12C2E;
-    background-color: #FEF2F2;
     border-radius: 9px;
-
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
+}
+
+.res_inner_red_cont {
+    border: 1px solid #D12C2E;
+    background-color: #FEF2F2;
+}
+.res_inner_green_cont {
+    border: 1px solid #007549;
+    background-color: #F1FDF4;
 }
 
 .nutrition_assesment_result_inner_cont p {
@@ -257,11 +265,11 @@
 }
 
 .red_clr_result_txt {
-    color: #D12C2E;
+    color: #D12C2E !important;
 }
 
 .green_clr_result_txt {
-    color: #28a745;
+    color: #28a745 !important;
 }
 
 .green_bg_color {
@@ -271,6 +279,10 @@
 
 .red_circle {
     background-color: #D12C2E;
+}
+
+.green_circle {
+    background-color: #22c55e;
 }
 
 .circle_cont {
@@ -299,7 +311,11 @@
 
 
 
-
+@media only screen and (max-width:900px) {
+    .nutrition_assesment_result_Outer_cont {
+        width: 48%;
+    }
+}
 
 
 
@@ -324,6 +340,10 @@
 
     .program_header p {
         font-size: 14px;
+    }
+
+    .nutrition_assesment_result_Outer_cont {
+        width: 90%;
     }
 
 }

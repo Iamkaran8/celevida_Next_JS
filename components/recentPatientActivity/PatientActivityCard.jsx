@@ -10,6 +10,7 @@ export const PatientActivityCard = ({
   phone_number,
   date,
   id,
+  moduleName,
   onShowPopup
 }) => {
   // If no patient details → show message
@@ -62,7 +63,8 @@ export const PatientActivityCard = ({
           onClick={onShowPopup}
           style={{ cursor: 'pointer' }}
         />
-        <Image src='/images/download-icon.svg' alt='Download-Icon' height={29} width={34} />
+        <Image src='/images/download-icon.svg' alt='Download-Icon' height={29} width={34} onClick={onShowPopup}
+          style={{ cursor: 'pointer' }} />
       </div>
     </div>
   );
