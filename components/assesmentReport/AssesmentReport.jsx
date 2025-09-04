@@ -19,49 +19,98 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
         };
         return new Intl.DateTimeFormat("en-US", options).format(date);
     };
-    // 👉 Download as PDF function
-    const handleDownloadPDF = async () => {
-        const input = document.getElementById("report-content"); // target report container
-        const canvas = await html2canvas(input, { scale: 2 });
-        const imgData = canvas.toDataURL("image/png");
 
-        const pdf = new jsPDF("p", "mm", "a4"); // portrait, A4 size
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("Assessment_Report.pdf");
-    };
 
     // const handleDownloadPDF = async () => {
     //     const input = document.getElementById("report-content");
 
-    //     // Clone report to avoid disturbing UI
-    //     const clonedNode = input.cloneNode(true);
-    //     clonedNode.style.width = "1024px";  // force desktop width
-    //     clonedNode.style.maxWidth = "1024px";
-    //     clonedNode.style.minWidth = "1024px";
-    //     clonedNode.style.transform = "scale(1)";
-    //     clonedNode.style.margin = "0 auto";
-    //     clonedNode.style.position = "absolute";
-    //     clonedNode.style.left = "-9999px"; // keep it hidden
+    //     // Clone element to avoid messing with actual UI
+    //     const clonedElement = input.cloneNode(true);
+    //     clonedElement.style.width = "1200px"; // force desktop width
+    //     clonedElement.style.maxWidth = "1200px";
+    //     clonedElement.style.position = "absolute";
+    //     clonedElement.style.left = "-9999px"; // keep it off-screen
+    //     document.body.appendChild(clonedElement);
 
-    //     document.body.appendChild(clonedNode);
 
-    //     // Generate canvas from cloned desktop version
-    //     const canvas = await html2canvas(clonedNode, { scale: 2 });
+    //     const canvas = await html2canvas(clonedElement, { scale: 2 });
     //     const imgData = canvas.toDataURL("image/png");
 
-    //     const pdf = new jsPDF("p", "mm", "a4");
+    //     const pdf = new jsPDF("p", "mm", "a4"); // portrait A4
     //     const pdfWidth = pdf.internal.pageSize.getWidth();
-    //     const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    //     const pdfHeight = pdf.internal.pageSize.getHeight();
 
-    //     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    //     // Calculate image dimensions
+    //     const imgWidth = pdfWidth;
+    //     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    //     let heightLeft = imgHeight;
+    //     let position = 0;
+
+    //     // First page
+    //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    //     heightLeft -= pdfHeight;
+
+    //     // Add extra pages if needed
+    //     while (heightLeft > 0) {
+    //         position = heightLeft - imgHeight;
+    //         pdf.addPage();
+    //         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    //         heightLeft -= pdfHeight;
+    //     }
+
     //     pdf.save("Assessment_Report.pdf");
 
-    //     // Clean up
-    //     document.body.removeChild(clonedNode);
+    //     document.body.removeChild(clonedElement); // cleanup
     // };
+
+
+    const handleDownloadPDF = async () => {
+        const input = document.getElementById("report-content");
+
+        // Clone element to avoid messing with actual UI
+        const clonedElement = input.cloneNode(true);
+        clonedElement.style.width = "1200px"; // force desktop width
+        clonedElement.style.maxWidth = "1200px";
+        clonedElement.style.position = "absolute";
+        clonedElement.style.left = "-9999px"; // keep it off-screen
+
+        // 👉 hide button only inside cloned element
+        const btn = clonedElement.querySelector("#hide_btn");
+        if (btn) btn.style.display = "none";
+
+        document.body.appendChild(clonedElement);
+
+        const canvas = await html2canvas(clonedElement, { scale: 2 });
+        const imgData = canvas.toDataURL("image/png");
+
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        // Calculate image dimensions
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // First page
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        // Add extra pages if needed
+        while (heightLeft > 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+            heightLeft -= pdfHeight;
+        }
+
+        pdf.save("Assessment_Report.pdf");
+
+        document.body.removeChild(clonedElement); // cleanup
+    };
 
 
     return (
@@ -102,8 +151,8 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                     <div className={styles.personal_details}>
                         <p>Name : {allData.Last_Name}</p>
                         <p>Age : {allData.Age}</p>
-                        <p>Weight : {allData.Body_Weight_kg}</p>
-                        <p>Height : {height}</p>
+                        <p>Weight : {allData.Weight}</p>
+                        <p>Height : {allData.Height}</p>
                         <p>Gender : {allData.Genders}</p>
                         <p>Phone : {allData.Phone}</p>
                     </div>
@@ -137,7 +186,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                         <div className={styles.nutrition_assesment_result_Outer_cont}>
                             <div className={`${styles.nutrition_assesment_result_inner_cont} ${allData.Protein_Rich_Foods === "Adequate" ? styles.res_inner_green_cont : styles.res_inner_red_cont}`}>
                                 <div className={`${allData.Protein_Rich_Foods === "Adequate" ? styles.green_circle : styles.red_circle} ${styles.circle_cont}`}>
-                                    <span className={styles.count_txt}>1/5</span>
+                                    <span className={styles.count_txt}>{allData.Protein_Rich_Foods_Count}/5</span>
                                 </div>
                                 <p className={`${allData.Protein_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`} >Protein - Rich Foods</p>
                                 <h3 className={`${allData.Protein_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>{allData.Protein_Rich_Foods}</h3>
@@ -147,7 +196,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                         <div className={styles.nutrition_assesment_result_Outer_cont}>
                             <div className={`${styles.nutrition_assesment_result_inner_cont} ${allData.Fibre_Rich_Foods === "Adequate" ? styles.res_inner_green_cont : styles.res_inner_red_cont}`}>
                                 <div className={`${allData.Fibre_Rich_Foods === "Adequate" ? styles.green_circle : styles.red_circle} ${styles.circle_cont}`}>
-                                    <span className={styles.count_txt}>1/5</span>
+                                    <span className={styles.count_txt}>{allData.Fibre_Rich_Foods_Count}/5</span>
                                 </div>
                                 <p className={`${allData.Fibre_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>Fibre Rich Foods</p>
                                 <h3 className={`${allData.Fibre_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>{allData.Fibre_Rich_Foods}</h3>
@@ -157,7 +206,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                         <div className={styles.nutrition_assesment_result_Outer_cont}>
                             <div className={`${styles.nutrition_assesment_result_inner_cont} ${allData.Carb_Rich_Foods === "Adequate" ? styles.res_inner_green_cont : styles.res_inner_red_cont}`}>
                                 <div className={`${allData.Carb_Rich_Foods === "Adequate" ? styles.green_circle : styles.red_circle} ${styles.circle_cont}`}>
-                                    <span className={styles.count_txt}>1/5</span>
+                                    <span className={styles.count_txt}>{allData.Carb_Rich_Foods_Count}/5</span>
                                 </div>
                                 <p className={`${allData.Carb_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>Carbohydrate-rich foods</p>
                                 <h3 className={`${allData.Carb_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>{allData.Carb_Rich_Foods}</h3>
@@ -167,7 +216,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                         <div className={styles.nutrition_assesment_result_Outer_cont}>
                             <div className={`${styles.nutrition_assesment_result_inner_cont} ${allData.Fat_Rich_Foods === "Adequate" ? styles.res_inner_green_cont : styles.res_inner_red_cont}`}>
                                 <div className={`${allData.Fat_Rich_Foods === "Adequate" ? styles.green_circle : styles.red_circle} ${styles.circle_cont}`}>
-                                    <span className={styles.count_txt}>1/5</span>
+                                    <span className={styles.count_txt}>{allData.Fat_Rich_Foods_Count}/4</span>
                                 </div>
                                 <p className={`${allData.Fat_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>Fat-rich foods</p>
                                 <h3 className={`${allData.Fat_Rich_Foods === "Adequate" ? styles.green_clr_result_txt : styles.red_clr_result_txt}`}>{allData.Fat_Rich_Foods}</h3>
@@ -196,7 +245,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                 </div>
                 <div>
                     <div className={styles.btn_container}>
-                        <button onClick={handleDownloadPDF}>Download PDF</button>
+                        <button id='hide_btn' onClick={handleDownloadPDF}>Download PDF</button>
                     </div>
                 </div>
             </div>

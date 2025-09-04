@@ -1,0 +1,107 @@
+// "1. Body Weight (kg) "
+// 2. BMI (Body Mass Index) 
+// 3. FBG 
+// 4. PPBG
+// 5. HbA1c
+// 6. Diet Recall (Avg Calorie)
+// 7. Calorie intake 
+// 8. Carb intake
+// 9.Protein intake 
+// 10. Celevida Consumption 
+// 11. Usage frequency
+// 12. Sleep Pattern 
+// 13. Water Consumption
+// 14. Avg Weight Change
+
+/// Doctor Dashboard Avgs
+// 15. Avg Basal Metabolic Rate (BMR)
+// 16. FBS
+// 17. PPS
+// 18. Exercise Days
+// 19. BMi CHnange
+//19. Body Fat %
+// 20. Muscle Mass %
+// 21. Body Water %
+// 22.Bone Mass
+// 23. Calorie Intake
+// 24. Carb Intake
+// 25. protien Intake
+// 26.% Continued Program
+// 27. Water Consumption (Avg)
+
+{
+    "Body Weight (kg)": [
+        "Weight",
+        "Body_Weight_kg_Month_1",
+        "Body_Weight_kg_Month_2",
+        "Body_Weight_kg_Month_3"
+    ],
+    "BMI (Body Mass Index)": [
+        "BMI",
+        "BMI_Month_1",
+        "BMI_Month_2",
+        "BMI_Month_3"
+    ],
+    "FBG ": [
+        "FBG_Month_1",
+        "FBG_Month_2",
+        "FBG_Month_3"
+    ],
+    "PPBG": [
+        "PPBG",
+        "PPBG_Month_1",
+        "PPBG_Month_2",
+        "PPBG_Month_3"
+    ],
+    "HbA1c": [
+        "HbA1c_Month_1",
+        "HbA1c_Month_2",
+        "HbA1c_Month_3"
+    ],
+    "Calorie intake": [
+        "hour_dietary_recall_calorie_intake",
+        "hour_dietary_recall_calorie_intake_Month_1",
+        "hour_dietary_recall_calorie_intake_Month_2",
+        "hour_dietary_recall_calorie_intake_Month_3"
+    ],
+    "Carb intake": [
+        "hour_dietary_recall_carb_intake",
+        "hour_dietary_recall_carb_intake_Month_1",
+        "hour_dietary_recall_carb_intake_Month_2",
+        "hour_dietary_recall_carb_intake_Month_3"
+    ],
+    "Protein intake": [
+        "hour_dietary_recall_protein_intake",
+        "hour_dietary_recall_protein_intake_Month1",
+        "hour_dietary_recall_protein_intake_Month2",
+        "hour_dietary_recall_protein_intake_Month3"
+    ],
+    "Celevida Consumption ": [
+        "Time_of_Consumption",
+        "Time_of_Consumption_Month1",
+        "Time_of_Consumption_Month2",
+        "Time_of_Consumption_Month3"
+    ],
+    "Usage frequency": [
+        "Usage_frequency_Month_1",
+        "Usage_frequency_Month_2",
+        "Usage_frequency_Month_3"
+    ],
+    "Sleep Pattern ": [
+        "Quality_hours_of_sleep_do_you_get_at_night",
+        "Quality_hours_of_sleep_do_you_get_at_night_Month_1",
+        "Quality_hours_of_sleep_do_you_get_at_night_Month_2",
+        "Quality_hours_of_sleep_do_you_get_at_night_Month_3"
+    ],
+    "Water Consumption": [
+        "How_many_litres_of_water_do_you_drink_in_a_day",
+        "How_many_litres_of_water_do_you_drink_in_a_day_1",
+        "How_many_litres_of_water_do_you_drink_in_a_day_2",
+        "How_many_litres_of_water_do_you_drink_in_a_day_3"
+    ],
+    "How many days do you exercise in a week? month1" :[
+        "How_many_days_do_you_exercise_in_a_week_month1",
+        "How_many_days_do_you_exercise_in_a_week_month2",
+        "How_many_days_do_you_exercise_in_a_week_month3"
+    ]
+}

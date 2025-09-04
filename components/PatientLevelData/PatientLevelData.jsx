@@ -82,23 +82,23 @@ export const PatientLevelData = () => {
     const parameterMap = [
         {
             label: "Body Weight (kg)",
-            values: [patient.Body_Weight_kg, patient.Body_Weight_1M, patient.Body_Weight_2M, patient.Body_Weight_3M],
+            values: [patient.Weight, patient.Body_Weight_kg_Month_1, patient.Body_Weight_kg_Month_2, patient.Body_Weight_kg_Month_3],
         },
         {
             label: "BMI (Body Mass Index)",
-            values: [patient.BMI, patient.BMI_1M, patient.BMI_2M, patient.BMI_3M],
+            values: [patient.BMI, patient.BMI_Month_1, patient.BMI_Month_2, patient.BMI_Month_3],
         },
         {
             label: "FBG",
-            values: [patient.FBG_Baseline, patient.FBG_1M, patient.FBG_2M, patient.FBG_3M],
+            values: [patient.FBG_Month_1, patient.FBG_Month_1, patient.FBG_Month_2, patient.FBG_Month_3],
         },
         {
             label: "PPBG",
-            values: [patient.PPBG_Baseline, patient.PPBG_1M, patient.PPBG_2M, patient.PPBG_3M],
+            values: [patient.PPBG, patient.PPBG_Month_1, patient.PPBG_Month_2, patient.PPBG_Month_3],
         },
         {
             label: "HbA1c",
-            values: [patient.HbA1c_Month_1, patient.HbA1c_1M, patient.HbA1c_2M, patient.HbA1c_3M],
+            values: [patient.HbA1c_Month_1, patient.HbA1c_Month_1, patient.HbA1c_Month_2, patient.HbA1c_Month_3],
         },
         {
             label: "Diet Recall (Avg Calorie)",
@@ -106,23 +106,23 @@ export const PatientLevelData = () => {
         },
         {
             label: "Calorie intake",
-            values: [patient.hour_dietary_recall_calorie_intake, patient.CalorieIntake_1M, patient.CalorieIntake_2M, patient.CalorieIntake_3M],
+            values: [patient.hour_dietary_recall_calorie_intake, patient.hour_dietary_recall_calorie_intake_Month_1, patient.hour_dietary_recall_calorie_intake_Month_2, patient.hour_dietary_recall_calorie_intake_Month_3],
         },
         {
             label: "Carb intake",
-            values: [patient.hour_dietary_recall_carb_intake, patient.Carb_1M, patient.Carb_2M, patient.Carb_3M],
+            values: [patient.hour_dietary_recall_carb_intake, patient.hour_dietary_recall_carb_intake_Month_1, patient.hour_dietary_recall_carb_intake_Month_2, patient.hour_dietary_recall_carb_intake_Month_3],
         },
         {
             label: "Protein intake",
-            values: [patient.hour_dietary_recall_protein_intake, patient.Protein_1M, patient.Protein_2M, patient.Protein_3M],
+            values: [patient.hour_dietary_recall_protein_intake, patient.hour_dietary_recall_protein_intake_Month1, patient.hour_dietary_recall_protein_intake_Month2, patient.hour_dietary_recall_protein_intake_Month3],
         },
         {
             label: "Celevida Consumption",
-            values: [patient.Time_of_Consumption, patient.Celevida_1M, patient.Celevida_2M, patient.Celevida_3M],
+            values: [patient.Time_of_Consumption, patient.Time_of_Consumption_Month1, patient.Time_of_Consumption_Month2, patient.Time_of_Consumption_Month3],
         },
         {
             label: "Usage frequency",
-            values: [patient.Usage_Baseline, patient.Usage_1M, patient.Usage_2M, patient.Usage_3M],
+            values: [patient.Usage_frequency_Month_1, patient.Usage_frequency_Month_1, patient.Usage_frequency_Month_1, patient.Usage_frequency_Month_1],
         },
         {
             label: "Notes from the Virtual Coach",
@@ -130,22 +130,22 @@ export const PatientLevelData = () => {
         },
         {
             label: "Notes from the Virtual Coach for the Dr.",
-            values: [patient.DrNote_Baseline, patient.DrNote_1M, patient.DrNote_2M, patient.DrNote_3M],
+            values: [patient.HC_Updates],
         },
         {
             label: "Sleep Pattern",
-            values: [patient.Quality_hours_of_sleep_do_you_get_at_night, patient.Sleep_1M, patient.Sleep_2M, patient.Sleep_3M],
+            values: [patient.Quality_hours_of_sleep_do_you_get_at_night, patient.Quality_hours_of_sleep_do_you_get_at_night_Month_1, patient.Quality_hours_of_sleep_do_you_get_at_night_Month_2, patient.Quality_hours_of_sleep_do_you_get_at_night_Month_3],
         },
         {
             label: "Water Consumption",
-            values: [patient.How_many_litres_of_water_do_you_drink_in_a_day, patient.Water_1M, patient.Water_2M, patient.Water_3M],
+            values: [patient.How_many_litres_of_water_do_you_drink_in_a_day, patient.How_many_litres_of_water_do_you_drink_in_a_day_2, patient.How_many_litres_of_water_do_you_drink_in_a_day_2, patient.How_many_litres_of_water_do_you_drink_in_a_day_3],
         },
     ]
 
     return (
         <>
             <div>
-                <h3>Patient Level Data (Click to view details)</h3>
+                <h3>Patient Level Data</h3>
             </div>
 
             <div className={styles.outter_box}>

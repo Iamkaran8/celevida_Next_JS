@@ -1,0 +1,17 @@
+.back_btn{
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+.container_inner{
+    background-color: aliceblue;
+    border-radius: 20px !important;
+}
+.conatiner{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}

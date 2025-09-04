@@ -8,10 +8,9 @@ import { RecentPatientActivityContainer } from "@/components/recentPatientActivi
 import { Header } from "@/components/header/Header";
 import { useSelector } from "react-redux";
 import { Leads } from "@/components/leadsGraph/Leads";
-
-
-
-
+import { CrmSyncLogs } from "@/components/crmSyncLogs/CrmSyncLogs";
+import { FEActivity } from "@/components/crmSyncLogs/FEActivity";
+import { HCPerformance } from "@/components/crmSyncLogs/HCPerformance";
 
 
 
@@ -46,7 +45,7 @@ export default function Dashboard() {
             </div>
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <PatientSegmentation />
+                    <CrmSyncLogs/>
                 </div>
                 <div className={styles.second_section_right}>
                     <Leads/>
@@ -54,10 +53,10 @@ export default function Dashboard() {
             </div>
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <Leads/>
+                    <HCPerformance/>
                 </div>
                 <div className={styles.second_section_right}>
-                    <PatientSegmentation />
+                    <FEActivity/>
                 </div>
             </div>
             <div>

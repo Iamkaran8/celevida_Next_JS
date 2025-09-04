@@ -7,6 +7,7 @@ import { PatientSegmentation } from "@/components/patientSegmentation/PatientSeg
 import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
 import { Header } from "@/components/header/Header";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 
 
 
@@ -35,6 +36,10 @@ export default function Dashboard() {
       moduleName: p.moduleName,
     }));
 
+  const router = useRouter();
+  const handleNavigate = () => {
+    router.push(`/doctor/avg`);
+  };
 
 
   return (
@@ -55,13 +60,19 @@ export default function Dashboard() {
           <UpcommingPatient />
         </div>
       </div>
+
+      <div className={styles.avg_btn}>
+        {/* <Link href='/docotor/avarageMetrics' className={styles.avg_button}>View Average Metrics</Link> */}
+        <button onClick={() => { handleNavigate() }} className={styles.avg_button}>
+          View Average Metrics
+        </button>
+      </div>
       <div>
         {/* <RecentPatientActivityContainer title="Recent Patient Activity" patient_Details={patient_Details} patientsDetails={<PatientActivityCard />} /> */}
         <RecentPatientActivityContainer
           title="Recent Patient Activity"
           patientsDetails={mappedPatients}
         />
-
       </div>
     </div>
   );
