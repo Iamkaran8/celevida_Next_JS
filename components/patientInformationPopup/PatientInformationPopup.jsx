@@ -40,7 +40,7 @@ export default function PatientInformationPopup({ selectedPatient, details, stat
                     <div className={styles.personal_details}>
                         <p>Name : {details.data[0].Last_Name}</p>
                         <p>Age : {details.data[0].Age}</p>
-                        <p>Weight : {details.data[0].Weight}</p>
+                        <p>Weight : {details.data[0].Body_Weight_kg}</p>
                         <p>Height : {details.data[0].Height}</p>
                         <p>Gender : {details.data[0].Genders}</p>
                         <p>Phone : {details.data[0].Phone}</p>

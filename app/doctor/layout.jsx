@@ -5,9 +5,7 @@ import styles from '../../styles/dashboard/dashboardLayout.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDoctorApi } from '../utils/FetchDoctorApi'
 import { Loader } from '@/components/loader/Loader'
-
-
-
+import ProtectedRoute from '@/components/productedRoute/ProtectedRoute'
 
 
 export default function layout({ children }) {
@@ -25,17 +23,19 @@ export default function layout({ children }) {
 
     return (
         <>
-            <div className={styles.dashboardContainer}>
-                <div className={styles.left_side}  >
-                    {children}
+            {/* <ProtectedRoute allowedRoles={["doctor"]}> */}
+                <div className={styles.dashboardContainer}>
+                    <div className={styles.left_side}  >
+                        {children}
+                    </div>
+                    <div>
+
+                    </div>
                 </div>
                 <div>
 
                 </div>
-            </div>
-            <div>
-
-            </div>
+            {/* </ProtectedRoute> */}
         </>
     )
 }
