@@ -22,8 +22,13 @@
     width: 35%;
 }
 
+.header div:first-child h4 {
+    margin-left: -0px !important;
+}
+
 .header h4 {
     margin: 10px !important;
+    margin-left: -20px !important;
 }
 
 
@@ -37,10 +42,12 @@
     .header {
         width: 400%;
     }
-    .header h4{
+
+    .header h4 {
         font-size: 12px !important;
     }
-    .header p{
+
+    .header p {
         font-size: 12px !important;
     }
 }

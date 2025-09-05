@@ -20,7 +20,7 @@ export default function layout({ children }) {
 
     const { doctors, loading, error, nurture, onboarded_Patients } = useSelector((state) => state.doctor);
     if (loading) return <Loader />
-    // if (error) return <p>Error While Fetching APi: {error}</p>;
+    if (error) return <p>Error While Fetching APi: {error}</p>;
 
 
     return (
