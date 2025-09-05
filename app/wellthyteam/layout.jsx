@@ -3,8 +3,9 @@
 import { useEffect } from 'react'
 import styles from '../../styles/dashboard/dashboardLayout.module.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchDoctorApi } from '../utils/FetchDoctorApi'
-import { Loader } from '@/components/loader/Loader'
+import { Loader } from '../../components/loader/Loader'
+import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
+import { doctorapi } from '../utils/apis/doctorapi'
 
 
 
@@ -14,7 +15,7 @@ export default function layout({ children }) {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(fetchDoctorApi());
+        dispatch(doctorapi());
     }, []);
 
 
@@ -25,17 +26,19 @@ export default function layout({ children }) {
 
     return (
         <>
-            <div className={styles.dashboardContainer}>
-                <div className={styles.left_side}  >
-                    {children}
+            <ProtectedRoute allowedRoles={["brand"]}>
+                <div className={styles.dashboardContainer}>
+                    <div className={styles.left_side}  >
+                        {children}
+                    </div>
+                    <div>
+
+                    </div>
                 </div>
                 <div>
 
                 </div>
-            </div>
-            <div>
-
-            </div>
+            </ProtectedRoute>
         </>
     )
 }

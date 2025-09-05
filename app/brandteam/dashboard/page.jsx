@@ -1,11 +1,11 @@
 "use client";
 
-import { PatientStatusDetails } from "@/components/patientStatus/PatientStatusDetails";
+import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
 import styles from '../../../styles/dashboard/page.module.css'
-import { UpcommingPatient } from "@/components/upcommingPatient/UpcommingPatient";
-import { PatientSegmentation } from "@/components/patientSegmentation/PatientSegmentation";
-import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
-import { Header } from "@/components/header/Header";
+import { UpcommingPatient } from "../../../components/upcommingPatient/UpcommingPatient";
+import { PatientSegmentation } from "../../../components/patientSegmentation/PatientSegmentation";
+import { RecentPatientActivityContainer } from "../../../components/recentPatientActivity/RecentPatientActivityContainer";
+import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
 
 
@@ -15,18 +15,18 @@ import { useSelector } from "react-redux";
 export default function Dashboard() {
 
     const { onboarded_Patients, prescribed, nurture } = useSelector((state) => state.doctor)
-    const mappedPatients = [...onboarded_Patients] // copy so original state not mutated
-        .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time)) // 🆕 sort by date DESC
+    const mappedPatients = [...onboarded_Patients]
+        .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
         .map((p, index) => ({
-            id: p.id || index, // fallback in case id missing
+            id: p.id,
             patient_name: p.Last_Name || "Unknown",
             patient_id: `ID:#${p.id}`,
             status: p.StatusPrespcription || "N/A",
             phone_number: p.Mobile || "N/A",
             date: p.Created_Time
-                ? new Date(p.Created_Time).toLocaleDateString("en-GB") // format dd/mm/yyyy
+                ? new Date(p.Created_Time).toLocaleDateString("en-GB")
                 : "N/A",
-                moduleName: p.moduleName,
+            moduleName: p.moduleName,
         }));
 
 
@@ -50,7 +50,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <div>
-                {/* <RecentPatientActivityContainer title="Recent Patient Activity" patient_Details={patient_Details} patientsDetails={<PatientActivityCard />} /> */}
+
                 <RecentPatientActivityContainer
                     title="Recent Patient Activity"
                     patientsDetails={mappedPatients}

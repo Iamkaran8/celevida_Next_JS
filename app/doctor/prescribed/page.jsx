@@ -1,6 +1,6 @@
 "use client";
 
-import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
+import { RecentPatientActivityContainer } from "../../../components/recentPatientActivity/RecentPatientActivityContainer";
 import { useSelector } from "react-redux";
 
 

@@ -1,4 +1,6 @@
-import { fetchDoctorApi } from "@/app/utils/FetchDoctorApi";
+
+
+import { doctorapi } from "../../utils/apis/doctorapi";
 import { createSlice } from "@reduxjs/toolkit";
 
 
@@ -21,11 +23,11 @@ const DoctorSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchDoctorApi.pending, (state) => {
+            .addCase(doctorapi.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchDoctorApi.fulfilled, (state, action) => {
+            .addCase(doctorapi.fulfilled, (state, action) => {
                 state.loading = false;
 
                 // Ensure payload has `data` array
@@ -55,7 +57,7 @@ const DoctorSlice = createSlice({
             })
 
 
-            .addCase(fetchDoctorApi.rejected, (state, action) => {
+            .addCase(doctorapi.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Something went wrong";
             });

@@ -4,18 +4,28 @@ import storage from "redux-persist/lib/storage"; // defaults to localStorage for
 import { persistReducer, persistStore } from "redux-persist";
 import DoctorSliceReducer from "./slices/doctorSlice";
 import patientSliceReducer from "./slices/patientSlice";
+
+import upcomingDoctorSliceReducer from "./slices/upcomingDoctorSlice";
 import authSliceReducer from './slices/authSlice'
+import avgmatricsSliceReducer from './slices/avgmatrics'
+
 
 const persistConfig = {
   key: "root",        // key for localStorage
   storage,            // default localStorage
-  whitelist: ["doctor", "auth"], // state slices to persist
+
+  whitelist: ["doctor", "upcomingDoctors", "auth","avgmatrics"], // state slices to persist
+
 };
 
 const rootReducer = combineReducers({
   doctor: DoctorSliceReducer,
   patient: patientSliceReducer,
-  auth: authSliceReducer
+
+  upcomingDoctors: upcomingDoctorSliceReducer,
+  auth: authSliceReducer,
+  avgmatrics : avgmatricsSliceReducer
+
 
 });
 

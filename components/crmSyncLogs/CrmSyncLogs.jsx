@@ -1,5 +1,5 @@
 
-import styles from '@/styles/dashboard/PatientSegmentation/PatientSegmentation.module.css'
+import styles from '../../styles/dashboard/PatientSegmentation/PatientSegmentation.module.css'
 
 import DoughnutChart from '../charts/Doughnut'
 import { useSelector } from 'react-redux'

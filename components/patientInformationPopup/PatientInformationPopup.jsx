@@ -1,7 +1,7 @@
 
 "use client";
 
-import styles from '@/styles/popup/patientInformationPopup.module.css';
+import styles from '../../styles/popup/patientInformationPopup.module.css';
 import Image from 'next/image';
 import { PatientLevelDataContainer } from '../PatientLevelData/PatientLevelDataContainer';
 
@@ -52,8 +52,8 @@ export default function PatientInformationPopup({ selectedPatient, details, stat
                         <p>Coach</p>
                     </div>
                     <div>
-                        <p>Name : John</p>
-                        <p><span style={{ color: "#D12C2E" }}>Upcoming Call on</span> 22/08/2025</p>
+                        <p>Name : {details.data[0].Owner.name}</p>
+                        <p><span style={{ color: "#D12C2E" }}>Upcoming Call on</span> {details.data[0].Appointment_Date}</p>
                     </div>
                 </div>
                 <PatientLevelDataContainer />

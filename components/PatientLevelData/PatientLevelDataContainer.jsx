@@ -1,4 +1,4 @@
-import styles from '@/styles/patientleveldata/patientLevelData.module.css'
+import styles from '../../styles/patientleveldata/patientLevelData.module.css'
 import { PatientLevelData } from './PatientLevelData'
 
 export const PatientLevelDataContainer = () => {
