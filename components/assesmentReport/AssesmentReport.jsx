@@ -151,7 +151,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                     <div className={styles.personal_details}>
                         <p>Name : {allData.Last_Name}</p>
                         <p>Age : {allData.Age}</p>
-                        <p>Weight : {allData.Weight}</p>
+                        <p>Weight : {allData.Body_Weight_kg}</p>
                         <p>Height : {allData.Height}</p>
                         <p>Gender : {allData.Genders}</p>
                         <p>Phone : {allData.Phone}</p>
