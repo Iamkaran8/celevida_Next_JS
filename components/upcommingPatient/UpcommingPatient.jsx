@@ -167,15 +167,18 @@
 
 
 "use client";
-
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../../styles/dashboard/upcommingPatient/upcommingpatient.module.css";
 import { fetchUpcomingDoctors } from "../../app/store/slices/upcomingDoctorSlice";
 import { useEffect, useState } from "react";
 import AssesmentReport from "../assesmentReport/AssesmentReport";
 import PatientInformationPopup from "../patientInformationPopup/PatientInformationPopup";
+import { patientcompletedataapi } from "../../app/utils/apis/patientcompletedataapi";
+import { addNewData } from "../..//app/store/slices/patientSlice";
+import { PatientLevelData } from "../PatientLevelData/PatientLevelData";
 
 export const UpcommingPatient = () => {
+
     const dispatch = useDispatch();
     const { doctors, loading, error } = useSelector(
         (state) => state.upcomingDoctors
@@ -184,13 +187,20 @@ export const UpcommingPatient = () => {
     const [showInfo, setShowInfo] = useState(false);
     const [showReport, setShowReport] = useState(false);
 
-     useEffect(() => {
+    useEffect(() => {
         dispatch(fetchUpcomingDoctors());
     }, [dispatch]);
 
 
-    // if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error}</p>;
+
+    if (loading) return (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <p>Loading...</p>
+        </div>
+    );
+
+    console.log(doctors, "upcoming patient details")
+    // if (error) return <p>Error: {error}</p>;
     if (!doctors?.data?.length) return <p>No upcoming patients</p>;
 
     const patient = doctors.data[0];
@@ -207,6 +217,11 @@ export const UpcommingPatient = () => {
 
     if (patient.Last_Name == "") {
         return <h1>No Upcoming Patient</h1>;
+    }
+
+    const handleView = () => {
+        dispatch(addNewData(patient))
+        setShowInfo(true)
     }
 
     return (
@@ -275,7 +290,7 @@ export const UpcommingPatient = () => {
 
                 <div className={styles.btn_cont}>
                     {/* 👇 Show PatientInformationPopup first */}
-                    <button onClick={() => setShowInfo(true)}>View</button>
+                    <button onClick={() => handleView()}>View</button>
                     <button onClick={() => setShowReport(true)}>Download Pdf</button>
                 </div>
             </div>
@@ -291,7 +306,9 @@ export const UpcommingPatient = () => {
                         setShowInfo(false);
                         setShowReport(true);
                     }}
-                />
+
+                >
+                </PatientInformationPopup>
             )}
 
             {/* 👇 Show Assessment Report */}

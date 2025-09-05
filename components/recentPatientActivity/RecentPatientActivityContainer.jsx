@@ -298,9 +298,84 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
         ))}
       </div>
 
-      <div className={styles.pagination}>
-        {/* pagination code unchanged */}
+      {/* <div className={styles.pagination}>
+        <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => prev - 1)}
+        >
+          Prev
+        </button>
+
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            className={currentPage === index + 1 ? styles.activePage : ""}
+            onClick={() => setCurrentPage(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
+      </div> */}
+          <div className={styles.pagination}>
+       <button
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage(prev => prev - 1)}
+          className={styles.pageBtn}
+        >
+          Previous
+        </button>
+
+        {(() => {
+          const pages = [];
+          const maxVisible = 5;
+
+          if (totalPages <= maxVisible) {
+            for (let i = 1; i <= totalPages; i++) pages.push(i);
+          } else {
+            pages.push(1);
+
+            if (currentPage > 3) pages.push("...");
+
+            const start = Math.max(2, currentPage - 1);
+            const end = Math.min(totalPages - 1, currentPage + 1);
+
+            for (let i = start; i <= end; i++) pages.push(i);
+
+            if (currentPage < totalPages - 2) pages.push("...");
+            pages.push(totalPages);
+          }
+
+          return pages.map((p, i) =>
+            p === "..." ? (
+              <span key={`ellipsis-${i}`} className={styles.ellipsis}>...</span>
+            ) : (
+              <button
+                key={p}
+                onClick={() => setCurrentPage(p)}
+                className={`${styles.pageBtn} ${currentPage === p ? styles.activePage : ""}`}
+              >
+                {p}
+              </button>
+            )
+          );
+        })()}
+
+        <button
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage(prev => prev + 1)}
+          className={styles.pageBtn}
+        >
+          Next
+        </button>
       </div>
+
 
       {/* Patient Info Popup */}
       {/* {showInfoPopup && selectedPatient && (

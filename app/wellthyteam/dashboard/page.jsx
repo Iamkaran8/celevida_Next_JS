@@ -1,16 +1,16 @@
 "use client";
 
-import { PatientStatusDetails } from "@/components/patientStatus/PatientStatusDetails";
+import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
 import styles from '../../../styles/dashboard/page.module.css'
-import { UpcommingPatient } from "@/components/upcommingPatient/UpcommingPatient";
-import { PatientSegmentation } from "@/components/patientSegmentation/PatientSegmentation";
-import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
-import { Header } from "@/components/header/Header";
+import { UpcommingPatient } from "../../../components/upcommingPatient/UpcommingPatient";
+import { PatientSegmentation } from "../../../components/patientSegmentation/PatientSegmentation";
+import { RecentPatientActivityContainer } from "../../../components/recentPatientActivity/RecentPatientActivityContainer";
+import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
-import { Leads } from "@/components/leadsGraph/Leads";
-import { CrmSyncLogs } from "@/components/crmSyncLogs/CrmSyncLogs";
-import { FEActivity } from "@/components/crmSyncLogs/FEActivity";
-import { HCPerformance } from "@/components/crmSyncLogs/HCPerformance";
+import { Leads } from "../../../components/leadsGraph/Leads";
+import { CrmSyncLogs } from "../../../components/crmSyncLogs/CrmSyncLogs";
+import { FEActivity } from "../../../components/crmSyncLogs/FEActivity";
+import { HCPerformance } from "../../..//components/crmSyncLogs/HCPerformance";
 
 
 
@@ -28,7 +28,7 @@ export default function Dashboard() {
             date: p.Created_Time
                 ? new Date(p.Created_Time).toLocaleDateString("en-GB") // format dd/mm/yyyy
                 : "N/A",
-                moduleName: p.moduleName,
+            moduleName: p.moduleName,
         }));
 
 
@@ -45,18 +45,18 @@ export default function Dashboard() {
             </div>
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <CrmSyncLogs/>
+                    <CrmSyncLogs />
                 </div>
                 <div className={styles.second_section_right}>
-                    <Leads/>
+                    <Leads />
                 </div>
             </div>
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <HCPerformance/>
+                    <HCPerformance />
                 </div>
                 <div className={styles.second_section_right}>
-                    <FEActivity/>
+                    <FEActivity />
                 </div>
             </div>
             <div>

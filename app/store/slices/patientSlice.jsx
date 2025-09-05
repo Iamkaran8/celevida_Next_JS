@@ -13,7 +13,13 @@ const initialState = {
 export const patientSlice = createSlice({
     name: "patient",
     initialState,
-    reducers: {},
+    reducers: {
+        addNewData: (state, action) => {
+            state.data = Array.isArray(action.payload)
+                ? action.payload
+                : [action.payload]
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(patientcompletedataapi.pending, (state) => {
@@ -21,6 +27,7 @@ export const patientSlice = createSlice({
                 state.error = null;
             })
             .addCase(patientcompletedataapi.fulfilled, (state, action) => {
+                state.data = null
                 state.loading = false;
                 state.data = action.payload;
             })
@@ -31,4 +38,5 @@ export const patientSlice = createSlice({
     },
 });
 
+export const { addNewData } = patientSlice.actions;
 export default patientSlice.reducer;

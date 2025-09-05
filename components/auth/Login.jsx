@@ -213,7 +213,7 @@ export default function Login() {
 
                 // ✅ Navigate based on role
                 if (formData.role === "admin") {
-                    router.push("/wellthyops/dashboard");
+                    router.push("/wellthyteam/dashboard");
                 } else if (formData.role === "doctor") {
                     router.push("/doctor/dashboard");
                 } else if (formData.role === "brand") {

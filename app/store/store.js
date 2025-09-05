@@ -6,18 +6,20 @@ import DoctorSliceReducer from "./slices/doctorSlice";
 import patientSliceReducer from "./slices/patientSlice";
 import upcomingDoctorSliceReducer from "./slices/upcomingDoctorSlice";
 import authSliceReducer from './slices/authSlice'
+import avgmatricsSliceReducer from './slices/avgmatrics'
 
 const persistConfig = {
   key: "root",        // key for localStorage
   storage,            // default localStorage
-  whitelist: ["doctor", "upcomingDoctors", "auth"], // state slices to persist
+  whitelist: ["doctor", "upcomingDoctors", "auth","avgmatrics"], // state slices to persist
 };
 
 const rootReducer = combineReducers({
   doctor: DoctorSliceReducer,
   patient: patientSliceReducer,
   upcomingDoctors: upcomingDoctorSliceReducer,
-  auth: authSliceReducer
+  auth: authSliceReducer,
+  avgmatrics : avgmatricsSliceReducer
 
 });
 

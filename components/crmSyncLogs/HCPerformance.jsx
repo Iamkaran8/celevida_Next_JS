@@ -1,4 +1,4 @@
-import styles from '@/styles/dashboard/PatientSegmentation/PatientSegmentation.module.css'
+import styles from '../../styles/dashboard/PatientSegmentation/PatientSegmentation.module.css'
 
 import { useSelector } from 'react-redux'
 import { HCPerfomanceBarChart } from '../charts/HCPerfomanceBarChart';

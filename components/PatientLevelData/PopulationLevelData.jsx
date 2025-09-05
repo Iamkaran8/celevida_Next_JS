@@ -1,4 +1,4 @@
-import styles from '@/styles/patientleveldata/PopulationLevelData.module.css'
+import styles from '../../styles/patientleveldata/PopulationLevelData.module.css'
 
 export const PopulationLevelData = ({ title, data }) => {
 
