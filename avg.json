@@ -43,6 +43,7 @@
         "BMI_Month_3"
     ],
     "FBG ": [
+        "Fasting",
         "FBG_Month_1",
         "FBG_Month_2",
         "FBG_Month_3"
@@ -54,6 +55,7 @@
         "PPBG_Month_3"
     ],
     "HbA1c": [
+        "HbA1c",
         "HbA1c_Month_1",
         "HbA1c_Month_2",
         "HbA1c_Month_3"
@@ -83,6 +85,7 @@
         "Time_of_Consumption_Month3"
     ],
     "Usage frequency": [
+        "Usage_frequency",
         "Usage_frequency_Month_1",
         "Usage_frequency_Month_2",
         "Usage_frequency_Month_3"
@@ -99,7 +102,7 @@
         "How_many_litres_of_water_do_you_drink_in_a_day_2",
         "How_many_litres_of_water_do_you_drink_in_a_day_3"
     ],
-    "How many days do you exercise in a week? month1" :[
+    "How many days do you exercise in a week?" :[
         "How_many_days_do_you_exercise_in_a_week_month1",
         "How_many_days_do_you_exercise_in_a_week_month2",
         "How_many_days_do_you_exercise_in_a_week_month3"

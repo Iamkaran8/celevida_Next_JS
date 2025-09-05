@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isAuthenticated: false,
-  user: null, // { id, name, role }
+  user: null, 
 };
 
 const authSlice = createSlice({
@@ -11,7 +11,7 @@ const authSlice = createSlice({
   reducers: {
     loginSuccess: (state, action) => {
       state.isAuthenticated = true;
-      state.user = action.payload; // user object with role
+      state.user = action.payload; 
     },
     logout: (state) => {
       state.isAuthenticated = false;

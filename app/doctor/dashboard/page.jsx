@@ -62,13 +62,11 @@ export default function Dashboard() {
       </div>
 
       <div className={styles.avg_btn}>
-        {/* <Link href='/docotor/avarageMetrics' className={styles.avg_button}>View Average Metrics</Link> */}
         <button onClick={() => { handleNavigate() }} className={styles.avg_button}>
           View Average Metrics
         </button>
       </div>
       <div>
-        {/* <RecentPatientActivityContainer title="Recent Patient Activity" patient_Details={patient_Details} patientsDetails={<PatientActivityCard />} /> */}
         <RecentPatientActivityContainer
           title="Recent Patient Activity"
           patientsDetails={mappedPatients}

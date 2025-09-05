@@ -9,16 +9,16 @@ export default function Onboard() {
 
 const { onboarded_Patients } = useSelector((state) => state.doctor);
 
-const mappedPatients = [...onboarded_Patients] // copy so Redux state not mutated
-  .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time)) // 🆕 newest → oldest
+const mappedPatients = [...onboarded_Patients] 
+  .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time)) 
   .map((p, index) => ({
-    id: p.id || index, // fallback if id missing
+    id: p.id || index, 
     patient_name: p.Last_Name || "Unknown",
     patient_id: `ID:#${p.id}`,
     status: p.StatusPrespcription || "N/A",
     phone_number: p.Mobile || "N/A",
     date: p.Created_Time
-      ? new Date(p.Created_Time).toLocaleDateString("en-GB") // format dd/mm/yyyy
+      ? new Date(p.Created_Time).toLocaleDateString("en-GB") 
       : "N/A",
       moduleName: p.moduleName,
   }));

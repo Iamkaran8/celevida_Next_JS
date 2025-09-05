@@ -1,13 +1,11 @@
 'use client'
 
-import { PatientLevelDataContainer } from "../../../components/PatientLevelData/PatientLevelDataContainer"
+
 import { useRouter } from "next/navigation"
 import styles from '../../../styles/dashboard/avg/avg.module.css'
 import { PopulationLevelData } from "../../../components/PatientLevelData/PopulationLevelData"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-
-
 
 
 export default function page() {
@@ -21,7 +19,7 @@ export default function page() {
 
     const { avgmetrics, loading, error } = useSelector((state) => state.avgmatrics)
     useEffect(() => {
-        
+
     }, [dispatch])
     const data = [
         {

@@ -6,18 +6,17 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { loginSuccess } from "../../app/store/slices/authSlice";
+
 import styles from "../../styles/login/Login.module.css";
 import Image from "next/image";
 
-export default function Login() {
+export default function Register() {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
         role: "",
     });
     const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false); // ✅ Loader state
 
     const dispatch = useDispatch();
     const router = useRouter();
@@ -50,23 +49,9 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        console.log(formData)
         if (validate()) {
-            setLoading(true); // ✅ Show loader
 
-            // Simulate API/Redux login
-            setTimeout(() => {
-                dispatch(loginSuccess({ email: formData.email, role: formData.role }));
-
-                // ✅ Navigate based on role
-                if (formData.role === "admin") {
-                    router.push("/wellthyteam/dashboard");
-                } else if (formData.role === "doctor") {
-                    router.push("/doctor/dashboard");
-                } else if (formData.role === "brand") {
-                    router.push("/brandteam/dashboard");
-                }
-            }, 1500); // fake delay (1.5s)
         }
     };
 
@@ -87,7 +72,7 @@ export default function Login() {
                     <div className={styles.header_container}>
                         <div>
                             <p>Welcome to Celevida</p>
-                            <h4>Sign in</h4>
+                            <h4>Register</h4>
                         </div>
                         <div>
                             <Image
@@ -146,8 +131,8 @@ export default function Login() {
                         </div>
 
                         <div className={styles.btn_container}>
-                            <button type="submit" className={styles.sign_in_btn} disabled={loading}>
-                                {loading ? "Loading..." : "Sign In"}
+                            <button type="submit" className={styles.sign_in_btn}>
+                                Register
                             </button>
                         </div>
                     </form>
