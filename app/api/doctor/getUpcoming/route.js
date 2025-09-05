@@ -29,7 +29,7 @@ export async function GET(request) {
     const data = await response.json();
 
     if (!data?.data || data.data.length === 0) {
-      return NextResponse.json({ data: [], message: "No contacts found" });
+      return Response.json({ data: [], message: "No contacts found" });
     }
 
     // Helper function to parse time string and create full datetime
@@ -67,7 +67,7 @@ export async function GET(request) {
     const contactsWithDates = data.data.filter(contact => contact.Appointment_Date);
 
     if (contactsWithDates.length === 0) {
-      return NextResponse.json({ data: [], message: "No contacts with appointment dates found" });
+      return Response.json({ data: [], message: "No contacts with appointment dates found" });
     }
 
     // Filter future appointments only
@@ -77,7 +77,7 @@ export async function GET(request) {
     });
 
     if (futureAppointments.length === 0) {
-      return NextResponse.json({ data: [], message: "No upcoming appointments found" });
+      return Response.json({ data: [], message: "No upcoming appointments found" });
     }
 
     // Sort by appointment datetime (earliest future appointment first)
@@ -98,12 +98,12 @@ export async function GET(request) {
     });
     const contactData = await contactDataResponse.json();
 
-    return NextResponse.json({
+    return Response.json({
       data: contactData.data,
       message: "Upcoming appointment (closest future appointment)"
     });
   } catch (error) {
     console.error('Error fetching upcoming contacts:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
