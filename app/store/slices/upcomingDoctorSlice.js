@@ -8,7 +8,7 @@ export const fetchUpcomingDoctors = createAsyncThunk(
   "upcomingDoctors/fetchUpcomingDoctors",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch("http://localhost:3000/api/doctor/getUpcoming");
+      const response = await fetch("/api/doctor/getUpcoming");
 
       if (!response.ok) {
         throw new Error("Failed to fetch upcoming doctors");
