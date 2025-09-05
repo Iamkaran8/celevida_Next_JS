@@ -14,7 +14,7 @@ const persistConfig = {
   key: "root",        // key for localStorage
   storage,            // default localStorage
 
-  whitelist: ["doctor", "upcomingDoctors", "auth","avgmatrics"], // state slices to persist
+  whitelist: ["doctor",  "auth","avgmatrics"], // state slices to persist
 
 };
 

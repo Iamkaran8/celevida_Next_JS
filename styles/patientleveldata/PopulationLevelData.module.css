@@ -2,11 +2,12 @@
     background-color: #F3F4F6;
     display: flex;
     flex-wrap: wrap;
-    gap:25px;
+    gap: 25px;
     padding: 20px;
     border-radius: 20px !important;
 }
-.content_container{
+
+.content_container {
     border-radius: 20px;
     box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.06);
     padding: 20px;
@@ -16,22 +17,31 @@
     justify-content: center;
     align-items: center;
     gap: 5px !important;
-    
+    width: 15%;
+    text-align: center;
+
 }
-.content_container h4{
+
+.content_container h4 {
     margin: 0px !important;
     padding: 0px !important;
     font-size: 25px;
 }
-.content_container p{
+
+.content_container p {
     margin: 0px !important;
     padding: 0px !important;
 }
 
+@media only screen and (max-width:900px) {
 
+    .content_container {
+        width: 30%;
+    }
+}
 
-@media only screen and (max-width:650px){
-    .content_container{
+@media only screen and (max-width:650px) {
+    .content_container {
         width: 100%;
     }
 }
