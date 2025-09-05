@@ -1,11 +1,11 @@
 "use client";
 
-import { PatientStatusDetails } from "@/components/patientStatus/PatientStatusDetails";
+import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
 import styles from '../../../styles/dashboard/page.module.css'
-import { UpcommingPatient } from "@/components/upcommingPatient/UpcommingPatient";
-import { PatientSegmentation } from "@/components/patientSegmentation/PatientSegmentation";
-import { RecentPatientActivityContainer } from "@/components/recentPatientActivity/RecentPatientActivityContainer";
-import { Header } from "@/components/header/Header";
+import { UpcommingPatient } from "../../../components/upcommingPatient/UpcommingPatient";
+import { PatientSegmentation } from "../../../components/patientSegmentation/PatientSegmentation";
+import { RecentPatientActivityContainer } from "../../../components/recentPatientActivity/RecentPatientActivityContainer";
+import { Header } from "../../../components/header/Header";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 

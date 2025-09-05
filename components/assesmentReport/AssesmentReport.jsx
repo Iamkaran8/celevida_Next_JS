@@ -1,4 +1,4 @@
-import styles from '@/styles/dashboard/AssesmentReport/AssesmentReport.module.css'
+import styles from '../../styles/dashboard/AssesmentReport/AssesmentReport.module.css'
 import Image from 'next/image';
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";

@@ -1,9 +1,9 @@
 'use client'
 
-import { PatientLevelDataContainer } from "@/components/PatientLevelData/PatientLevelDataContainer"
+import { PatientLevelDataContainer } from "../../../components/PatientLevelData/PatientLevelDataContainer"
 import { useRouter } from "next/navigation"
-import styles from '@/styles/dashboard/avg/avg.module.css'
-import { PopulationLevelData } from "@/components/PatientLevelData/PopulationLevelData"
+import styles from '../../../styles/dashboard/avg/avg.module.css'
+import { PopulationLevelData } from "../../../components/PatientLevelData/PopulationLevelData"
 
 
 
@@ -14,7 +14,7 @@ export default function page() {
     const handlegoBack = () => {
         route.push('/doctor/dashboard')
     }
-      const data = [
+    const data = [
         {
             id: 1,
             title: "Patients Continued",
@@ -62,10 +62,10 @@ export default function page() {
                     <h1>Average Metrics</h1>
                 </div>
                 <div className={styles.container_inner}>
-                        <PopulationLevelData title="Population Level Data" data={data} />
+                    <PopulationLevelData title="Population Level Data" data={data} />
                 </div>
                 <div className={styles.container_inner}>
-                        <PopulationLevelData title="HCP Dashboard - Average Metrics" data={data} />
+                    <PopulationLevelData title="HCP Dashboard - Average Metrics" data={data} />
                 </div>
             </div>
         </>

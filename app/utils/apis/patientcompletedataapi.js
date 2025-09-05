@@ -1,6 +1,9 @@
+// patientcompletedataapi.js
+
+
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const fetchPatientsCompleteDetails = createAsyncThunk(
+export const patientcompletedataapi = createAsyncThunk(
   "patients/fetchCompleteDetails",
   async ({ id, moduleName }, { rejectWithValue }) => {
     try {

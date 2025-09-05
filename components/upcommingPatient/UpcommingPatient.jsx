@@ -1,11 +1,28 @@
-import styles from '@/styles/dashboard/upcommingPatient/upcommingpatient.module.css'
+import { useDispatch, useSelector } from 'react-redux';
+import styles from '../../styles/dashboard/upcommingPatient/upcommingpatient.module.css'
+import { fetchUpcomingDoctors } from '../../app/store/slices/upcomingDoctorSlice';
+import { useEffect } from 'react';
 
 
 export const UpcommingPatient = () => {
+
+    const dispatch = useDispatch();
+    const { doctors, loading, error } = useSelector(
+        (state) => state.upcomingDoctors
+    );
+
+    console.log(doctors)
+
+    useEffect(() => {
+        dispatch(fetchUpcomingDoctors());
+    }, [dispatch]);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error: {error}</p>;
     return (
         <>
             <div className={styles.upcommingPatient_container}>
-                <div  className={styles.upcommingPatient_inner}>
+                <div className={styles.upcommingPatient_inner}>
                     <div style={{ display: 'flex' }}>
                         <div className={styles.patient_details_left}>
                             <span className={styles.up_txt}>Upcoming patient </span>

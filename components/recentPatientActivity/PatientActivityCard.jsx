@@ -1,6 +1,6 @@
 "use client"
 
-import styles from '@/styles/dashboard/RecentPatientActivity/RecentPatientActivityCard.module.css'
+import styles from '../../styles/dashboard/RecentPatientActivity/RecentPatientActivityCard.module.css'
 import Image from 'next/image'
 
 export const PatientActivityCard = ({

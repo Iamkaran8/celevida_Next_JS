@@ -4,7 +4,7 @@
 
 "use client";
 
-import "@/styles/dashboard/OffCanvas.css";
+import "../../styles/dashboard/OffCanvas.css";
 import Image from "next/image";
 import { LogoutButton } from "../LogoutButton";
 

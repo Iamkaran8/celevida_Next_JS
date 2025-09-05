@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "@/styles/dashboard/RecentPatientActivity/RecentPatientActivityContainer.module.css";
-import { PatientActivityCard } from '@/components/recentPatientActivity/PatientActivityCard';
+import styles from "../../styles/dashboard/RecentPatientActivity/RecentPatientActivityContainer.module.css";
+import { PatientActivityCard } from '../../components/recentPatientActivity/PatientActivityCard';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import PatientInformationPopup from "../patientInformationPopup/PatientInformationPopup";
 import AssesmentReport from "../assesmentReport/AssesmentReport";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDoctorApi } from "@/app/utils/FetchDoctorApi";
-import { fetchPatientsCompleteDetails } from "@/app/utils/FechPatientsCompleteDetails";
 import { Loader } from "../loader/Loader";
 import { Loader1 } from "../loader/Loader1";
+import { doctorapi } from "../../app/utils/apis/doctorapi";
+import { patientcompletedataapi } from "../../app/utils/apis/patientcompletedataapi";
 
 export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,10 +32,10 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
   if (loading) return <p>Loading...</p>;
 
   const handleNavigate = () => router.push("/doctor/dashboard");
-  const handleRefresh = () => dispatch(fetchDoctorApi());
+  const handleRefresh = () => dispatch(doctorapi());
 
   const handleShowPopup = (patient) => {
-    dispatch(fetchPatientsCompleteDetails({ id: patient.id, moduleName: patient.moduleName }))
+    dispatch(patientcompletedataapi({ id: patient.id, moduleName: patient.moduleName }))
       .unwrap()
       .then((data) => {
         setSelectedPatient({ ...patient, details: data }); // merge card + API

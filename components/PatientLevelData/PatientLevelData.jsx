@@ -1,68 +1,7 @@
 
 
 
-// import styles from '@/styles/patientleveldata/PatientLevel.module.css'
-// import { useSelector } from 'react-redux'
-
-// export const PatientLevelData = () => {
-//     const { data, loading, error } = useSelector((state) => state.patient)
-
-//     if (loading) return <p>Loading...</p>
-//     if (error) return <p style={{ color: "red" }}>{error.message}</p>
-//     if (!data) return <p>No patient data available</p>
-
-//     // Handle case: API might return { data: [...] } OR just [...]
-//     const patients = Array.isArray(data) ? data : data.data || []
-//     if (!patients.length) return <p>No patients found</p>
-
-//     const patient = patients[0] // pick first one for now
-
-//     const parameterMap = {
-//         "Body Weight (kg)": patient.Body_Weight_kg,
-//         "BMI (Body Mass Index)": patient.BMI,
-//         "FBG": patient.FBG ?? "no data",
-//         "PPBG": patient.PPBG ?? "no data",
-//         "HbA1c": patient.HbA1c_Month_1 ?? "no data",
-//         "Diet Recall (Avg Calorie)": "no data",
-//         "Calorie intake": patient.hour_dietary_recall_calorie_intake,
-//         "Carb intake": patient.hour_dietary_recall_carb_intake,
-//         "Protein intake": patient.hour_dietary_recall_protein_intake,
-//         "Celevida Consumption": patient.Time_of_Consumption,
-//         "Usage frequency": "no data",
-//         "Notes from the Virtual Coach": "no data",
-//         "Notes from the Virtual Coach for the Dr.": "no data",
-//         "Sleep Pattern": patient.Quality_hours_of_sleep_do_you_get_at_night,
-//         "Water Consumption": patient.How_many_litres_of_water_do_you_drink_in_a_day,
-//     }
-
-//     return (
-//         <>
-//             <div>
-//                 <h3>Patient Level Data</h3>
-//             </div>
-
-//             <div className={styles.outter_box}>
-//                 {/* Table Header */}
-//                 <div className={styles.header}>
-//                     <div><h4>PARAMETERS</h4></div>
-//                     <div><h4>VALUE</h4></div>
-//                 </div>
-
-//                 {/* Data Rows */}
-//                 {Object.entries(parameterMap).map(([key, value], index) => (
-//                     <div className={styles.header} key={index}>
-//                         <div><p>{key}</p></div>
-//                         <div><p>{value}</p></div>
-//                     </div>
-//                 ))}
-//             </div>
-//         </>
-//     )
-// }
-
-
-
-import styles from '@/styles/patientleveldata/PatientLevel.module.css'
+import styles from '../../styles/patientleveldata/PatientLevel.module.css'
 import { useSelector } from 'react-redux'
 
 export const PatientLevelData = () => {

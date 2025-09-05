@@ -1,7 +1,7 @@
 
 "use client";
 
-import styles from '@/styles/popup/patientInformationPopup.module.css';
+import styles from '../../styles/popup/patientInformationPopup.module.css';
 import Image from 'next/image';
 import { PatientLevelDataContainer } from '../PatientLevelData/PatientLevelDataContainer';
 

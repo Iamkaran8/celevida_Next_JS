@@ -1,5 +1,5 @@
 import Image from "next/image"
-import styles from '@/styles/LogoutButton.module.css'
+import styles from '../styles/LogoutButton.module.css'
 
 export const LogoutButton = () => {
     const handleLogout = () => {
