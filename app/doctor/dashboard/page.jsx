@@ -209,7 +209,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { fetchDoctorNames } from "@/app/utils/apis/fetchdoctornames";
-import { doctorapi } from "@/app/utils/apis/doctorapi";
+import { doctorapi } from "../../../app/utils/apis/doctorapi";
+import { fetchUpcomingDoctors } from "../../../app/store/slices/upcomingDoctorSlice";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -249,8 +250,9 @@ export default function Dashboard() {
     if (selectedDoctor) {
       // Fetch dashboard data for selected doctor
       dispatch(doctorapi(selectedDoctor));
+      dispatch(fetchUpcomingDoctors(selectedDoctor));
       // Navigate to avg metrics page with doctor name as query param
-      router.push(`/doctor/avg?doctor=${encodeURIComponent(selectedDoctor)}`);
+      
       setShowSuggestions(false);
     }
   };
@@ -272,7 +274,7 @@ export default function Dashboard() {
     }));
 
   const handleNavigate = () => {
-    router.push(`/doctor/avg`);
+    router.push(`/doctor/avg?doctor=${encodeURIComponent(selectedDoctor)}`);
   };
 
   return (
