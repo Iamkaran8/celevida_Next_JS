@@ -114,7 +114,15 @@
 
 
 
-
+@media only screen and (max-width:950){
+    .card_outer_container {
+        flex-direction: row;
+        gap: 10px;
+        width: 110vw;
+        overflow-x: scroll;
+    }
+    
+}
 
 @media only screen and (max-width:650px) {
 

@@ -13,7 +13,13 @@ export default function ProtectedRoute({ children, allowedRoles }) {
     if (!isAuthenticated) {
       router.replace("/");
     } else if (allowedRoles && !allowedRoles.includes(user?.role)) {
-      router.replace("/unauthorized");
+      if (user.role === "admin") {
+        router.replace("/wellthyteam/dashboard");
+      } else if (user.role === "doctor") {
+        router.replace("/doctor/dashboard");
+      } else if (user.role === "brand") {
+        router.replace("/brandteam/dashboard");
+      }
     }
   }, [isAuthenticated, user, router, allowedRoles]);
 

@@ -55,7 +55,7 @@ export default function Login() {
             setLoading(true); // ✅ Show loader
 
             // Simulate API/Redux login
-            setTimeout(() => {
+            
                 dispatch(loginSuccess({ email: formData.email, role: formData.role }));
 
                 // ✅ Navigate based on role
@@ -66,7 +66,7 @@ export default function Login() {
                 } else if (formData.role === "brand") {
                     router.push("/brandteam/dashboard");
                 }
-            }, 1500); // fake delay (1.5s)
+            
         }
     };
 

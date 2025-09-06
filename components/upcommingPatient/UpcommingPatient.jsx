@@ -200,7 +200,7 @@ export const UpcommingPatient = () => {
     );
 
     console.log(doctors, "upcoming patient details")
-    // if (error) return <p>Error: {error}</p>;
+    if (error) return <p>Error: {error}</p>;
     if (!doctors?.data?.length) return <p>No upcoming patients</p>;
 
     const patient = doctors.data[0];

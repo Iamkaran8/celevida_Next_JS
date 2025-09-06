@@ -7,7 +7,9 @@ import { useParams, useRouter } from 'next/navigation';
 export const PatientStatusDetails = ({ title, logo, color, count,navigate }) => {
     const router = useRouter();
     const handleNavigate = () => {
-        router.push(`/${navigate}`);
+        if(navigate){
+
+        }
     };
     return (    
         <>
