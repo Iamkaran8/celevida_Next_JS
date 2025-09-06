@@ -28,7 +28,7 @@ export default function Login() {
         }
         if (!formData.password) {
             newErrors.password = "Password is required";
-        } else if (formData.password.length < 6) {
+        } else if (formData.password.length < 3) {
             newErrors.password = "Password must be at least 6 characters";
         }
 
@@ -53,14 +53,14 @@ export default function Login() {
     // Redirect on successful login
     useEffect(() => {
         if (isAuthenticated && user) {
-            console.log("User object:", user);
+
 
             const role =
-                user?.data?.data?.[0]?.role || // if nested array
-                user?.data?.role ||            // if single object
-                user?.role;                    // fallback
+                user?.data?.data?.[0]?.role ||
+                user?.data?.role ||
+                user?.role;
 
-            console.log("Detected role:", role);
+
 
             if (role?.toLowerCase() === "super admin") {
                 router.push("/wellthyteam/dashboard");

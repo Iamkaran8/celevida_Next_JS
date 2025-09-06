@@ -44,7 +44,7 @@ export default function Page() {
                 {/* Table Content */}
                 {allAccounts.map((acc, index) => (
                     <div className={styles.Table_content} key={index}>
-                        <div className={styles.No}><p>{index + 1}</p></div>
+                        <div className={styles.No}><p>{index + 1}.</p></div>
                         <div className={styles.Name}><p>{acc.Name}</p></div>
                         <div className={styles.Email}><p>{acc.Email}</p></div>
                         <div className={styles.Password}><p>{acc.password}</p></div>

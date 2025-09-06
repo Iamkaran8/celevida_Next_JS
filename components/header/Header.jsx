@@ -13,7 +13,7 @@ export const Header = ({ title }) => {
 
     const { user } = useSelector((state) => state.auth)
 
-    console.log(user.data.data[0].role)
+    
 
 
     const navigations = [

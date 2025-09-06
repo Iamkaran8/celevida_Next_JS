@@ -17,15 +17,18 @@ export default function layout({ children }) {
     const doctorName = user?.data?.data?.[0]?.Name || "";
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(doctorapi(doctorName));
-    }, []);
+        if (doctorName) {
+            dispatch(doctorapi(doctorName));
+        }
+    }, [dispatch, doctorName]);
 
 
-    const { doctors, loading, error, nurture, onboarded_Patients } = useSelector((state) => state.doctor);
+
+    const {  loading, error } = useSelector((state) => state.doctor);
     if (loading) return <Loader />
     if (error) return <p>Error While Fetching APi: {error}</p>;
 
-    console.log(doctors)
+
 
     return (
         <>

@@ -20,6 +20,33 @@ export const fetchAllUsersAccount = createAsyncThunk(
     }
 );
 
+
+
+export const createUserAccount = createAsyncThunk(
+    "users/createAccount",
+    async (newUser, { rejectWithValue }) => {
+        try {
+            const response = await fetch("/api/accounts/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify([newUser]), // API expects array as per your curl
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to create user account");
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+
 // Initial state
 const initialState = {
     accounts: [],
@@ -32,7 +59,7 @@ const usersSlice = createSlice({
     name: "users",
     initialState,
     reducers: {
-        // You can add synchronous actions here if needed
+
     },
     extraReducers: (builder) => {
         builder
@@ -47,7 +74,19 @@ const usersSlice = createSlice({
             .addCase(fetchAllUsersAccount.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Something went wrong";
+            }).addCase(createUserAccount.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createUserAccount.fulfilled, (state, action) => {
+                state.loading = false;
+                // state.accounts.push(action.payload);
+            })
+            .addCase(createUserAccount.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Something went wrong";
             });
+
     },
 });
 

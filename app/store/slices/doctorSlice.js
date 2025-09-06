@@ -23,7 +23,20 @@ const initialState = {
 const DoctorSlice = createSlice({
     name: "doctor",
     initialState,
-    reducers: {},
+    reducers: {
+        removeallData: (state) => {
+            state.doctors = []
+            state.onboarded_Patients = []
+            state.prescribed = []
+            state.nurture = []
+            state.not_prescribed = []
+            state.genderCount = { male: 0, female: 0, other: 0 }
+            state.ageGroups = { "0-18": 0, "19-25": 0, "26-35": 0, "36-45": 0, "46-60": 0, "60+": 0 }
+            state.prescriptionsByMonth = Array(12).fill(0)
+                state.loading = false
+                state.error = null
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(doctorapi.pending, (state) => {
@@ -112,5 +125,5 @@ const DoctorSlice = createSlice({
 });
 
 
-export const { } = DoctorSlice.actions;
+export const {removeallData } = DoctorSlice.actions;
 export default DoctorSlice.reducer

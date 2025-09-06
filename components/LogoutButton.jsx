@@ -2,11 +2,13 @@ import Image from "next/image"
 import styles from '../styles/LogoutButton.module.css'
 import { useDispatch } from "react-redux"
 import { logout } from "../app/store/slices/authSlice"
+import { removeallData } from "../app/store/slices/doctorSlice"
 
 export const LogoutButton = () => {
     const dispatch = useDispatch()
     const handleLogout = () => {
         dispatch(logout())
+        dispatch(removeallData())
     }
     return (
         <>

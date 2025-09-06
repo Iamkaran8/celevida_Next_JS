@@ -7,10 +7,11 @@
 .table_header {
     background-color: gray;
     display: flex;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .table_header div {
-    
     padding: 2px;
     color: white;
 }
@@ -18,37 +19,47 @@
 .Table_content {
     border: 1px solid gray;
     display: flex;
+
 }
 
-.Table_content:hover{
+.Table_content:hover {
     background-color: aqua;
 }
+
 .Table_content div {
     display: flex;
     padding: 2px;
 }
-.Name{
+
+.Name {
     width: 17%;
 }
-.Email{
+
+.Email {
     width: 23%;
 }
-.Password{
+
+.Password {
     width: 14%;
 }
-.Role{
+
+.Role {
     width: 10%;
 }
-.Id{
+
+.Id {
     width: 20%;
 }
-.City{
+
+.City {
     width: 10%;
 }
-.Area{
+
+.Area {
     width: 10%;
 }
-.No{
+
+.No {
     width: 5%;
     padding-left: 10px !important;
 }
