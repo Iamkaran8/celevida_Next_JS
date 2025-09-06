@@ -26,7 +26,7 @@ export default function layout({ children }) {
 
     return (
         <>
-            <ProtectedRoute allowedRoles={["admin"]}>
+            <ProtectedRoute allowedRoles={["super admin"]}>
                 <div className={styles.dashboardContainer}>
                     <div className={styles.left_side}  >
                         {children}

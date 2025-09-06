@@ -187,8 +187,11 @@ export const UpcommingPatient = () => {
     const [showInfo, setShowInfo] = useState(false);
     const [showReport, setShowReport] = useState(false);
 
+    const {user} = useSelector((state)=> state.auth)
+
+    const doctor_Name = user.data.data[0].Name
     useEffect(() => {
-        dispatch(fetchUpcomingDoctors());
+        dispatch(fetchUpcomingDoctors(doctor_Name));
     }, [dispatch]);
 
 

@@ -6,6 +6,26 @@
     margin-bottom: 10px;
 }
 
+.header_navbar {
+    display: flex;
+    justify-content: end;
+}
+
+.NavButton {
+    padding: 10px 25px;
+    border-radius: 8px;
+    margin-left: 15px;
+    background-color: rgb(64, 133, 243);
+    color: white;
+    border: none !important;
+    cursor: pointer;
+
+}
+
+.NavButton:hover{
+    box-shadow: 0px 0px 10px 1px rgba(64, 133, 243, 0.252);
+}
+
 .header h2 {
     font-size: 42px;
     font-weight: 500;
@@ -48,7 +68,8 @@
         font-size: 25px;
 
     }
-    .profile_cont p{
+
+    .profile_cont p {
         display: none;
     }
 }

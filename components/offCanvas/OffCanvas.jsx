@@ -8,7 +8,7 @@ import "../../styles/dashboard/OffCanvas.css";
 import Image from "next/image";
 import { LogoutButton } from "../LogoutButton";
 
-export default function OffCanvas({ open, setOpen }) {
+export default function OffCanvas({ open, setOpen, name }) {
     return (
         <>
             {/* Overlay */}
@@ -25,15 +25,15 @@ export default function OffCanvas({ open, setOpen }) {
                         ✖
                     </button>
                 </div>
-                <div style={{display:'flex',justifyContent:'start',alignItems:'center',gap:'15px'}}>
+                <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center', gap: '15px' }}>
                     <Image src='/images/Profile-pic.png' alt="profile-img" height={42} width={42} />
-                    <p>Dr John</p>
+                    <p>{name}</p>
                 </div>
                 <div>
-                    <p>Email : doctor@gmail.com</p>
+
                 </div>
                 <div>
-                    <LogoutButton/>
+                    <LogoutButton />
                 </div>
             </div>
         </>

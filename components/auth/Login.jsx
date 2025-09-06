@@ -1,12 +1,11 @@
 
 
-
 "use client";
 
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { loginSuccess } from "../../app/store/slices/authSlice";
+import { loginUser } from "../../app/store/slices/authSlice";
 import styles from "../../styles/login/Login.module.css";
 import Image from "next/image";
 
@@ -14,29 +13,25 @@ export default function Login() {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        role: "",
     });
     const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false); // ✅ Loader state
 
     const dispatch = useDispatch();
     const router = useRouter();
+
+    const { loading, error, isAuthenticated, user } = useSelector((state) => state.auth);
 
     const validate = () => {
         let newErrors = {};
         if (!formData.email) {
             newErrors.email = "Email is required";
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            newErrors.email = "Invalid email format";
         }
         if (!formData.password) {
             newErrors.password = "Password is required";
         } else if (formData.password.length < 6) {
             newErrors.password = "Password must be at least 6 characters";
         }
-        if (!formData.role) {
-            newErrors.role = "Please select a role";
-        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -48,27 +43,35 @@ export default function Login() {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
         if (validate()) {
-            setLoading(true); // ✅ Show loader
-
-            // Simulate API/Redux login
-            
-                dispatch(loginSuccess({ email: formData.email, role: formData.role }));
-
-                // ✅ Navigate based on role
-                if (formData.role === "admin") {
-                    router.push("/wellthyteam/dashboard");
-                } else if (formData.role === "doctor") {
-                    router.push("/doctor/dashboard");
-                } else if (formData.role === "brand") {
-                    router.push("/brandteam/dashboard");
-                }
-            
+            dispatch(loginUser(formData));
         }
     };
+
+    // Redirect on successful login
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            console.log("User object:", user);
+
+            const role =
+                user?.data?.data?.[0]?.role || // if nested array
+                user?.data?.role ||            // if single object
+                user?.role;                    // fallback
+
+            console.log("Detected role:", role);
+
+            if (role?.toLowerCase() === "super admin") {
+                router.push("/wellthyteam/dashboard");
+            } else if (role?.toLowerCase() === "doctor") {
+                router.push("/doctor/dashboard");
+            } else if (role?.toLowerCase() === "brand team") {
+                router.push("/brandteam/dashboard");
+            }
+        }
+    }, [isAuthenticated, user, router]);
+
 
     return (
         <div className={styles.container}>
@@ -132,7 +135,7 @@ export default function Login() {
                             </div>
                         </div>
 
-                        <div className={styles.input_container}>
+                        {/* <div className={styles.input_container}>
                             <div className={styles.input_box_container}>
                                 <p>Role</p>
                                 <select name="role" value={formData.role} onChange={handleChange}>
@@ -143,7 +146,9 @@ export default function Login() {
                                 </select>
                                 {errors.role && <span className={styles.error}>{errors.role}</span>}
                             </div>
-                        </div>
+                        </div> */}
+
+                        {error && <p className={styles.error}>{error}</p>}
 
                         <div className={styles.btn_container}>
                             <button type="submit" className={styles.sign_in_btn} disabled={loading}>

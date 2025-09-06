@@ -6,16 +6,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // Async thunk to fetch upcoming doctors
 export const fetchUpcomingDoctors = createAsyncThunk(
   "upcomingDoctors/fetchUpcomingDoctors",
-  async (_, { rejectWithValue }) => {
+  async (doctor_Name, { rejectWithValue }) => {
     try {
-      const response = await fetch("/api/doctor/getUpcoming");
+      const response = await fetch(`/api/doctor/getUpcoming?Name=${doctor_Name}`);
 
       if (!response.ok) {
         throw new Error("Failed to fetch upcoming doctors");
       }
 
       const data = await response.json();
-      return data; // this will be action.payload in extraReducers
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }

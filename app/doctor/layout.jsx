@@ -14,21 +14,25 @@ import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
 
 export default function layout({ children }) {
 
-    const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(doctorapi());
-    }, []);
 
 
     const { doctors, loading, error, nurture, onboarded_Patients } = useSelector((state) => state.doctor);
+
+    const { user } = useSelector(state => state.auth || {})
+     const doctorName = user?.data?.data?.[0]?.Name || "";
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch(doctorapi(doctorName));
+    }, []);
+
     if (loading) return <Loader />
     if (error) return <p>Error While Fetching APi: {error}</p>;
-
+    console.log(user)
 
     return (
         <>
 
-            <ProtectedRoute allowedRoles={["doctor"]}>
+            <ProtectedRoute allowedRoles={["doctor", "super admin"]}>
 
                 <div className={styles.dashboardContainer}>
                     <div className={styles.left_side}  >

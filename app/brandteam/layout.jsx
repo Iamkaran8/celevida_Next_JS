@@ -13,9 +13,11 @@ import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
 
 export default function layout({ children }) {
 
+    const { user } = useSelector(state => state.auth || {})
+    const doctorName = user?.data?.data?.[0]?.Name || "";
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(doctorapi());
+        dispatch(doctorapi(doctorName));
     }, []);
 
 
@@ -27,7 +29,7 @@ export default function layout({ children }) {
 
     return (
         <>
-            <ProtectedRoute allowedRoles={["brand"]}>
+            <ProtectedRoute allowedRoles={["brand team", "super admin"]}>
                 <div className={styles.dashboardContainer}>
                     <div className={styles.left_side}  >
                         {children}
