@@ -1,0 +1,54 @@
+.container {
+    display: flex;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.table_header {
+    background-color: gray;
+    display: flex;
+}
+
+.table_header div {
+    
+    padding: 2px;
+    color: white;
+}
+
+.Table_content {
+    border: 1px solid gray;
+    display: flex;
+}
+
+.Table_content:hover{
+    background-color: aqua;
+}
+.Table_content div {
+    display: flex;
+    padding: 2px;
+}
+.Name{
+    width: 17%;
+}
+.Email{
+    width: 23%;
+}
+.Password{
+    width: 14%;
+}
+.Role{
+    width: 10%;
+}
+.Id{
+    width: 20%;
+}
+.City{
+    width: 10%;
+}
+.Area{
+    width: 10%;
+}
+.No{
+    width: 5%;
+    padding-left: 10px !important;
+}

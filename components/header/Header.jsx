@@ -32,6 +32,16 @@ export const Header = ({ title }) => {
             name: "FE",
             route: 'http://celevida.in/'
         },
+        {
+            id: 4,
+            name: 'Users',
+            route: 'wellthyteam/users'
+        },
+        {
+            id: 5,
+            name: 'Add Users',
+            route: 'wellthyteam/adduser'
+        },
     ]
     const router = useRouter();
     const handleNavigate = (url) => {
@@ -40,7 +50,6 @@ export const Header = ({ title }) => {
 
     return (
         <>
-
             {
                 user?.data?.data[0]?.role === "Super Admin" ? (<div className={styles.header_navbar}>
                     {

@@ -105,13 +105,13 @@ export default function Login() {
                     <form onSubmit={handleSubmit}>
                         <div className={styles.input_container}>
                             <div className={styles.input_box_container}>
-                                <p>Email ID</p>
+                                <p>User Name</p>
                                 <input
                                     type="text"
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    placeholder="Enter Email"
+                                    placeholder="Enter User Name"
                                     className={styles.phone_number_input}
                                     style={{ fontSize: "20px" }}
                                 />
