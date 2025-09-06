@@ -29,19 +29,6 @@ import TopCitiesTable from "../../../components/charts/TopCitiesTable";
 export default function Dashboard() {
 
     const { onboarded_Patients, prescribed, nurture } = useSelector((state) => state.doctor)
-    const mappedPatients = [...onboarded_Patients]
-        .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
-        .map((p, index) => ({
-            id: p.id,
-            patient_name: p.Last_Name || "Unknown",
-            patient_id: `ID:#${p.id}`,
-            status: p.StatusPrespcription || "N/A",
-            phone_number: p.Mobile || "N/A",
-            date: p.Created_Time
-                ? new Date(p.Created_Time).toLocaleDateString("en-GB")
-                : "N/A",
-            moduleName: p.moduleName,
-        }));
 
 
 
@@ -60,19 +47,13 @@ export default function Dashboard() {
                     <PatientSegmentation />
                 </div>
                 <div className={styles.second_section_right} style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{
-                        border: "1px solid #D9D9D9",
-                        backgroundColor: "white",
-                        borderRadius: "4px",
-                        padding: "20px",
-                        margin: "10px",
-                    }}
+                    <div style={{border: "1px solid #D9D9D9",backgroundColor: "white",borderRadius: "4px",padding: "20px",margin: "10px",}}
                     >
                         <div>
                             <main style={{ display: 'flex', gap: '20px', padding: '24px' }}>
                                 <PatientsKpiCard
                                     title="Total Patients Enrolled"
-                                    value={980}
+                                    value={onboarded_Patients.length}
                                     trend={12}
                                     icon={User}
                                     color="#10b981" // green
@@ -85,12 +66,12 @@ export default function Dashboard() {
                                 />
                             </main>
                         </div>
-                        <div>
+                        {/* <div>
                             <main style={{ display: 'flex', gap: '20px', padding: '24px' }}>
                                 <DoctorsKpiCard title="Total Doctors Participated" value={125} trend={8} />
                                 <DoctorsKpiCard title="Active Programs" value={12} trend={-2} />
                             </main>
-                        </div>
+                        </div> */}
 
                     </div>
                 </div>

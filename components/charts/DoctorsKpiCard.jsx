@@ -26,7 +26,7 @@ export default function DoctorsKpiCard({ title, value, icon: Icon = Users, trend
                 {value}
             </h2>
 
-            {trend && (
+            {/* {trend && (
                 <span
                     style={{
                         fontSize: '13px',
@@ -36,7 +36,7 @@ export default function DoctorsKpiCard({ title, value, icon: Icon = Users, trend
                 >
                     {trend > 0 ? `▲ ${trend}%` : `▼ ${Math.abs(trend)}%`}
                 </span>
-            )}
+            )} */}
         </div>
     );
 }

@@ -201,7 +201,7 @@ export const UpcommingPatient = () => {
 
     console.log(doctors, "upcoming patient details")
     if (error) return <p>Error: {error}</p>;
-    if (!doctors?.data?.length) return <p>No upcoming patients</p>;
+    if (!doctors?.data?.length) return<div className={styles.upcommingPatient_container}> <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100%'}} ><h3>No upcoming patients</h3></div></div>;
 
     const patient = doctors.data[0];
 

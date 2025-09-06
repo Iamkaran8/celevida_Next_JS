@@ -1,5 +1,6 @@
 "use client";
 
+import { selectGenderCounts } from "../../app/utils/selectors/doctorSelectors";
 import {
     Chart as ChartJS,
     ArcElement,
@@ -7,18 +8,22 @@ import {
     Legend,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { useSelector } from "react-redux";
 
 // register necessary ChartJS components
 ChartJS.register(ArcElement, Tooltip,);
 
 export default function GenderChart({ }) {
+
+
+    const { male, female, other } = useSelector(selectGenderCounts);
     const data = {
-        labels: ["Male", "Female"],
+        labels: ["Male", "Female",],
         datasets: [
             {
-                label: "Patients",
-                data: [40, 60],
-                backgroundColor: ["#ff0000ff", "#0062ffff",],
+                label: "Count",
+                data: [male, female,],
+                backgroundColor: ["blue", "pink",],
                 hoverOffset: 4,
             },
         ],
@@ -36,11 +41,11 @@ export default function GenderChart({ }) {
 
     return (
         <>
-            
-                <Doughnut data={data} options={options} />
+
+            <Doughnut data={data} options={options} />
             <div>
-                <p>Male :40%</p>
-                <p>Female :60%</p>
+                <p>Male :{male} Patients</p>
+                <p>Female :{female} Patients</p>
             </div>
         </>
     );

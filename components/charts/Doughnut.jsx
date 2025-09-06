@@ -18,7 +18,7 @@ export default function DoughnutChart({ prescribed, nurture, not_prescribed }) {
       {
         label: "Patients",
         data: [prescribed, nurture, not_prescribed],
-        backgroundColor: ["#23b883", "#4085f3", "#E3E3E3"],
+        backgroundColor: ["#23b883", "#4085f3", "rgba(255, 206, 86, 0.8)"],
         hoverOffset: 4,
       },
     ],

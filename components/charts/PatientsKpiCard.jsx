@@ -35,7 +35,7 @@ export default function PatientsKpiCard({
       </h2>
 
       {/* Trend Indicator */}
-      {trend !== undefined && (
+      {/* {trend !== undefined && (
         <span
           style={{
             fontSize: '13px',
@@ -45,7 +45,7 @@ export default function PatientsKpiCard({
         >
           {trend > 0 ? `▲ ${trend}%` : `▼ ${Math.abs(trend)}%`}
         </span>
-      )}
+      )} */}
     </div>
   );
 }
