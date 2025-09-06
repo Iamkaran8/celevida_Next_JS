@@ -47,7 +47,7 @@ export default function Dashboard() {
                     <PatientSegmentation />
                 </div>
                 <div className={styles.second_section_right} style={{ display: 'flex', flexDirection: 'column' }}>
-                    <div style={{border: "1px solid #D9D9D9",backgroundColor: "white",borderRadius: "4px",padding: "20px",margin: "10px",}}
+                    <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", }}
                     >
                         <div>
                             <main style={{ display: 'flex', gap: '20px', padding: '24px' }}>

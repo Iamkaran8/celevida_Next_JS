@@ -9,13 +9,7 @@ import { useRouter } from "next/navigation";
 
 export const Header = ({ title }) => {
     const [open, setOpen] = useState(false);
-
-
     const { user } = useSelector((state) => state.auth)
-
-    
-
-
     const navigations = [
         {
             id: 1,
@@ -41,6 +35,11 @@ export const Header = ({ title }) => {
             id: 5,
             name: 'Add Users',
             route: 'wellthyteam/adduser'
+        },
+        {
+            id: 6,
+            name: 'Super Admin',
+            route: 'wellthyteam/dashboard'
         },
     ]
     const router = useRouter();

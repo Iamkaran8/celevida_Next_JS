@@ -30,8 +30,6 @@ export default function layout({ children }) {
 
     if (loading) return <Loader />
     if (error) return <p>Error While Fetching APi: {error}</p>;
-    console.log(user)
-
     return (
         <>
 

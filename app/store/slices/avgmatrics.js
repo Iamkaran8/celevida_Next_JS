@@ -6,9 +6,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // Async thunk to fetch upcoming doctors
 export const fetchavgmetrics = createAsyncThunk(
     "avgmetrics/fetchavgmetrics",
-    async (_, { rejectWithValue }) => {
+    async (doctorName, { rejectWithValue }) => {
         try {
-            const response = await fetch("/api/doctor/getAverageData");
+            const response = await fetch(`/api/doctor/getAverageData?Name=${doctorName}`);
 
             if (!response.ok) {
                 throw new Error("Failed to fetch Average data");
