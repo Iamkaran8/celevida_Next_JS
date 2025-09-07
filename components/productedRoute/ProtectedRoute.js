@@ -68,22 +68,26 @@ export default function ProtectedRoute({ children, allowedRoles = [] }) {
     }
 
     // If allowedRoles is set but user’s role not in it → redirect them
-     if (!isAuthenticated) {
-    router.replace("/");
-    return;
-  }
-
-  if (allowedRoles && role && !allowedRoles.includes(role)) {
-    if (role === "super admin") {
-      router.replace("/wellthyteam/dashboard");
-    } else if (role === "doctor") {
-      router.replace("/doctor/dashboard");
-    } else if (role === "brand team") {
-      router.replace("/brandteam/dashboard");
-    } else {
-      router.replace("/"); // fallback
+    if (!isAuthenticated) {
+      router.replace("/");
+      return;
     }
-  }
+
+    if (allowedRoles && role && !allowedRoles.includes(role)) {
+      if (role === "super admin") {
+        router.replace("/wellthyteam/dashboard");
+      } else if (role === "doctor") {
+        router.replace("/doctor/dashboard");
+      } else if (role === "brand team") {
+        router.replace("/brandteam/dashboard");
+      }
+      else if (role === "field executive") {
+        router.replace('/field')
+      } else {
+        router.replace("/"); // fallback
+      }
+    }
+    
   }, [isAuthenticated, user, router, allowedRoles]);
 
   if (!isAuthenticated) {

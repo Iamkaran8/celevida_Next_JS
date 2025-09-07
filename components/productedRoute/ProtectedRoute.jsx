@@ -31,6 +31,9 @@ export default function ProtectedRoute({ children, allowedRoles }) {
         router.replace("/doctor/dashboard");
       } else if (role === "brand team") {
         router.replace("/brandteam/dashboard");
+      }
+      else if (role === "field executive") {
+        router.replace('/field')
       } else {
         router.replace("/"); // fallback
       }

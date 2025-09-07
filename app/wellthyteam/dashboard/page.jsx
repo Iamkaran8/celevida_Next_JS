@@ -98,7 +98,7 @@ export default function Dashboard() {
                         <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", }}
                         >
                             <div>
-                                <main style={{ display: 'flex', gap: '20px', padding: '24px' }}>
+                                <main style={{ display: 'flex', gap: '20px', padding: '24px',flexDirection:'column' }}>
                                     <PatientsKpiCard
                                         title="Total Patients Enrolled"
                                         value={onboarded_Patients.length}

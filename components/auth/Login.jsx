@@ -52,14 +52,13 @@ export default function Login() {
 
     // Redirect on successful login
     useEffect(() => {
+        
         if (isAuthenticated && user) {
-
 
             const role =
                 user?.data?.data?.[0]?.role ||
                 user?.data?.role ||
                 user?.role;
-
 
 
             if (role?.toLowerCase() === "super admin") {

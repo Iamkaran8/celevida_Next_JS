@@ -4,6 +4,8 @@
     flex-direction: column;
 }
 
+.Table_container {}
+
 .table_header {
     background-color: gray;
     display: flex;
@@ -62,4 +64,30 @@
 .No {
     width: 5%;
     padding-left: 10px !important;
+}
+
+
+
+
+@media only screen and (max-width:900px) {
+    .Table_container {
+        overflow-x: scroll;
+    }
+    .table_header{
+        width: 200%;
+    }
+    .Table_content{
+        width: 200%;
+    }
+}
+@media only screen and (max-width:650px) {
+    .Table_container {
+        overflow-x: scroll;
+    }
+    .table_header{
+        width: 400%;
+    }
+    .Table_content{
+        width: 400%;
+    }
 }

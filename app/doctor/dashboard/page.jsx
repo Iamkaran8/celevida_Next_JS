@@ -252,7 +252,7 @@ export default function Dashboard() {
       dispatch(doctorapi(selectedDoctor));
       dispatch(fetchUpcomingDoctors(selectedDoctor));
       // Navigate to avg metrics page with doctor name as query param
-      
+
       setShowSuggestions(false);
     }
   };

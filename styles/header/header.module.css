@@ -22,7 +22,7 @@
 
 }
 
-.NavButton:hover{
+.NavButton:hover {
     box-shadow: 0px 0px 10px 1px rgba(64, 133, 243, 0.252);
 }
 
@@ -67,6 +67,18 @@
     .header h2 {
         font-size: 25px;
 
+    }
+
+    .NavButton {
+        padding: 10px !important;
+        font-size: 12px;
+    }
+
+    .header_navbar {
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        width: 80%;
     }
 
     .profile_cont p {
