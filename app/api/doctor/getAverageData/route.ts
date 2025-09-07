@@ -2,10 +2,11 @@ import { getRefreshToken } from "@/app/utils/getRefreshToken";
 
 export async function GET(request: Request) {
   try {
-
-    const resLevelData = await getLevelData();
-    const resHcpData = await getHcpData();
-    const resPatientLevelData = await getPatientLevelData();
+    const { searchParams } = new URL(request.url);
+    const doctorNames = searchParams.get('Name');
+    const resLevelData = await getLevelData(doctorNames);
+    const resHcpData = await getHcpData(doctorNames);
+    const resPatientLevelData = await getPatientLevelData(doctorNames);
     return Response.json({
         success: true,
         data:{
@@ -26,7 +27,7 @@ export async function GET(request: Request) {
 
 
 
-async function getLevelData()
+async function getLevelData(doctorNames: string)
 {
 
   const accessToken = await getRefreshToken();
@@ -50,7 +51,8 @@ async function getLevelData()
         "Metabolism_BMR",
         "Fasting",
         "PPBG",
-        "HbA1c"
+        "HbA1c",
+        "Doctor_Name"
       ].join(',');
 
     const ContactsLevelRes = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
@@ -68,6 +70,10 @@ async function getLevelData()
   
     const ContactsLevelData = await ContactsLevelRes.json()
     const LeadsLevelData = await LeadsLevelRes.json()
+    if (doctorNames) {
+      ContactsLevelData.data = ContactsLevelData.data?.filter(item => item.Doctor_Name === doctorNames);
+      LeadsLevelData.data = LeadsLevelData.data?.filter(item => item.Doctor_Name === doctorNames);
+    }
 
     const Leveldata = [...(ContactsLevelData.data || []), ...(LeadsLevelData.data || [])];
 
@@ -121,7 +127,7 @@ async function getLevelData()
 }
 
 
-async function getHcpData()
+async function getHcpData(doctorNames: string)
 {
 
   const accessToken = await getRefreshToken();
@@ -150,7 +156,8 @@ async function getHcpData()
    "hour_dietary_recall_protein_intake",
    "Quality_hours_of_sleep_do_you_get_at_night",
    "Usage_frequency_Month_1",
-   "How_many_litres_of_water_do_you_drink_in_a_day"
+   "How_many_litres_of_water_do_you_drink_in_a_day",
+   "Doctor_Name"
   ].join(',');
 
   const ContactsHcpRes = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
@@ -170,8 +177,10 @@ async function getHcpData()
   const ContactsHcpData = await ContactsHcpRes.json()
   const LeadsHcpData = await LeadsHcpRes.json()
   
-  const HcpData = [...(ContactsHcpData.data || []), ...(LeadsHcpData.data || [])];
-  
+  let HcpData = [...(ContactsHcpData.data || []), ...(LeadsHcpData.data || [])];
+  if (doctorNames) {
+    HcpData = HcpData?.filter(item => item.Doctor_Name === doctorNames);
+  }
   
   const resHcpData = {
     "hour_dietary_recall_calorie_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_calorie_intake), 0) / HcpData.length).toFixed(2) : "0.00",
@@ -197,7 +206,7 @@ async function getHcpData()
 
 
 
-async function getPatientLevelData()
+async function getPatientLevelData(doctorNames: string)
 {
   const accessToken = await getRefreshToken();
   
@@ -262,7 +271,8 @@ async function getPatientLevelData()
     "How_many_days_do_you_exercise_in_a_week",
     "How_many_days_do_you_exercise_in_a_week_month1",
     "How_many_days_do_you_exercise_in_a_week_month2",
-    "How_many_days_do_you_exercise_in_a_week_month3"
+    "How_many_days_do_you_exercise_in_a_week_month3",
+    "Doctor_Name"
   ];
 
   // Split fields into chunks of 50
@@ -293,7 +303,12 @@ async function getPatientLevelData()
       leadsRes.json()
     ]);
 
-    return [...(contactsData.data || []), ...(leadsData.data || [])];
+    if (doctorNames) {
+      contactsData.data = contactsData.data?.filter(item => item.Doctor_Name === doctorNames);
+      leadsData.data = leadsData.data?.filter(item => item.Doctor_Name === doctorNames);
+    }
+
+      return [...(contactsData.data || []), ...(leadsData.data || [])];
   };
 
   // Make parallel API calls for both chunks
@@ -326,6 +341,7 @@ async function getPatientLevelData()
 
   // Convert map back to array
   const combinedData = Array.from(dataMap.values());
+  
 
   // Calculate averages for each metric category
   const calculateAverages = (data: any[], fields: string[]) => {

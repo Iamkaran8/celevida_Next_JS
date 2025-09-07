@@ -2,6 +2,8 @@ import { getRefreshToken } from "@/app/utils/getRefreshToken";
 
 export async function GET(request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const doctorNames = searchParams.get('Name');
       const accessToken = await getRefreshToken();
   
       if (!accessToken) {
@@ -30,6 +32,10 @@ export async function GET(request) {
 
     if (!data?.data || data.data.length === 0) {
       return Response.json({ data: [], message: "No contacts found" });
+    }
+
+    if (doctorNames) {
+      data.data = data?.data.filter(item => item.Doctor_Name === doctorNames);
     }
 
     // Helper function to parse time string and create full datetime

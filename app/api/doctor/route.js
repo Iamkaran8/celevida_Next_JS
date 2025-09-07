@@ -2,6 +2,9 @@ import { getRefreshToken } from "@/app/utils/getRefreshToken";
 
 export async function GET(request) {
   try {
+    // Extract the Name parameter from the URL query string
+    const { searchParams } = new URL(request.url);
+    const doctorNames = searchParams.get('Name');
 
     const accessToken = await getRefreshToken();
 
@@ -28,7 +31,8 @@ export async function GET(request) {
       "Body_Age",
       "Bone_Mass_Kg",
       "Metabolism_BMR",
-      "StatusPrespcription"
+      "StatusPrespcription",
+      "Doctor_Name"
     ].join(',');
 
     const contactsResponse = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
@@ -67,6 +71,11 @@ export async function GET(request) {
       ...item,
       moduleName: 'Leads'
     }));
+
+    if (doctorNames) {
+      contactsData.data = contactsData?.data.filter(item => item.Doctor_Name === doctorNames);
+      leadsData.data = leadsData?.data.filter(item => item.Doctor_Name === doctorNames);
+    }
 
     // Return the contacts data
     return Response.json({
