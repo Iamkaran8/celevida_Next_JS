@@ -7,7 +7,7 @@ export const patientcompletedataapi = createAsyncThunk(
   "patients/fetchCompleteDetails",
   async ({ id, moduleName }, { rejectWithValue }) => {
     try {
-      const res = await fetch("http://localhost:3000/api/doctor/getDetails", {
+      const res = await fetch("/api/doctor/getDetails", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

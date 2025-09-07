@@ -8,7 +8,7 @@ export async function POST(request) {
     const { Name, password } = await request.json();
     console.log(Name, password);
     try {
-    const response = await fetch(`https://www.zohoapis.in/crm/v8/celevidaAccount/search?criteria=((Name:equals:${Name})and(password:equals:${password}))`, {
+    const response = await fetch(`https://www.zohoapis.in/crm/v8/celevidaAccount/search?criteria=(((Name:equals:${Name})or(Email:equals:${Name}))and(password:equals:${password}))`, {
         method: 'GET',
         headers: {
             'Authorization': `Zoho-oauthtoken ${accessToken}`,

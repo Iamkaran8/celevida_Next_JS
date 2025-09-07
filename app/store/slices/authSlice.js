@@ -8,7 +8,7 @@
     "auth/loginUser",
     async ({ email, password }, { rejectWithValue }) => {
       try {
-        const response = await fetch("http://localhost:3000/api/accounts/login", {
+        const response = await fetch("/api/accounts/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
