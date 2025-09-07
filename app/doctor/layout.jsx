@@ -8,7 +8,7 @@ import { Loader } from '../../components/loader/Loader'
 import { doctorapi } from '../utils/apis/doctorapi'
 import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
 
-
+import Head from "next/head";
 
 
 
@@ -34,6 +34,7 @@ export default function layout({ children }) {
         <>
 
             <ProtectedRoute allowedRoles={["doctor", "super admin"]}>
+
 
                 <div className={styles.dashboardContainer}>
                     <div className={styles.left_side}  >

@@ -111,7 +111,17 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
 
         document.body.removeChild(clonedElement); // cleanup
     };
-
+    const getBmiCategory = (bmi) => {
+        if (bmi < 18.5) {
+            return "Underweight";
+        } else if (bmi >= 18.5 && bmi <= 24.9) {
+            return "Normal weight";
+        } else if (bmi >= 25 && bmi <= 29.9) {
+            return "Overweight";
+        } else {
+            return "Obese";
+        }
+    };
 
     return (
         <div className={styles.container}>
@@ -168,7 +178,7 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
                         <p className={styles.bmi_red}>BMI : {allData.BMI} Kg/m</p>
                     </div>
                     <div>
-                        <p className={styles.bmi_category}><b>Category</b> : Underweight</p>
+                        <p className={styles.bmi_category}><b>Category</b> : {getBmiCategory(allData.BMI)}</p>
                     </div>
                     <div>
                         <p className={styles.bmi_action_txt}>BMI does not fall under the normal category. Further evaluation recommended.
