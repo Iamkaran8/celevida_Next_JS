@@ -18,7 +18,7 @@ export default function layout({ children }) {
     const dispatch = useDispatch()
     useEffect(() => {
         if (doctorName) {
-            dispatch(doctorapi(doctorName));
+            dispatch(doctorapi(""));
         }
     }, [dispatch, doctorName]);
 

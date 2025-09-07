@@ -27,7 +27,9 @@ import { User } from "lucide-react";
 
 export default function Dashboard() {
 
-    const { onboarded_Patients, prescribed, nurture } = useSelector((state) => state.doctor)
+    const { onboarded_Patients, prescribed, nurture,doctorNames } = useSelector((state) => state.doctor);
+    
+    
     const mappedPatients = [...onboarded_Patients] // copy so original state not mutated
         .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time)) // 🆕 sort by date DESC
         .map((p, index) => ({
@@ -109,7 +111,7 @@ export default function Dashboard() {
 
                                     <PatientsKpiCard
                                         title="Total Doctors Participated"
-                                        value={125}
+                                        value={doctorNames.length}
                                         trend={8}
                                     />
                                 </main>

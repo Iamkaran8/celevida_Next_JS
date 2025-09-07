@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Loader } from '../../components/loader/Loader'
 import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
 import { doctorapi } from '../utils/apis/doctorapi'
+import { fetchDoctorNames } from '../utils/apis/fetchdoctornames'
 
 
 
@@ -15,7 +16,8 @@ export default function layout({ children }) {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch(doctorapi());
+        dispatch(doctorapi(""));
+        dispatch(fetchDoctorNames())
     }, []);
 
 
