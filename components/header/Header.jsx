@@ -44,7 +44,13 @@ export const Header = ({ title }) => {
     ]
     const router = useRouter();
     const handleNavigate = (url) => {
-        router.push(`/${url}`);
+        if (url.startsWith("http")) {
+            // Open external link
+            window.location.href = url;
+        } else {
+            // Internal Next.js navigation
+            router.push(`/${url}`);
+        }
     };
 
     return (
