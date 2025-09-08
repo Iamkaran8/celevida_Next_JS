@@ -63,26 +63,26 @@ import {
  * @param {Array} data - Array of values [{ month: "Before Program", HbA1c: 8.5 }, ...]
  * @param {Array} domain - [min, max] for Y-axis (optional)
  */
-export default function AverageChart({ title, dataKey, data, domain ,color }) {
+export default function AverageChart({ title, dataKey, data, domain, color }) {
     return (
-        
-        
-            <ResponsiveContainer width="100%" height={350}>
-                <LineChart data={data}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis domain={domain || ["auto", "auto"]} />
-                    <Tooltip />
-                    <Legend />
-                    <Line
-                        type="monotone"
-                        dataKey={dataKey}
-                        stroke={color}
-                        strokeWidth={3}
-                        dot={{ r: 5 }}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
-        
+
+
+        <ResponsiveContainer width="100%" height={350}>
+            <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis domain={domain || ["auto", "auto"]} />
+                <Tooltip />
+                <Legend />
+                <Line
+                    type="monotone"
+                    dataKey={dataKey}
+                    stroke={color}
+                    strokeWidth={3}
+                    dot={{ r: 5 }}
+                />
+            </LineChart>
+        </ResponsiveContainer>
+
     );
 }

@@ -1,8 +1,4 @@
 
-
-
-
-
 "use client";
 
 import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
@@ -18,13 +14,19 @@ import { fetchDoctorNames } from "@/app/utils/apis/fetchdoctornames";
 import { doctorapi } from "../../../app/utils/apis/doctorapi";
 import { fetchUpcomingDoctors } from "../../../app/store/slices/upcomingDoctorSlice";
 import Head from "next/head";
+import FilterBar from "../../../components/filter/FilterBar";
+import { selectFilteredPatients } from "../../../app/store/slices/doctorSlice";
+
 
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const { onboarded_Patients, prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
+  // const { onboarded_Patients, prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
+  const filteredPatients = useSelector(selectFilteredPatients);
+  const { prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
+
   const { user } = useSelector((state) => state.auth);
 
   const [search, setSearch] = useState("");
@@ -65,7 +67,7 @@ export default function Dashboard() {
     }
   };
 
-  const mappedPatients = [...onboarded_Patients]
+  const mappedPatients = [...filteredPatients]
     .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
     .map((p) => ({
       id: p.id,
@@ -89,6 +91,9 @@ export default function Dashboard() {
     <div>
 
       <Header title="Welcome" />
+      <div style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
+        <FilterBar />
+      </div>
 
       {user?.data?.data[0]?.role === "Super Admin" && (
         <div className={styles.patient_select}>
@@ -143,23 +148,26 @@ export default function Dashboard() {
           title="Onboarded Patients"
           logo="/images/onboardedpatients.svg"
           color="#1B2559"
-          count={onboarded_Patients.length}
+          count={filteredPatients.length}
           navigate="doctor/onboarded"
         />
+
         <PatientStatusDetails
           title="Prescribed"
           logo="/images/Prescribed.svg"
           color="#23B883"
-          count={prescribed.length}
+          count={filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Onboarded").length}
           navigate="doctor/prescribed"
         />
+
         <PatientStatusDetails
           title="Nurture Patients"
           logo="/images/Nurture.svg"
           color="#4085F3"
-          count={nurture.length}
+          count={filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Nurture").length}
           navigate="doctor/nurture"
         />
+
       </div>
 
       <div className={styles.second_section}>

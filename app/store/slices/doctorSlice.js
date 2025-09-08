@@ -3,6 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchDoctorNames } from "../../../app/utils/apis/fetchdoctornames";
 import { doctorapi } from "../../utils/apis/doctorapi";
+import { programaverage } from "../../../app/utils/apis/programaverage";
 
 // ✅ Initial state with separate loading & error for better clarity
 const initialState = {
@@ -30,6 +31,9 @@ const initialState = {
     loadingDoctorNames: false,
     patientsError: null,
     doctorNamesError: null,
+    programAverage: null,
+    loadingProgramAverage: false,
+    programAverageError: null,
 };
 
 const DoctorSlice = createSlice({
@@ -165,7 +169,22 @@ const DoctorSlice = createSlice({
                 state.loadingDoctorNames = false;
                 state.doctorNamesError =
                     action.error?.message || action.payload || "Something went wrong";
-            });
+            })
+            .addCase(programaverage.pending, (state) => {
+                // You can add custom loading flag if needed, or reuse one
+                state.loadingProgramAverage = true;
+                state.programAverageError = null;
+            })
+            .addCase(programaverage.fulfilled, (state, action) => {
+                state.loadingProgramAverage = false;
+
+                // Store the result in a new state field
+                state.programAverage = action.payload;
+            })
+            .addCase(programaverage.rejected, (state, action) => {
+                state.loadingProgramAverage = false;
+                state.programAverageError = action.payload || "Failed to fetch program average";
+            })
     },
 });
 
@@ -176,29 +195,29 @@ export default DoctorSlice.reducer;
 
 
 export const selectFilteredPatients = (state) => {
-  const { onboarded_Patients = [], timeFilter } = state.doctor ?? {};
+    const { onboarded_Patients = [], timeFilter } = state.doctor ?? {};
 
-  if (!onboarded_Patients || timeFilter === "all") return onboarded_Patients;
+    if (!onboarded_Patients || timeFilter === "all") return onboarded_Patients;
 
-  const now = new Date();
-  return onboarded_Patients.filter((p) => {
-    if (!p.Created_Time) return false;
-    const date = new Date(p.Created_Time);
+    const now = new Date();
+    return onboarded_Patients.filter((p) => {
+        if (!p.Created_Time) return false;
+        const date = new Date(p.Created_Time);
 
-    if (timeFilter === "day") {
-      return date.toDateString() === now.toDateString();
-    }
-    if (timeFilter === "week") {
-      const weekAgo = new Date();
-      weekAgo.setDate(now.getDate() - 7);
-      return date >= weekAgo;
-    }
-    if (timeFilter === "month") {
-      return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-    }
-    if (timeFilter === "year") {
-      return date.getFullYear() === now.getFullYear();
-    }
-    return true;
-  });
+        if (timeFilter === "day") {
+            return date.toDateString() === now.toDateString();
+        }
+        if (timeFilter === "week") {
+            const weekAgo = new Date();
+            weekAgo.setDate(now.getDate() - 7);
+            return date >= weekAgo;
+        }
+        if (timeFilter === "month") {
+            return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+        }
+        if (timeFilter === "year") {
+            return date.getFullYear() === now.getFullYear();
+        }
+        return true;
+    });
 };

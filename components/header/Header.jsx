@@ -24,7 +24,7 @@ export const Header = ({ title }) => {
         {
             id: 3,
             name: "FE",
-            route: 'http://celevida.in/'
+            route: 'https://fieldexecutive.celevida.in/'
         },
         {
             id: 4,
@@ -46,7 +46,8 @@ export const Header = ({ title }) => {
     const handleNavigate = (url) => {
         if (url.startsWith("http")) {
             // Open external link
-            window.location.href = url;
+            // window.location.href = url;
+             window.open(url, "_blank", "noopener,noreferrer");
         } else {
             // Internal Next.js navigation
             router.push(`/${url}`);

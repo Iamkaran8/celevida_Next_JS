@@ -90,12 +90,14 @@ export default function GenderChart() {
 
   return (
     <>
-      <Doughnut data={data} options={options} />
-      <div style={{ marginTop: 8 }}>
-        <div>Male: {male}</div>
-        <div>Female: {female}</div>
-        <div>Other: {other}</div>
-      </div>
+      
+        <Doughnut data={data} options={options} />
+        <div style={{ marginTop: 8 }}>
+          <div>Male: {male}</div>
+          <div>Female: {female}</div>
+          <div>Other: {other}</div>
+        </div>
+
     </>
   );
 }

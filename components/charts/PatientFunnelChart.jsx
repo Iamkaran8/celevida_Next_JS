@@ -40,7 +40,7 @@ export default function PatientFunnelChart() {
   };
 
   return (
-    <div style={{ maxWidth: 600, margin: '0 auto' }}>
+    <div style={{ width: '100% !important', margin: '0 auto' }}>
       <Chart type="funnel" data={data} options={options} />
     </div>
   );
