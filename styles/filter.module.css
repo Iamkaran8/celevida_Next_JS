@@ -1,0 +1,8 @@
+.FilterBar {
+    border: 1px solid #ccc;
+    padding: 10px 25px;
+    border-radius: 6px;
+}
+.FilterBar option{
+    font-size: 15px;
+}
