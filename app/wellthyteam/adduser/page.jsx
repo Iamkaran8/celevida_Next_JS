@@ -21,6 +21,8 @@ export default function Page() {
 
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [buttonTxt, setButtonTxt] = useState("Create User")
 
   const handleChange = (e) => {
     setFormData({
@@ -33,22 +35,27 @@ export default function Page() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // ✅ Validation for mandatory fields
+    // Prevent double submission
+    if (loading) return;
+
+    setLoading(true);
+    setButtonTxt("Creating ...");
+
     if (!formData.Name || !formData.Email || !formData.password || !formData.role) {
       setErrorMsg("⚠️ Name, Email, Password, and Role are required.");
+      setButtonTxt("Create User");
+      setLoading(false);
       return;
     }
 
-    // Dispatch create user action
     dispatch(createUserAccount(formData))
       .unwrap()
       .then(() => {
         setSuccessMsg("✅ User created successfully!");
-
         setErrorMsg("");
-        // dispatch(fetchAllUsersAccount());
+        setButtonTxt("Create User");
+        setLoading(false);
 
-        // clear form
         setFormData({
           Name: "",
           Email: "",
@@ -58,15 +65,16 @@ export default function Page() {
           area: "",
         });
 
-        // auto-hide message after 3s
         setTimeout(() => setSuccessMsg(""), 3000);
       })
       .catch((err) => {
-        setErrorMsg("❌ Error creating user: " + err?.message || "Something went wrong");
-
+        setErrorMsg("❌ Error creating user: " + (err?.message || "Something went wrong"));
         setSuccessMsg("");
+        setButtonTxt("Create User");
+        setLoading(false);
       });
   };
+
 
   return (
     <>
@@ -197,8 +205,13 @@ export default function Page() {
               </div>
 
               <div className={styles.btn_container}>
-                <button type="submit" className={styles.sign_in_btn}>
-                  Create User
+                <button
+                  type="submit"
+                  className={styles.sign_in_btn}
+                  disabled={loading}
+                  style={{ opacity: loading ? 0.6 : 1, cursor: loading ? "not-allowed" : "pointer" }}
+                >
+                  {buttonTxt}
                 </button>
               </div>
             </form>

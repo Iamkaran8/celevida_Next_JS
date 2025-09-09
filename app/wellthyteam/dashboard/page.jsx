@@ -1,313 +1,3 @@
-// "use client";
-
-// import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
-// import styles from '../../../styles/dashboard/page.module.css'
-// import { PatientSegmentation } from "../../../components/patientSegmentation/PatientSegmentation";
-// import { Header } from "../../../components/header/Header";
-// import { useSelector } from "react-redux";
-// import { GraphOuterContainer } from "../../../components/graphoutercontainer/GraphOuterContainer";
-// import GenderChart from "../../../components/charts/GenderChart";
-// import AgeGroupChart from "../../../components/charts/AgeGroupChart";
-// import PatientFunnelChart from "../../../components/charts/PatientFunnelChart";
-// import RatingDistribution from "../../../components/charts/RatingDistribution";
-// import CallCompletionChart from "../../../components/charts/CallCompletionChart";
-// import CelevidaChart from "../../../components/charts/CelevidaChart";
-// import TopCitiesTable from "../../../components/charts/TopCitiesTable";
-// import { Feedback } from "../../../components/charts/Feedback";
-// import { User } from "lucide-react";
-// import AverageChart from "../../../components/charts/AverageChart";
-// import PatientsKpiCard from "../../../components/charts/PatientsKpiCard";
-// import FilterBar from "@/components/filter/FilterBar";
-// import { selectFilteredPatients } from "../../../app/store/slices/doctorSlice";
-
-
-
-// export default function Dashboard() {
-
-//     const { onboarded_Patients, prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
-
-
-//     const mappedPatients = [...onboarded_Patients] // copy so original state not mutated
-//         .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time)) // 🆕 sort by date DESC
-//         .map((p, index) => ({
-//             id: p.id || index, // fallback in case id missing
-//             patient_name: p.Last_Name || "Unknown",
-//             patient_id: `ID:#${p.id}`,
-//             status: p.StatusPrespcription || "N/A",
-//             phone_number: p.Mobile || "N/A",
-//             date: p.Created_Time
-//                 ? new Date(p.Created_Time).toLocaleDateString("en-GB") // format dd/mm/yyyy
-//                 : "N/A",
-//             moduleName: p.moduleName,
-//         }));
-
-//     const hba1cData = [
-//         { month: "Before Program", HbA1c: 8.5 },
-//         { month: "Month 1", HbA1c: 7.9 },
-//         { month: "Month 2", HbA1c: 7.5 },
-//         { month: "Month 3", HbA1c: 7.2 },
-//     ];
-
-//     const bmiData = [
-//         { month: "Before Program", BMI: 27.8 },
-//         { month: "Month 1", BMI: 26.9 },
-//         { month: "Month 2", BMI: 26.1 },
-//         { month: "Month 3", BMI: 25.4 },
-//     ];
-//     // Example metrics data
-//     const weightData = [
-//         { month: "Before Program", Weight: 78 },
-//         { month: "Month 1", Weight: 76 },
-//         { month: "Month 2", Weight: 74 },
-//         { month: "Month 3", Weight: 72 },
-//     ];
-
-//     const fbsData = [
-//         { month: "Before Program", FBS: 160 },
-//         { month: "Month 1", FBS: 145 },
-//         { month: "Month 2", FBS: 130 },
-//         { month: "Month 3", FBS: 120 },
-//     ];
-
-//     const ppbsData = [
-//         { month: "Before Program", PPBS: 240 },
-//         { month: "Month 1", PPBS: 220 },
-//         { month: "Month 2", PPBS: 200 },
-//         { month: "Month 3", PPBS: 185 },
-//     ];
-
-//     const visceralFatData = [
-//         { month: "Before Program", VisceralFat: 14 },
-//         { month: "Month 1", VisceralFat: 13 },
-//         { month: "Month 2", VisceralFat: 12 },
-//         { month: "Month 3", VisceralFat: 11 },
-//     ];
-
-//     const muscleMassData = [
-//         { month: "Before Program", MuscleMass: 28 },
-//         { month: "Month 1", MuscleMass: 28.5 },
-//         { month: "Month 2", MuscleMass: 29 },
-//         { month: "Month 3", MuscleMass: 29.5 },
-//     ];
-
-//     const muscleWeightData = [
-//         { month: "Before Program", MuscleWeight: 24 },
-//         { month: "Month 1", MuscleWeight: 24.3 },
-//         { month: "Month 2", MuscleWeight: 24.6 },
-//         { month: "Month 3", MuscleWeight: 25 },
-//     ];
-
-//     const boneMassData = [
-//         { month: "Before Program", BoneMass: 3 },
-//         { month: "Month 1", BoneMass: 3.05 },
-//         { month: "Month 2", BoneMass: 3.1 },
-//         { month: "Month 3", BoneMass: 3.15 },
-//     ];
-
-//     const bodyFatData = [
-//         { month: "Before Program", BodyFat: 32 },
-//         { month: "Month 1", BodyFat: 31 },
-//         { month: "Month 2", BodyFat: 30 },
-//         { month: "Month 3", BodyFat: 29 },
-//     ];
-
-//     const musclePercentData = [
-//         { month: "Before Program", MusclePercent: 40 },
-//         { month: "Month 1", MusclePercent: 41 },
-//         { month: "Month 2", MusclePercent: 42 },
-//         { month: "Month 3", MusclePercent: 43 },
-//     ];
-
-//     const proteinIntakeData = [
-//         { month: "Before Program", Protein: 55 },
-//         { month: "Month 1", Protein: 60 },
-//         { month: "Month 2", Protein: 65 },
-//         { month: "Month 3", Protein: 70 },
-//     ];
-
-//     const carbIntakeData = [
-//         { month: "Before Program", Carbs: 250 },
-//         { month: "Month 1", Carbs: 240 },
-//         { month: "Month 2", Carbs: 230 },
-//         { month: "Month 3", Carbs: 220 },
-//     ];
-
-//     const calorieIntakeData = [
-//         { month: "Before Program", Calories: 2200 },
-//         { month: "Month 1", Calories: 2100 },
-//         { month: "Month 2", Calories: 2000 },
-//         { month: "Month 3", Calories: 1900 },
-//     ];
-
-//     return (
-
-//         <>
-//             <div>
-//                 <div>
-//                     <Header title="Welcome" />
-//                 </div>
-//                 <div className={styles.patient_container}>
-//                     <PatientStatusDetails title="Onboarded Patients" logo="/images/onboardedpatients.svg" color="#1B2559" count={onboarded_Patients.length} />
-//                     <PatientStatusDetails title="Prescribed" logo="/images/Prescribed.svg" color="#23B883" count={prescribed.length} />
-//                     <PatientStatusDetails title="Nurture Patients" logo="/images/Nurture.svg" color="#4085F3" count={nurture.length} />
-//                 </div>
-//                 <div style={{ display: 'flex', justifyContent: 'end' }}>
-//                     <FilterBar />
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <PatientSegmentation />
-//                     </div>
-//                     <div className={styles.second_section_right} style={{ display: 'flex', flexDirection: 'column' }}>
-//                         <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", }}
-//                         >
-//                             <div>
-//                                 <main style={{ display: 'flex', gap: '20px', padding: '24px', flexDirection: 'column' }}>
-//                                     <PatientsKpiCard
-//                                         title="Total Patients Enrolled"
-//                                         value={onboarded_Patients.length}
-//                                         trend={12}
-//                                         icon={User}
-//                                         color="#10b981" // green
-//                                     />
-
-//                                     <PatientsKpiCard
-//                                         title="Total Doctors Participated"
-//                                         value={doctorNames.length}
-//                                         trend={8}
-//                                     />
-//                                 </main>
-//                             </div>
-//                             {/* <div>
-//                             <main style={{ display: 'flex', gap: '20px', padding: '24px' }}>
-//                                 <DoctorsKpiCard title="Total Doctors Participated" value={125} trend={8} />
-//                                 <DoctorsKpiCard title="Active Programs" value={12} trend={-2} />
-//                             </main>
-//                         </div> */}
-
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Gender" component={<GenderChart />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         {/* <UpcommingPatient /> */}
-//                         <GraphOuterContainer title="Age Group" component={<AgeGroupChart />} />
-//                     </div>
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Patient Status Funnel" component={<PatientFunnelChart />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         {/* <UpcommingPatient /> */}
-//                         <GraphOuterContainer title="Program Rating Distribution" component={<RatingDistribution />} />
-//                     </div>
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Call Completion Rate with Trendline" component={<CallCompletionChart />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         {/* <UpcommingPatient /> */}
-//                         <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart />} />
-//                     </div>
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <TopCitiesTable />
-
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <div style={{
-//                             border: "1px solid #D9D9D9",
-//                             backgroundColor: "white",
-//                             borderRadius: "4px",
-//                             padding: "20px",
-//                             margin: "10px",
-//                         }}
-//                         >
-
-//                             <Feedback />
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="HbA1c Progress" component={<AverageChart
-//                             color="#B1740F" title="HbA1c Progress"
-//                             dataKey="HbA1c"
-//                             data={hba1cData}
-//                             domain={[6, 10]} // optional Y range
-//                         />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="BMI Progress" component={<AverageChart color="#1789FC" dataKey="BMI"
-//                             data={bmiData}
-//                             domain={[20, 30]} />} />
-//                     </div>
-//                 </div>
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Weight Progress" component={<AverageChart color="#F26419" dataKey="Weight" data={weightData} domain={[60, 90]} />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="FBS Progress" component={<AverageChart color="#fb6f92" dataKey="FBS" data={fbsData} domain={[100, 200]} />} />
-//                     </div>
-//                 </div>
-
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="PPBS Progress" component={<AverageChart color="#fca311" dataKey="PPBS" data={ppbsData} domain={[150, 250]} />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="Visceral Fat Progress" component={<AverageChart color="#390099" dataKey="VisceralFat" data={visceralFatData} domain={[8, 16]} />} />
-//                     </div>
-//                 </div>
-
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Muscle Mass Progress (%)" component={<AverageChart color="#fbf8cc" dataKey="MuscleMass" data={muscleMassData} domain={[25, 35]} />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="Muscle Weight Progress" component={<AverageChart color="#00f5d4" dataKey="MuscleWeight" data={muscleWeightData} domain={[20, 30]} />} />
-//                     </div>
-//                 </div>
-
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Bone Mass Progress" component={<AverageChart color="#f48498" dataKey="BoneMass" data={boneMassData} domain={[2, 4]} />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="Body Fat Progress (%)" component={<AverageChart color="#1780a1" dataKey="BodyFat" data={bodyFatData} domain={[25, 40]} />} />
-//                     </div>
-//                 </div>
-
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Muscle % Progress" component={<AverageChart color="#aeb8fe" dataKey="MusclePercent" data={musclePercentData} domain={[35, 50]} />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="Protein Intake (g)" component={<AverageChart color="#570000" dataKey="Protein" data={proteinIntakeData} domain={[50, 80]} />} />
-//                     </div>
-//                 </div>
-
-//                 <div className={styles.second_section}>
-//                     <div className={styles.second_section_left}>
-//                         <GraphOuterContainer title="Carb Intake (g)" component={<AverageChart color="#136f63" dataKey="Carbs" data={carbIntakeData} domain={[200, 280]} />} />
-//                     </div>
-//                     <div className={styles.second_section_right}>
-//                         <GraphOuterContainer title="Calorie Intake (kcal)" component={<AverageChart color="red" dataKey="Calories" data={calorieIntakeData} domain={[1800, 2400]} />} />
-//                     </div>
-//                 </div>
-
-//             </div >
-//         </>
-
-//     );
-// }
 
 
 
@@ -336,8 +26,12 @@ import PatientsKpiCard from "../../../components/charts/PatientsKpiCard";
 import { User } from "lucide-react";
 import FilterBar from "@/components/filter/FilterBar";
 import { selectFilteredPatients } from "../../../app/store/slices/doctorSlice";
+import Filters from "../../../components/filter/Filters";
+import { useState } from "react";
 
 export default function Dashboard() {
+
+    const [filters, setFilters] = useState({});
     // ✅ Get filtered patients from Redux slice
     const filteredPatients = useSelector(selectFilteredPatients);
     const { prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
@@ -462,13 +156,22 @@ export default function Dashboard() {
         { month: "Month 3", Calories: 1900 },
     ];
 
+
+
     return (
         <>
             <Header title="Welcome" />
 
             {/* Filter Bar */}
             <div style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
-                <FilterBar />
+                {/* <FilterBar /> */}
+
+            </div>
+            <h3>Filters</h3>
+            <div style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
+                
+                <Filters onFilterChange={setFilters} filtervalues={filters} />
+                
             </div>
 
             {/* Patient Status Cards */}

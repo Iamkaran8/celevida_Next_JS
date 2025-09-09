@@ -3,7 +3,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchDoctorNames } from "../../../app/utils/apis/fetchdoctornames";
 import { doctorapi } from "../../utils/apis/doctorapi";
-import { programaverage } from "../../../app/utils/apis/programaverage";
+import { filterapi, programaverage } from "../../utils/apis/filterapi";
 
 // ✅ Initial state with separate loading & error for better clarity
 const initialState = {
@@ -31,9 +31,9 @@ const initialState = {
     loadingDoctorNames: false,
     patientsError: null,
     doctorNamesError: null,
-    programAverage: null,
-    loadingProgramAverage: false,
-    programAverageError: null,
+    completeFilteredData: null,
+    loadingcompleteFilteredData: false,
+    completeFilteredDataError: null,
 };
 
 const DoctorSlice = createSlice({
@@ -170,20 +170,17 @@ const DoctorSlice = createSlice({
                 state.doctorNamesError =
                     action.error?.message || action.payload || "Something went wrong";
             })
-            .addCase(programaverage.pending, (state) => {
-                // You can add custom loading flag if needed, or reuse one
-                state.loadingProgramAverage = true;
-                state.programAverageError = null;
+            .addCase(filterapi.pending, (state) => {
+                state.loadingcompleteFilteredData = true;
+                state.completeFilteredDataError = null;
             })
-            .addCase(programaverage.fulfilled, (state, action) => {
-                state.loadingProgramAverage = false;
-
-                // Store the result in a new state field
-                state.programAverage = action.payload;
+            .addCase(filterapi.fulfilled, (state, action) => {
+                state.loadingcompleteFilteredData = false;
+                state.completeFilteredData = action.payload;
             })
-            .addCase(programaverage.rejected, (state, action) => {
-                state.loadingProgramAverage = false;
-                state.programAverageError = action.payload || "Failed to fetch program average";
+            .addCase(filterapi.rejected, (state, action) => {
+                state.loadingcompleteFilteredData = false;
+                state.completeFilteredDataError = action.payload || "Failed to fetch program average";
             })
     },
 });

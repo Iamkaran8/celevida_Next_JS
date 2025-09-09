@@ -1,0 +1,67 @@
+.filters_containers {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+    padding: 16px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.innerDropdown {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.btn {
+    padding: 15px 30px;
+    font-size: 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 6px;
+}
+.btn_cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Responsive: 4 columns on md+ screens */
+@media (min-width: 768px) {
+    .filters_containers {}
+}
+
+.filters_containers select {
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+    transition: border 0.2s ease-in-out;
+    width: 100%;
+}
+
+.filters_containers select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.date_picker_wrapper {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 6px;
+    background: #fff;
+    overflow: hidden;
+}
+
+
+
+@media only screen and (max-width:900px) {
+    .filters_containers {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
