@@ -1,7 +1,18 @@
 import { getRefreshToken } from "@/app/utils/getRefreshToken";
 
+// CORS headers for allowing all domains
+const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
 
-
+export async function OPTIONS(request) {
+    return new Response(null, {
+        status: 200,
+        headers: corsHeaders,
+    });
+}
 
 export async function POST(request) {
     const accessToken = await getRefreshToken();
@@ -16,13 +27,18 @@ export async function POST(request) {
     });
     try {
     const data = await response.json();
-    return Response.json({ success: true, data });
+    return Response.json({ success: true, data }, {
+        headers: corsHeaders,
+    });
     } catch (error) {
         console.error('Error fetching CRM data:', error);
         return Response.json({
             success: false,
             error: 'Invalid credentials'
-        }, { status: 500 });
+        }, { 
+            status: 500,
+            headers: corsHeaders,
+        });
     }
 
     } catch (error) {
@@ -30,6 +46,9 @@ export async function POST(request) {
         return Response.json({
             success: false,
             error: error.message
-        }, { status: 500 });
+        }, { 
+            status: 500,
+            headers: corsHeaders,
+        });
     }
 }
