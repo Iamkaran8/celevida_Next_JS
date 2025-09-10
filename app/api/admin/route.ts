@@ -125,9 +125,9 @@ export async function POST(request) {
     }));
 
 
+      const uniqueDoctorParticipated = [...new Set([...contactsData?.data.map(item => item.Doctor_Name), ...leadsData?.data.map(item => item.Doctor_Name)])];
 
-
-
+      const totalDoctorParticipated = uniqueDoctorParticipated.length;
 
 
     // Return the contacts data
@@ -137,7 +137,7 @@ export async function POST(request) {
         ...contactsData?.data,
         ...leadsData?.data
       ],
-      totalDoctorParticipated:0
+      totalDoctorParticipated:totalDoctorParticipated
     });
 
   } catch (error) {
