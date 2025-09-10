@@ -4,7 +4,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 export default function AssesmentReport({ name, age, weight, height, gender, phone, status, onClose, allData }) {
-    console.log("all data", allData)
+
     const formatDate = (isoDate) => {
         if (!isoDate) return "N/A";
         const date = new Date(isoDate);

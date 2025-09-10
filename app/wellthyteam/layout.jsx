@@ -25,8 +25,6 @@ export default function layout({ children }) {
     }, []);
 
 
-    const { completeFilteredData, avgTableData, onboardedPatients } = useSelector((state) => state.superadmin)
-
     useEffect(() => {
         const today = new Date();
         const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);

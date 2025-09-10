@@ -8,9 +8,6 @@ import { PatientLevelDataContainer } from '../PatientLevelData/PatientLevelDataC
 export default function PatientInformationPopup({ selectedPatient, details, status, onClose, onViewReport }) {
 
 
-    console.log("senthil", details.data[0])
-    console.log(details.data[0].Last_Name)
-    console.log(selectedPatient)
 
     return (
         <div className={styles.container}>

@@ -11,7 +11,7 @@ export const fetchDoctorNames = createAsyncThunk(
             }
 
             const data = await response.json();
-            console.log(data, "testing")
+            
             // normalize array of names
             return data.doctorNames ?? []
         } catch (error) {

@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Loader } from '../../components/loader/Loader'
 import { doctorapi } from '../utils/apis/doctorapi'
 import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
+import { fetchDoctorNames } from '../utils/apis/fetchdoctornames'
+import { fetchExecutives } from '../utils/apis/fetchExecutives'
+import { filterapi } from '../utils/apis/filterapi'
+import { adminavgtabledata } from '../utils/apis/adminavgtabledata'
 
 
 
@@ -19,12 +23,38 @@ export default function layout({ children }) {
     useEffect(() => {
         if (doctorName) {
             dispatch(doctorapi(""));
+            dispatch(fetchDoctorNames())
+            dispatch(fetchExecutives())
         }
     }, [dispatch, doctorName]);
 
+    useEffect(() => {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const formatter = new Intl.DateTimeFormat("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+        });
 
+        const startDate = formatter.format(startOfMonth);
+        const endDate = formatter.format(today);
 
-    const {  loading, error } = useSelector((state) => state.doctor);
+        const filters = {
+            city: "",
+            executive: "",
+            status: "",
+            dateRange: {
+                startDate,
+                endDate
+            }
+        };
+
+        dispatch(filterapi(filters));
+        dispatch(adminavgtabledata(filters));
+    }, []);
+
+    const { loading, error } = useSelector((state) => state.doctor);
     if (loading) return <Loader />
     if (error) return <p>Error While Fetching APi: {error}</p>;
 

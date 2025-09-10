@@ -21,7 +21,7 @@ export default function Page() {
     }
 
     const allAccounts = accounts?.data?.data || []
-    console.log(allAccounts)
+    
 
     return (
         <>

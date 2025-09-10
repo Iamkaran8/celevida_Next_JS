@@ -9,9 +9,9 @@ export default function TopCitiesTable() {
       style={{
         background: "white",
         border: "1px solid #e5e7eb",
-        borderRadius: "12px",
+        borderRadius: "6px",
         padding: "20px",
-        boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
+        
       }}
     >
       <h3
