@@ -136,7 +136,8 @@ export async function POST(request) {
       data: [
         ...contactsData?.data,
         ...leadsData?.data
-      ]
+      ],
+      totalDoctorParticipated:0
     });
 
   } catch (error) {
