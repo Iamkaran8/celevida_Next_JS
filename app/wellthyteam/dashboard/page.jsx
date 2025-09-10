@@ -212,7 +212,7 @@ export default function Dashboard() {
                         />
                         <PatientsKpiCard
                             title="Total Doctors Participated"
-                            value={doctorNames.length}
+                            value={doctorNames?.length}
                             trend={8}
                         />
                     </div>
