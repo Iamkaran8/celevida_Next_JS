@@ -100,7 +100,7 @@ export default function Dashboard() {
 
                 <Filters onFilterChange={setFilters} filtervalues={filters} />
 
-            </div>  
+            </div>
             {/* Selected Filters Display */}
             <div style={{ margin: "20px 0", padding: "10px", border: "1px solid #ddd", borderRadius: "6px", background: "#f9f9f9" }}>
                 <h4>Selected Filters</h4>
@@ -115,7 +115,7 @@ export default function Dashboard() {
             {/* Patient Status Cards */}
             <div className={styles.patient_container}>
                 <PatientStatusDetails
-                    title="Onboarded Patients"
+                    title="Total Patients"
                     logo="/images/onboardedpatients.svg"
                     color="#1B2559"
                     count={onboardedPatients}

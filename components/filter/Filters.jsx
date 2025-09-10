@@ -55,6 +55,7 @@ export default function Filters({ onFilterChange, filtervalues }) {
 
         dispatch(filterapi(filters));
         dispatch(adminavgtabledata(filters));
+        console.log(filters)
     };
 
     return (
@@ -63,11 +64,14 @@ export default function Filters({ onFilterChange, filtervalues }) {
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <select value={city} onChange={(e) => setCity(e.target.value)}>
                         <option value="">Select City</option>
-                        {(cities || []).map((c) => (
+                        {/* {(cities || []).map((c) => (
                             <option key={c.cityname} value={c.cityname}>
                                 {c.cityname}
                             </option>
-                        ))}
+                        ))} */}
+                        <option value="Mumbai" >Mumbai</option>
+                        <option value="Kolkata" >Kolkata</option>
+                        <option value="Hyderabad" >Hyderabad</option>
                     </select>
                 </div>
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

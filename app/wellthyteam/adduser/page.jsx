@@ -176,17 +176,21 @@ export default function Page() {
               <div className={styles.input_container}>
                 <div className={styles.input_box_container}>
                   <p>City</p>
-                  <input
-                    type="text"
+                  <select
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
-                    placeholder="Enter City"
                     className={styles.phone_number_input}
                     style={{ fontSize: "20px" }}
-                  />
+                  >
+                    <option value="">-- Select City --</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Hyderabad">Hyderabad</option>
+                  </select>
                 </div>
               </div>
+
 
               {/* Area */}
               <div className={styles.input_container}>

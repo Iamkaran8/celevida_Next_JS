@@ -48,16 +48,41 @@ export default function Page() {
     }))
   }
 
+  // const formatKey = (key) => {
+  //   return key
+  //     .replace(/([a-z])([A-Z])/g, '$1 $2')
+  //     .replace(/_/g, ' ')
+  //     .replace(/\s+/g, ' ')
+  //     .trim()
+  //     .split(' ')
+  //     .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+  //     .join(' ')
+  // }
   const formatKey = (key) => {
+    
+    const replacements = {
+      aveRage: "Average",
+      hcpData: "HCP Data",
+      patientContinued: "Patient Continued",
+      BoneBone: "Bone", 
+    };
+
+    
+    Object.keys(replacements).forEach(bad => {
+      const regex = new RegExp(bad, "gi");
+      key = key.replace(regex, replacements[bad]);
+    });
+
+
     return key
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .replace(/_/g, ' ')
-      .replace(/\s+/g, ' ')
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .replace(/_/g, " ")                 
+      .replace(/\s+/g, " ")               
       .trim()
-      .split(' ')
+      .split(" ")
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ')
-  }
+      .join(" ");
+  };
 
   const levelFormatted = formatData(levelData)
   const hcpFormatted = formatData(hcpData)
