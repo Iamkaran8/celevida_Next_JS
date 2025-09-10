@@ -7,6 +7,9 @@ import { Loader } from '../../components/loader/Loader'
 import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
 import { doctorapi } from '../utils/apis/doctorapi'
 import { fetchDoctorNames } from '../utils/apis/fetchdoctornames'
+import { filterapi } from '../utils/apis/filterapi'
+import { adminavgtabledata } from '../utils/apis/adminavgtabledata'
+import { fetchExecutives } from '../utils/apis/fetchExecutives'
 
 
 
@@ -18,6 +21,36 @@ export default function layout({ children }) {
     useEffect(() => {
         dispatch(doctorapi(""));
         dispatch(fetchDoctorNames())
+        dispatch(fetchExecutives())
+    }, []);
+
+
+    const { completeFilteredData, avgTableData, onboardedPatients } = useSelector((state) => state.superadmin)
+
+    useEffect(() => {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const formatter = new Intl.DateTimeFormat("en-US", {
+            month: "short",
+            day: "2-digit",
+            year: "numeric",
+        });
+
+        const startDate = formatter.format(startOfMonth);
+        const endDate = formatter.format(today);
+
+        const filters = {
+            city: "",
+            executive: "",
+            status: "",
+            dateRange: {
+                startDate,
+                endDate
+            }
+        };
+
+        dispatch(filterapi(filters));
+        dispatch(adminavgtabledata(filters));
     }, []);
 
 

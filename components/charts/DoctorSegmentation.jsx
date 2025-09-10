@@ -1,0 +1,47 @@
+import { useSelector } from 'react-redux';
+import DoughnutChart from '../charts/Doughnut';
+import styles from '../../styles/dashboard/PatientSegmentation/PatientSegmentation.module.css';
+
+export const DoctorSegmentation = () => {
+  const { onboardedPatients, Prescribed, Nurture } = useSelector(
+    (state) => state.superadmin
+  );
+
+  const notPrescribed = onboardedPatients - (Prescribed + Nurture);
+  const total = onboardedPatients;
+
+  const prescribedPercentage = total ? (Prescribed / total) * 100 : 0;
+  const nurturePercentage = total ? (Nurture / total) * 100 : 0;
+  const notPrescribedPercentage = total ? (notPrescribed / total) * 100 : 0;
+
+  return (
+    <div className={styles.PatientSegmentation_container}>
+      <h3>Patient Segmentation</h3>
+      <div className={styles.pie_chart_Outer_cont}>
+        <div className={styles.pie_chart_Cont}>
+          <div className={styles.chart_circle}>
+            <DoughnutChart
+              prescribed={Prescribed}
+              nurture={Nurture}
+              not_prescribed={notPrescribed}
+            />
+          </div>
+        </div>
+        <div className={styles.status_cont}>
+          <p className={styles.status_li}>
+            <span className={styles.green_Circle}></span>
+            Prescribed {prescribedPercentage.toFixed(2)}%
+          </p>
+          <p className={styles.status_li}>
+            <span className={styles.Blue_CLr_Circle}></span>
+            Nurture {nurturePercentage.toFixed(2)}%
+          </p>
+          <p className={styles.status_li}>
+            <span className={styles.gray_Circle}></span>
+            Not Prescribed {notPrescribedPercentage.toFixed(2)}%
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};

@@ -1,41 +1,19 @@
-export const Feedback = () => {
+import { useSelector } from "react-redux";
 
-    const data = [
-        {
-            id: 1,
-            feedback: "super program"
-        },
-        {
-            id: 1,
-            feedback: "super program"
-        },
-        {
-            id: 1,
-            feedback: "super program"
-        },
-        {
-            id: 1,
-            feedback: "super program"
-        },
-        {
-            id: 1,
-            feedback: "super program"
-        },
-    ]
+export const Feedback = () => {
+    const { Feedbacks } = useSelector((state) => state.superadmin);
+
     return (
-        <>
-            <div>
-                <h3>Feedbacks</h3>
-                <div>
-                    {
-                        data.map((data) => (
-                            <>
-                                <p key={data.id}>{data.feedback}</p>
-                            </>
-                        ))
-                    }
-                </div>
-            </div>
-        </>
-    )
-}
+        <div style={{ height: '400px', overflowY: 'auto',  padding: '10px' }}>
+            <h3>Feedbacks</h3>
+
+            {Feedbacks && Feedbacks.length > 0 ? (
+                Feedbacks.map((feedback, index) => (
+                    <p key={index} style={{ marginBottom: '8px' }}>{feedback}</p>
+                ))
+            ) : (
+                <p>No Feedbacks</p>
+            )}
+        </div>
+    );
+};

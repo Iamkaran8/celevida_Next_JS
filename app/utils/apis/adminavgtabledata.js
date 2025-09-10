@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-export const filterapi = createAsyncThunk(
-    "fetch/programavg",
+export const adminavgtabledata = createAsyncThunk(
+    "fetch/adminavgtabledata.js",
     async (filters, { rejectWithValue }) => {
         try {
-            const res = await fetch("/api/admin", {
+            const res = await fetch("/api/admin/getTableData", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(filters), // send whatever you pass
+                body: JSON.stringify(filters),
             });
 
             if (!res.ok) {

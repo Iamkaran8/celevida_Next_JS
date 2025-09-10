@@ -27,6 +27,15 @@
     justify-content: center;
     align-items: center;
 }
+.date_picker_wrapper{
+    padding: 20px !important;
+}
+.date_picker_wrapper input{
+    padding: 10px;   
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+}
 
 /* Responsive: 4 columns on md+ screens */
 @media (min-width: 768px) {
@@ -52,9 +61,11 @@
 .date_picker_wrapper {
     border: 1px solid #ccc;
     border-radius: 8px;
-    padding: 6px;
+    /* padding: 6px; */
     background: #fff;
-    overflow: hidden;
+    display: flex;
+    gap: 20px;
+    
 }
 
 

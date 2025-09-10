@@ -9,13 +9,14 @@ import upcomingDoctorSliceReducer from "./slices/upcomingDoctorSlice";
 import authSliceReducer from './slices/authSlice'
 import avgmatricsSliceReducer from './slices/avgmatrics'
 import usersSliceReducer from "./slices/usersSlice";
+import superAdminSliceReducer from "./slices/superAdminSlice";
 
 
 const persistConfig = {
   key: "root",        // key for localStorage
   storage,            // default localStorage
 
-  whitelist: ["doctor", "auth", "avgmatrics", "users"], // state slices to persist
+  whitelist: ["doctor", "auth", "avgmatrics", "users","superadmin"], // state slices to persist
 
 };
 
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   upcomingDoctors: upcomingDoctorSliceReducer,
   auth: authSliceReducer,
   avgmatrics: avgmatricsSliceReducer,
-  users: usersSliceReducer
+  users: usersSliceReducer,
+  superadmin: superAdminSliceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

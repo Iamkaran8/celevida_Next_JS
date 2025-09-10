@@ -31,9 +31,7 @@ const initialState = {
     loadingDoctorNames: false,
     patientsError: null,
     doctorNamesError: null,
-    completeFilteredData: null,
-    loadingcompleteFilteredData: false,
-    completeFilteredDataError: null,
+
 };
 
 const DoctorSlice = createSlice({
@@ -169,18 +167,6 @@ const DoctorSlice = createSlice({
                 state.loadingDoctorNames = false;
                 state.doctorNamesError =
                     action.error?.message || action.payload || "Something went wrong";
-            })
-            .addCase(filterapi.pending, (state) => {
-                state.loadingcompleteFilteredData = true;
-                state.completeFilteredDataError = null;
-            })
-            .addCase(filterapi.fulfilled, (state, action) => {
-                state.loadingcompleteFilteredData = false;
-                state.completeFilteredData = action.payload;
-            })
-            .addCase(filterapi.rejected, (state, action) => {
-                state.loadingcompleteFilteredData = false;
-                state.completeFilteredDataError = action.payload || "Failed to fetch program average";
             })
     },
 });

@@ -69,8 +69,8 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function GenderChart() {
-  const { male = 0, female = 0, other = 0 } = useSelector(selectGenderCounts);
-
+  const { genderCount } = useSelector((state) => state.superadmin);
+  const { male, female, other } = genderCount
   const data = {
     labels: ["Male", "Female", "Other"],
     datasets: [
@@ -90,13 +90,13 @@ export default function GenderChart() {
 
   return (
     <>
-      
-        <Doughnut data={data} options={options} />
-        <div style={{ marginTop: 8 }}>
-          <div>Male: {male}</div>
-          <div>Female: {female}</div>
-          <div>Other: {other}</div>
-        </div>
+
+      <Doughnut data={data} options={options} />
+      <div style={{ marginTop: 8 }}>
+        <div>Male: {male}</div>
+        <div>Female: {female}</div>
+        <div>Other: {other}</div>
+      </div>
 
     </>
   );

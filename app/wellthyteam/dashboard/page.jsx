@@ -4,7 +4,7 @@
 
 "use client";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from '../../../styles/dashboard/page.module.css';
 
 import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
@@ -27,7 +27,12 @@ import { User } from "lucide-react";
 import FilterBar from "@/components/filter/FilterBar";
 import { selectFilteredPatients } from "../../../app/store/slices/doctorSlice";
 import Filters from "../../../components/filter/Filters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { filterapi } from "@/app/utils/apis/filterapi";
+import { transformData } from "../../../app/utils/transformData";
+import { DoctorSegmentation } from "../../../components/charts/DoctorSegmentation";
+import { Loader } from "../../../components/loader/Loader";
+
 
 export default function Dashboard() {
 
@@ -35,6 +40,7 @@ export default function Dashboard() {
     // ✅ Get filtered patients from Redux slice
     const filteredPatients = useSelector(selectFilteredPatients);
     const { prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
+    const { avgTableData, loading, error, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated } = useSelector((state) => state.superadmin);
 
     const mappedPatients = [...filteredPatients]
         .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
@@ -54,107 +60,28 @@ export default function Dashboard() {
     const nurtureCount = filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Nurture").length;
     const notPrescribedCount = filteredPatients.filter(p => p.StatusPrespcription !== "Celevida_Onboarded" && p.StatusPrespcription !== "Celevida_Nurture").length;
 
-    // const { onboarded_Patients, prescribed, nurture } = useSelector((state) => state.doctor)
 
 
-    // Example metrics data
-    const hba1cData = [
-        { month: "Before Program", HbA1c: 8.5 },
-        { month: "Month 1", HbA1c: 7.9 },
-        { month: "Month 2", HbA1c: 7.5 },
-        { month: "Month 3", HbA1c: 7.2 },
-    ];
 
-    const bmiData = [
-        { month: "Before Program", BMI: 27.8 },
-        { month: "Month 1", BMI: 26.9 },
-        { month: "Month 2", BMI: 26.1 },
-        { month: "Month 3", BMI: 25.4 },
-    ];
+    const hba1cData = transformData(avgTableData, "HbA1c", "HbA1c");
+    const bmiData = transformData(avgTableData, "BMI", "BMI");
+    const weightData = transformData(avgTableData, "Body_Weight_kg", "Weight");
+    const fbsData = transformData(avgTableData, "Fasting", "FBS");
+    const ppbsData = transformData(avgTableData, "PPBG", "PPBS");
+    const visceralFatData = transformData(avgTableData, "Visceral_Fat_Level", "VisceralFat");
+    const muscleMassData = transformData(avgTableData, "Muscle_Mass", "MuscleMass");
+    const muscleWeightData = transformData(avgTableData, "Muscle_Weight", "MuscleWeight");
+    const boneMassData = transformData(avgTableData, "Bone_Mass_Kg", "BoneMass");
+    const bodyFatData = transformData(avgTableData, "Body_Fat", "BodyFat");
+    const musclePercentData = transformData(avgTableData, "Muscle", "MusclePercent");
+    const proteinIntakeData = transformData(avgTableData, "hour_dietary_recall_protein_intake", "Protein");
+    const carbIntakeData = transformData(avgTableData, "hour_dietary_recall_carb_intake", "Carbs");
+    const calorieIntakeData = transformData(avgTableData, "hour_dietary_recall_calorie_intake", "Calories");
 
-    const weightData = [
-        { month: "Before Program", Weight: 78 },
-        { month: "Month 1", Weight: 76 },
-        { month: "Month 2", Weight: 74 },
-        { month: "Month 3", Weight: 72 },
-    ];
+    if (loading) return <Loader />;
+    if (error) return <p>Error loading data</p>;
+    if (!avgTableData?.length) return <p>No data available</p>;
 
-    const fbsData = [
-        { month: "Before Program", FBS: 160 },
-        { month: "Month 1", FBS: 145 },
-        { month: "Month 2", FBS: 130 },
-        { month: "Month 3", FBS: 120 },
-    ];
-
-    const ppbsData = [
-        { month: "Before Program", PPBS: 240 },
-        { month: "Month 1", PPBS: 220 },
-        { month: "Month 2", PPBS: 200 },
-        { month: "Month 3", PPBS: 185 },
-    ];
-
-    const visceralFatData = [
-        { month: "Before Program", VisceralFat: 14 },
-        { month: "Month 1", VisceralFat: 13 },
-        { month: "Month 2", VisceralFat: 12 },
-        { month: "Month 3", VisceralFat: 11 },
-    ];
-
-    const muscleMassData = [
-        { month: "Before Program", MuscleMass: 28 },
-        { month: "Month 1", MuscleMass: 28.5 },
-        { month: "Month 2", MuscleMass: 29 },
-        { month: "Month 3", MuscleMass: 29.5 },
-    ];
-
-    const muscleWeightData = [
-        { month: "Before Program", MuscleWeight: 24 },
-        { month: "Month 1", MuscleWeight: 24.3 },
-        { month: "Month 2", MuscleWeight: 24.6 },
-        { month: "Month 3", MuscleWeight: 25 },
-    ];
-
-    const boneMassData = [
-        { month: "Before Program", BoneMass: 3 },
-        { month: "Month 1", BoneMass: 3.05 },
-        { month: "Month 2", BoneMass: 3.1 },
-        { month: "Month 3", BoneMass: 3.15 },
-    ];
-
-    const bodyFatData = [
-        { month: "Before Program", BodyFat: 32 },
-        { month: "Month 1", BodyFat: 31 },
-        { month: "Month 2", BodyFat: 30 },
-        { month: "Month 3", BodyFat: 29 },
-    ];
-
-    const musclePercentData = [
-        { month: "Before Program", MusclePercent: 40 },
-        { month: "Month 1", MusclePercent: 41 },
-        { month: "Month 2", MusclePercent: 42 },
-        { month: "Month 3", MusclePercent: 43 },
-    ];
-
-    const proteinIntakeData = [
-        { month: "Before Program", Protein: 55 },
-        { month: "Month 1", Protein: 60 },
-        { month: "Month 2", Protein: 65 },
-        { month: "Month 3", Protein: 70 },
-    ];
-
-    const carbIntakeData = [
-        { month: "Before Program", Carbs: 250 },
-        { month: "Month 1", Carbs: 240 },
-        { month: "Month 2", Carbs: 230 },
-        { month: "Month 3", Carbs: 220 },
-    ];
-
-    const calorieIntakeData = [
-        { month: "Before Program", Calories: 2200 },
-        { month: "Month 1", Calories: 2100 },
-        { month: "Month 2", Calories: 2000 },
-        { month: "Month 3", Calories: 1900 },
-    ];
 
 
 
@@ -167,11 +94,22 @@ export default function Dashboard() {
                 {/* <FilterBar /> */}
 
             </div>
+
             <h3>Filters</h3>
             <div style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
-                
+
                 <Filters onFilterChange={setFilters} filtervalues={filters} />
-                
+
+            </div>  
+            {/* Selected Filters Display */}
+            <div style={{ margin: "20px 0", padding: "10px", border: "1px solid #ddd", borderRadius: "6px", background: "#f9f9f9" }}>
+                <h4>Selected Filters</h4>
+                <p><b>City:</b> {filters.city || "All"}</p>
+                <p><b>Executive:</b> {filters.executive || "All"}</p>
+                <p><b>Status:</b> {filters.status || "All"}</p>
+                {filters.dateRange && (
+                    <p><b>Date Range:</b> {filters.dateRange.startDate} - {filters.dateRange.endDate}</p>
+                )}
             </div>
 
             {/* Patient Status Cards */}
@@ -180,39 +118,40 @@ export default function Dashboard() {
                     title="Onboarded Patients"
                     logo="/images/onboardedpatients.svg"
                     color="#1B2559"
-                    count={filteredPatients.length}
+                    count={onboardedPatients}
                 />
                 <PatientStatusDetails
                     title="Prescribed"
                     logo="/images/Prescribed.svg"
                     color="#23B883"
-                    count={prescribedCount}
+                    count={Prescribed}
                 />
                 <PatientStatusDetails
                     title="Nurture Patients"
                     logo="/images/Nurture.svg"
                     color="#4085F3"
-                    count={nurtureCount}
+                    count={Nurture}
                 />
             </div>
 
             {/* KPI Cards */}
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <PatientSegmentation />
+                    {/* <PatientSegmentation /> */}
+                    <DoctorSegmentation />
                 </div>
                 <div className={styles.second_section_right} style={{ display: 'flex', flexDirection: 'column' }}>
                     <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", display: 'flex', flexDirection: 'column', gap: '20px' }}>
                         <PatientsKpiCard
                             title="Total Patients Enrolled"
-                            value={filteredPatients.length}
+                            value={onboardedPatients}
                             trend={12}
                             icon={User}
                             color="#10b981"
                         />
                         <PatientsKpiCard
                             title="Total Doctors Participated"
-                            value={doctorNames?.length}
+                            value={totalDoctorParticipated}
                             trend={8}
                         />
                     </div>
@@ -242,10 +181,10 @@ export default function Dashboard() {
                 <div className={styles.second_section_left}>
                     <GraphOuterContainer title="Call Completion Rate with Trendline" component={<CallCompletionChart />} />
                 </div>
-                <div className={styles.second_section_right}>
+                <div className={styles.second_section_right} style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", width: '100%' }}>
                     {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart />} /> */}
-                    <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart filteredPatients={filteredPatients} />} />
-
+                    {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart filteredPatients={filteredPatients} />} /> */}
+                    <Feedback />
                 </div>
             </div>
 
@@ -253,8 +192,8 @@ export default function Dashboard() {
                 <div className={styles.second_section_left}>
                     <TopCitiesTable />
                 </div>
-                <div className={styles.second_section_right} style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px" }}>
-                    <Feedback />
+                <div className={styles.second_section_right} >
+
                 </div>
             </div>
 
@@ -289,10 +228,10 @@ const ChartSection = ({ titleLeft, dataLeft, dataKeyLeft, colorLeft, domainLeft,
     titleRight, dataRight, dataKeyRight, colorRight, domainRight }) => (
     <div className={styles.second_section}>
         <div className={styles.second_section_left}>
-            <GraphOuterContainer title={titleLeft} component={<AverageChart color={colorLeft} dataKey={dataKeyLeft} data={dataLeft} domain={domainLeft} />} />
+            <GraphOuterContainer title={titleLeft} component={<AverageChart color={colorLeft} dataKey={dataKeyLeft} percentageChange={dataLeft.percentageChange} data={dataLeft.data} domain={domainLeft} />} />
         </div>
         <div className={styles.second_section_right}>
-            <GraphOuterContainer title={titleRight} component={<AverageChart color={colorRight} dataKey={dataKeyRight} data={dataRight} domain={domainRight} />} />
+            <GraphOuterContainer title={titleRight} component={<AverageChart color={colorRight} dataKey={dataKeyRight} data={dataRight.data} percentageChange={dataRight.percentageChange} domain={domainRight} />} />
         </div>
     </div>
 );
