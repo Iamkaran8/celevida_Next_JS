@@ -93,9 +93,9 @@ export default function GenderChart() {
 
       <Doughnut data={data} options={options} />
       <div style={{ marginTop: 8 }}>
-        <div>Male: {male}</div>
-        <div>Female: {female}</div>
-        <div>Other: {other}</div>
+        <div style={{display:'flex', alignItems:'center',gap:'10px'}} ><span style={{ backgroundColor: '#3b82f6',  width: '7px',height:'7px', borderRadius: '30px' }} > </span>Male: {male}</div>
+        <div style={{display:'flex', alignItems:'center',gap:'10px'}} ><span style={{ backgroundColor: '#ec4899',  width: '7px',height:'7px', borderRadius: '30px' }} > </span>Female: {female}</div>
+        <div style={{display:'flex', alignItems:'center',gap:'10px'}} ><span style={{ backgroundColor: '#9ca3af',  width: '7px',height:'7px', borderRadius: '30px' }} > </span>Other: {other}</div>
       </div>
 
     </>

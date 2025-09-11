@@ -1,34 +1,23 @@
-
-
-
-
 "use client";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from '../../../styles/dashboard/page.module.css';
-
 import { PatientStatusDetails } from "../../../components/patientStatus/PatientStatusDetails";
-import { PatientSegmentation } from "../../../components/patientSegmentation/PatientSegmentation";
 import { Header } from "../../../components/header/Header";
 import { GraphOuterContainer } from "../../../components/graphoutercontainer/GraphOuterContainer";
-
 import GenderChart from "../../../components/charts/GenderChart";
 import AgeGroupChart from "../../../components/charts/AgeGroupChart";
 import PatientFunnelChart from "../../../components/charts/PatientFunnelChart";
 import RatingDistribution from "../../../components/charts/RatingDistribution";
 import CallCompletionChart from "../../../components/charts/CallCompletionChart";
-import CelevidaChart from "../../../components/charts/CelevidaChart";
 import TopCitiesTable from "../../../components/charts/TopCitiesTable";
 import { Feedback } from "../../../components/charts/Feedback";
 import AverageChart from "../../../components/charts/AverageChart";
 import PatientsKpiCard from "../../../components/charts/PatientsKpiCard";
-
 import { User } from "lucide-react";
-import FilterBar from "@/components/filter/FilterBar";
 import { selectFilteredPatients } from "../../../app/store/slices/doctorSlice";
 import Filters from "../../../components/filter/Filters";
-import { useEffect, useState } from "react";
-import { filterapi } from "@/app/utils/apis/filterapi";
+import { useState } from "react";
 import { transformData } from "../../../app/utils/transformData";
 import { DoctorSegmentation } from "../../../components/charts/DoctorSegmentation";
 import { Loader } from "../../../components/loader/Loader";
@@ -37,7 +26,7 @@ import { Loader } from "../../../components/loader/Loader";
 export default function Dashboard() {
 
     const [filters, setFilters] = useState({});
-    // ✅ Get filtered patients from Redux slice
+
     const filteredPatients = useSelector(selectFilteredPatients);
     const { prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
     const { avgTableData, loading, error, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated } = useSelector((state) => state.superadmin);
@@ -97,9 +86,7 @@ export default function Dashboard() {
 
             <h3>Filters</h3>
             <div style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
-
                 <Filters onFilterChange={setFilters} filtervalues={filters} />
-
             </div>
             {/* Selected Filters Display */}
             <div style={{ margin: "20px 0", padding: "10px", border: "1px solid #ddd", borderRadius: "6px", background: "#f9f9f9" }}>
@@ -181,9 +168,8 @@ export default function Dashboard() {
                 <div className={styles.second_section_left}>
                     <GraphOuterContainer title="Call Completion Rate with Trendline" component={<CallCompletionChart />} />
                 </div>
-                <div className={styles.second_section_right} style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", width: '100%' }}>
-                    {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart />} /> */}
-                    {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart filteredPatients={filteredPatients} />} /> */}
+
+                <div className={`${styles.second_section_right} ${styles.anotherClass}`} style={{ background: '#fff', border: '1px solid #d9d9d9', borderRadius: '4px', margin: '10px', padding: '20px' }}>
                     <Feedback />
                 </div>
             </div>

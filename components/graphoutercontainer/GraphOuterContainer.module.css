@@ -26,5 +26,10 @@
 @media only screen and (max-width:650px){
 .graph_Container{
     flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+.outer_container{
+    overflow-x: scroll;
 }
 }

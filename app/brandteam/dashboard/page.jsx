@@ -141,7 +141,7 @@ export default function Dashboard() {
                 </div>
                 <div className={styles.second_section_right}>
                     {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart filteredPatients={filteredPatients} />} /> */}
-                    <div className={styles.second_section_right} style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px" }}>
+                    <div className={`${styles.second_section_right} ${styles.anotherClass}`} style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px" }}>
                         <Feedback filteredPatients={filteredPatients} />
                     </div>
                 </div>
@@ -152,7 +152,7 @@ export default function Dashboard() {
                     <TopCitiesTable filteredPatients={filteredPatients} />
                 </div>
                 <div className={styles.second_section_right} >
-                    
+
                 </div>
             </div>
 

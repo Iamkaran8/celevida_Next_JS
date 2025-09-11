@@ -69,11 +69,11 @@ export const Feedback = () => {
 
             {Feedbacks && Feedbacks.length > 0 ? (
                 Feedbacks
-                    .filter(item => item?.Feedbacks) // ✅ only items with non-null Feedbacks
+                    .filter(item => item?.Feedbacks)
                     .map((item, index) => (
-                        <div key={index}  style={{display:'flex',border:'1px solid #ccc',padding:'10px',borderRadius:'7px',display:'flex',gap:'20px',justifyContent:'start',alignItems:'center'}}>
-                            <h4 style={{margin:'0px !important',padding:'0px !important'}}>Patient Name :{item.Last_Name} </h4>
-                            <p key={index} >
+                        <div key={index} style={{ display: 'flex', border: '1px solid #ccc', padding: '10px', borderRadius: '7px', flexDirection:'column', gap: '0px', justifyContent: 'start', alignItems: 'start',boxShadow:'0px 0px 10px 0px  rgba(0, 0, 0, 0.13)' }}>
+                            <h4 style={{ margin: '1px ', padding: '1px ' }}>Patient Name : {item.Last_Name} </h4>
+                            <p key={index} style={{ margin: '1px ', padding: '1px ' }} >
                                 {item.Feedbacks}
                             </p>
                         </div>

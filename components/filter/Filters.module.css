@@ -6,6 +6,8 @@
     background: #ffffff;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    justify-content: start;
+    align-items: start;
 }
 
 .innerDropdown {
@@ -23,22 +25,29 @@
     border-radius: 6px;
     cursor: pointer;
 }
-.btn_cont{
+
+.btn_cont {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.date_picker_wrapper{
+
+.date_picker_wrapper {
     padding: 20px !important;
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    gap: 20px;
 }
-.date_picker_wrapper input{
-    padding: 10px;   
+
+.date_picker_wrapper input {
+    padding: 10px;
     border-radius: 6px;
     border: 1px solid #ccc;
     margin-left: 10px;
 }
 
-/* Responsive: 4 columns on md+ screens */
+
 @media (min-width: 768px) {
     .filters_containers {}
 }
@@ -59,15 +68,7 @@
     outline: none;
 }
 
-.date_picker_wrapper {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    /* padding: 6px; */
-    background: #fff;
-    display: flex;
-    gap: 20px;
-    
-}
+
 
 
 
@@ -76,4 +77,28 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
+}
+
+
+@media only screen and (max-width: 650px) {
+    .innerDropdown {
+        flex-direction: column;
+    }
+
+    .date_picker_wrapper {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        /* padding: 6px; */
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+    }
+}
+
+.filters_containers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

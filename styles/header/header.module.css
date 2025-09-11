@@ -8,7 +8,9 @@
 
 .header_navbar {
     display: flex;
-    justify-content: end;
+    flex-direction: column;
+    gap: 20px;
+    width: 70%;
 }
 
 .NavButton {

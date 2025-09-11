@@ -14,11 +14,11 @@ export default function Filters({ onFilterChange, filtervalues }) {
     const dispatch = useDispatch();
     const statuses = ["All", "Celevida_Onboarded", "Celevida_Nurture"];
 
-    // 🔹 Default date range → start of month to today
+
     const today = new Date();
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
-    // 🔹 Initialize from parent or fallback to default range
+
     const [city, setCity] = useState(filtervalues.city || "");
     const [executive, setExecutive] = useState(filtervalues.executive || "");
     const [status, setStatus] = useState(filtervalues.status || "");
@@ -31,7 +31,7 @@ export default function Filters({ onFilterChange, filtervalues }) {
 
     const { cities, executives } = useSelector((state) => state.superadmin);
 
-    // 🔹 Send filter changes to parent immediately
+
     useEffect(() => {
         const formattedRange = {
             startDate: format(startDate, "MMM d yyyy"),
@@ -64,11 +64,6 @@ export default function Filters({ onFilterChange, filtervalues }) {
                 <div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <select value={city} onChange={(e) => setCity(e.target.value)}>
                         <option value="">Select City</option>
-                        {/* {(cities || []).map((c) => (
-                            <option key={c.cityname} value={c.cityname}>
-                                {c.cityname}
-                            </option>
-                        ))} */}
                         <option value="Mumbai" >Mumbai</option>
                         <option value="Kolkata" >Kolkata</option>
                         <option value="Hyderabad" >Hyderabad</option>

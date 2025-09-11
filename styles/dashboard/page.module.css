@@ -4,6 +4,7 @@
     margin-bottom: 20px;
 }
 
+
 .patient_select {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -145,7 +146,6 @@
 .second_section_left>*,
 .second_section_right>* {
     flex: 1;
-    /* forces PatientSegmentation & UpcommingPatient to fill full height */
 }
 
 @media only screen and (max-width:900px) {
@@ -157,6 +157,18 @@
     .second_section_right {
         width: 100%;
         display: block;
-        /* reset flex on mobile if needed */
     }
 }
+
+
+@media only screen and (max-width:650px){
+    .doctor_submit_btn{
+        margin-top: 10px;
+        margin-left: -1px !important;
+    }
+    .anotherClass{
+        width: 83%;
+    }
+}
+
+
