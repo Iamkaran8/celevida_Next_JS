@@ -32,11 +32,13 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.doctor);
   const { data: patientCompleteData, loading: patientLoading, error: patientError } = useSelector((state) => state.patient);
-
+  const { user } = useSelector((state) => state.auth);
   if (loading) return <p>Loading...</p>;
 
+  const savedDoctor = localStorage.getItem("selectedDoctor");
   const handleNavigate = () => router.push("/doctor/dashboard");
-  const handleRefresh = () => dispatch(doctorapi());
+  const handleRefresh = () => dispatch(doctorapi(user.data.data[0].role === "Doctor" ? user.data.data[0].Name : savedDoctor));
+  console.log("karan check",)
 
 
   const handleShowPopup = (patient) => {
@@ -144,8 +146,8 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
           Next
         </button>
       </div> */}
-          <div className={styles.pagination}>
-       <button
+      <div className={styles.pagination}>
+        <button
           disabled={currentPage === 1}
           onClick={() => setCurrentPage(prev => prev - 1)}
           className={styles.pageBtn}
