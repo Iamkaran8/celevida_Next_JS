@@ -55,7 +55,7 @@ export default function Filters({ onFilterChange, filtervalues }) {
 
         dispatch(filterapi(filters));
         dispatch(adminavgtabledata(filters));
-        console.log(filters)
+        
     };
 
     return (

@@ -23,7 +23,7 @@ export const UpcommingPatient = () => {
 
     const { user } = useSelector((state) => state.auth)
     const savedDoctor = localStorage.getItem("selectedDoctor");
-    console.log("saved doctor", savedDoctor)
+    
     const doctor_Name = user.data.data[0].role === "Doctor" ? user.data.data[0].Name : savedDoctor
     useEffect(() => {
         dispatch(fetchUpcomingDoctors(doctor_Name));

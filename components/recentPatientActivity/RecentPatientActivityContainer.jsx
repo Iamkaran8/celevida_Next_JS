@@ -38,7 +38,7 @@ export const RecentPatientActivityContainer = ({ title, patientsDetails }) => {
   const savedDoctor = localStorage.getItem("selectedDoctor");
   const handleNavigate = () => router.push("/doctor/dashboard");
   const handleRefresh = () => dispatch(doctorapi(user.data.data[0].role === "Doctor" ? user.data.data[0].Name : savedDoctor));
-  console.log("karan check",)
+  
 
 
   const handleShowPopup = (patient) => {

@@ -30,7 +30,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  console.log("karan.checking", user.data.data[0].Name)
+  
 
   const formRef = useRef(null);
 

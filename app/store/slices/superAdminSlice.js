@@ -49,7 +49,6 @@ export const superAdminSlice = createSlice({
                 state.loading = false;
                 state.completeFilteredData = action.payload;
                 state.totalDoctorParticipated = state.completeFilteredData.totalDoctorParticipated;
-                console.log(state.completeFilteredData.data, "sadas")
                 state.Feedbacks = state.completeFilteredData.data;
 
 

@@ -21,48 +21,6 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
     };
 
 
-    // const handleDownloadPDF = async () => {
-    //     const input = document.getElementById("report-content");
-
-    //     // Clone element to avoid messing with actual UI
-    //     const clonedElement = input.cloneNode(true);
-    //     clonedElement.style.width = "1200px"; // force desktop width
-    //     clonedElement.style.maxWidth = "1200px";
-    //     clonedElement.style.position = "absolute";
-    //     clonedElement.style.left = "-9999px"; // keep it off-screen
-    //     document.body.appendChild(clonedElement);
-
-
-    //     const canvas = await html2canvas(clonedElement, { scale: 2 });
-    //     const imgData = canvas.toDataURL("image/png");
-
-    //     const pdf = new jsPDF("p", "mm", "a4"); // portrait A4
-    //     const pdfWidth = pdf.internal.pageSize.getWidth();
-    //     const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    //     // Calculate image dimensions
-    //     const imgWidth = pdfWidth;
-    //     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    //     let heightLeft = imgHeight;
-    //     let position = 0;
-
-    //     // First page
-    //     pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    //     heightLeft -= pdfHeight;
-
-    //     // Add extra pages if needed
-    //     while (heightLeft > 0) {
-    //         position = heightLeft - imgHeight;
-    //         pdf.addPage();
-    //         pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-    //         heightLeft -= pdfHeight;
-    //     }
-
-    //     pdf.save("Assessment_Report.pdf");
-
-    //     document.body.removeChild(clonedElement); // cleanup
-    // };
 
 
     const handleDownloadPDF = async () => {
@@ -70,12 +28,12 @@ export default function AssesmentReport({ name, age, weight, height, gender, pho
 
         // Clone element to avoid messing with actual UI
         const clonedElement = input.cloneNode(true);
-        clonedElement.style.width = "1200px"; // force desktop width
+        clonedElement.style.width = "1200px"; 
         clonedElement.style.maxWidth = "1200px";
         clonedElement.style.position = "absolute";
-        clonedElement.style.left = "-9999px"; // keep it off-screen
+        clonedElement.style.left = "-9999px"; 
 
-        // 👉 hide button only inside cloned element
+        
         const btn = clonedElement.querySelector("#hide_btn");
         if (btn) btn.style.display = "none";
 

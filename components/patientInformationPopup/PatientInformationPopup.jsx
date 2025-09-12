@@ -7,7 +7,7 @@ import { PatientLevelDataContainer } from '../PatientLevelData/PatientLevelDataC
 
 export default function PatientInformationPopup({ selectedPatient, details, status, onClose, onViewReport }) {
 
-
+    console.log("karan status", details.data[0].StatusPrespcription)
 
     return (
         <div className={styles.container}>
@@ -19,15 +19,15 @@ export default function PatientInformationPopup({ selectedPatient, details, stat
                             <h3>Patient Information</h3>
                         </div>
                         <div>
-                            <div className={` ${status === "Celevida_Onboarded"
+                            <div className={` ${details.data[0].StatusPrespcription === "Celevida_Onboarded"
                                 ? styles.status_onboarded
-                                : status === "Celevida_Nurture"
+                                : details.data[0].StatusPrespcription === "Celevida_Nurture"
                                     ? styles.status__nurture
                                     : styles.defaultStatus
                                 }`}>
-                                {status === "Celevida_Onboarded"
+                                {details.data[0].StatusPrespcription === "Celevida_Onboarded"
                                     ? "Prescribed"
-                                    : status === "Celevida_Nurture"
+                                    : details.data[0].StatusPrespcription === "Celevida_Nurture"
                                         ? "Nurture"
                                         : "N/A"}
                             </div>
