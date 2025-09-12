@@ -45,9 +45,9 @@ export default function Dashboard() {
             moduleName: p.moduleName,
         }));
 
-    const prescribedCount = filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Onboarded").length;
-    const nurtureCount = filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Nurture").length;
-    const notPrescribedCount = filteredPatients.filter(p => p.StatusPrespcription !== "Celevida_Onboarded" && p.StatusPrespcription !== "Celevida_Nurture").length;
+    // const prescribedCount = filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Onboarded").length;
+    // const nurtureCount = filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Nurture").length;
+    // const notPrescribedCount = filteredPatients.filter(p => p.StatusPrespcription !== "Celevida_Onboarded" && p.StatusPrespcription !== "Celevida_Nurture").length;
 
 
 
