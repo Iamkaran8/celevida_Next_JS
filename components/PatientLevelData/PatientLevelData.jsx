@@ -37,9 +37,9 @@ export const PatientLevelData = ({ patientData }) => {
 
     const proteinIntake = [
         patient.hour_dietary_recall_protein_intake,
-        patient.hour_dietary_recall_protein_intake_Month_1,
-        patient.hour_dietary_recall_protein_intake_Month_2,
-        patient.hour_dietary_recall_protein_intake_Month_3,
+        patient.hour_dietary_recall_protein_intake_Month1,
+        patient.hour_dietary_recall_protein_intake_Month2,
+        patient.hour_dietary_recall_protein_intake_Month3,
     ]
 
     // Compute Diet Recall (Avg Calorie) per month dynamically
@@ -63,7 +63,6 @@ export const PatientLevelData = ({ patientData }) => {
         { label: "Protein intake", values: proteinIntake },
         { label: "Celevida Consumption", values: [patient.Time_of_Consumption, patient.Time_of_Consumption_Month1, patient.Time_of_Consumption_Month2, patient.Time_of_Consumption_Month3] },
         { label: "Usage frequency", values: [patient.Usage_frequency, patient.Usage_frequency_Month_1, patient.Usage_frequency_Month_2, patient.Usage_frequency_Month_3] },
-        // { label: "Notes from the Virtual Coach", values: [patient.CoachNote_Baseline, patient.CoachNote_1M, patient.CoachNote_2M, patient.CoachNote_3M] },
         { label: "Notes for the Dr.", values: [patient.HC_Updates] },
         { label: "Sleep Pattern", values: [patient.Quality_hours_of_sleep_do_you_get_at_night, patient.Quality_hours_of_sleep_do_you_get_at_night_Month_1, patient.Quality_hours_of_sleep_do_you_get_at_night_Month_2, patient.Quality_hours_of_sleep_do_you_get_at_night_Month_3] },
         { label: "Water Consumption", values: [patient.How_many_litres_of_water_do_you_drink_in_a_day, patient.How_many_litres_of_water_do_you_drink_in_a_day_2, patient.How_many_litres_of_water_do_you_drink_in_a_day_3, patient.How_many_litres_of_water_do_you_drink_in_a_day_4] },

@@ -5,9 +5,7 @@ import styles from '../../styles/popup/patientInformationPopup.module.css';
 import Image from 'next/image';
 import { PatientLevelDataContainer } from '../PatientLevelData/PatientLevelDataContainer';
 
-export default function PatientInformationPopup({ selectedPatient, details, status, onClose, onViewReport }) {
-
-    console.log("karan status", details.data[0].StatusPrespcription)
+export default function PatientInformationPopup({ details, onClose, onViewReport }) {
 
     return (
         <div className={styles.container}>
