@@ -73,7 +73,7 @@ export async function POST(request) {
     // Build URL with date range filter if provided
     const contactsUrl = `https://www.zohoapis.in/crm/v8/Contacts/search?criteria=${dateRangeFilter}`;
     
-    // const leadsUrl = `https://www.zohoapis.in/crm/v8/Leads/search?criteria=${dateRangeFilter}`;
+    const leadsUrl = `https://www.zohoapis.in/crm/v8/Leads/search?criteria=${dateRangeFilter}`;
 
 
 
@@ -84,22 +84,22 @@ export async function POST(request) {
         'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
       }
     });
-    // const leadsResponse = await fetch(leadsUrl, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Authorization': `Zoho-oauthtoken ${accessToken}`,
-    //     'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
-    //   }
-    // });
+    const leadsResponse = await fetch(leadsUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Zoho-oauthtoken ${accessToken}`,
+        'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
+      }
+    });
 
     if (!contactsResponse.ok) {
         let error = await contactsResponse.json();
         console.log(error, "error");
       throw new Error(`Contacts API failed: ${contactsResponse}`);
     }
-    // if (!leadsResponse.ok) {
-    //   throw new Error(`Leads API failed: ${leadsResponse.status}`);
-    // }
+    if (!leadsResponse.ok) {
+      throw new Error(`Leads API failed: ${leadsResponse.status}`);
+    }
 
     let contactsData ;
     try {
@@ -124,26 +124,26 @@ export async function POST(request) {
       moduleName: 'Contacts'
     }));
 
-    // let leadsData ;
-    // try {
-    //   leadsData = await leadsResponse.json();
-    //   if(body.city) {
-    //     leadsData.data = leadsData?.data.filter(item => item.City === body.city);
-    //   }
-    //   if(body.executive) {
-    //     leadsData.data = leadsData?.data.filter(item => item.Field_Executive === body.executive);
-    //   }
-    //   if(body.status) {
-    //     leadsData.data = leadsData?.data.filter(item => item.StatusPrespcription === body.status);
-    //   }
-    // } catch (error) {
-    //   leadsData = {data: []};
-    // }
+    let leadsData ;
+    try {
+      leadsData = await leadsResponse.json();
+      if(body.city) {
+        leadsData.data = leadsData?.data.filter(item => item.City === body.city);
+      }
+      if(body.executive) {
+        leadsData.data = leadsData?.data.filter(item => item.Field_Executive === body.executive);
+      }
+      if(body.status) {
+        leadsData.data = leadsData?.data.filter(item => item.StatusPrespcription === body.status);
+      }
+    } catch (error) {
+      leadsData = {data: []};
+    }
 
-    // leadsData.data = leadsData?.data.map(item => ({
-    //   ...item,
-    //   moduleName: 'Leads'
-    // }));
+    leadsData.data = leadsData?.data.map(item => ({
+      ...item,
+      moduleName: 'Leads'
+    }));
 
 
 
@@ -181,7 +181,6 @@ export async function POST(request) {
     const getParametrName = (parameter) => {
       switch(parameter) {
         case 'Fasting': return 'FBG';
-        case 'hour_dietary_recall_protein_intake': return 'PPBS';
         default: return parameter;
       }
     }
