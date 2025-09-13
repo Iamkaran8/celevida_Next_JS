@@ -113,7 +113,7 @@ export default function AverageChart({ title, dataKey, data, domain, color, perc
                 <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
-                    <YAxis domain={domain || ["auto", "auto"]} />
+                    <YAxis domain={domain || [0, "auto"]} />
                     <Tooltip />
                     <Legend />
                     <Line

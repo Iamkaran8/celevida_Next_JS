@@ -250,9 +250,9 @@ async function getPatientLevelData(doctorNames: string)
     "hour_dietary_recall_carb_intake_Month_2",
     "hour_dietary_recall_carb_intake_Month_3",
     "hour_dietary_recall_protein_intake",
-    "hour_dietary_recall_protein_intake_Month1",
-    "hour_dietary_recall_protein_intake_Month2",
-    "hour_dietary_recall_protein_intake_Month3",
+    "hour_dietary_recall_protein_intake_Month_1",
+    "hour_dietary_recall_protein_intake_Month_2",
+    "hour_dietary_recall_protein_intake_Month_3",
     "Time_of_Consumption",
     "Time_of_Consumption_Month1",
     "Time_of_Consumption_Month2",
@@ -397,9 +397,9 @@ async function getPatientLevelData(doctorNames: string)
     ]),
     "Protein intake": calculateAverages(combinedData, [
       "hour_dietary_recall_protein_intake",
-      "hour_dietary_recall_protein_intake_Month1",
-      "hour_dietary_recall_protein_intake_Month2",
-      "hour_dietary_recall_protein_intake_Month3"
+      "hour_dietary_recall_protein_intake_Month_1",
+      "hour_dietary_recall_protein_intake_Month_2",
+      "hour_dietary_recall_protein_intake_Month_3"
     ]),
     "Celevida Consumption": calculateAverages(combinedData, [
       "Time_of_Consumption",

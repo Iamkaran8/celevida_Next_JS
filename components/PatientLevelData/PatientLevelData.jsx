@@ -37,9 +37,9 @@ export const PatientLevelData = ({ patientData }) => {
 
     const proteinIntake = [
         patient.hour_dietary_recall_protein_intake,
-        patient.hour_dietary_recall_protein_intake_Month1,
-        patient.hour_dietary_recall_protein_intake_Month2,
-        patient.hour_dietary_recall_protein_intake_Month3,
+        patient.hour_dietary_recall_protein_intake_Month_1,
+        patient.hour_dietary_recall_protein_intake_Month_2,
+        patient.hour_dietary_recall_protein_intake_Month_3,
     ]
 
     // Compute Diet Recall (Avg Calorie) per month dynamically

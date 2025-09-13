@@ -1,30 +1,51 @@
 import { getRefreshToken } from "@/app/utils/getRefreshToken";
 
 // Function to convert date string to the required format
-function convertToRequiredFormat(dateString) {
+function convertToRequiredFormat(dateString, isEndDate = false) {
   const date = new Date(dateString);
   
-  // Get ISO string and replace Z with +00:00
+  // Set time based on whether it's start or end date
+  if (isEndDate) {
+    // End date: set to 23:59:59 (11:59 PM)
+    date.setHours(23, 59, 59, 999);
+  } else {
+    // Start date: set to 00:00:00 (12:00 AM)
+    date.setHours(0, 0, 0, 0);
+  }
+  
+  // Get timezone offset in minutes and convert to hours:minutes format
+  const timezoneOffset = date.getTimezoneOffset();
+  const offsetHours = Math.floor(Math.abs(timezoneOffset) / 60);
+  const offsetMinutes = Math.abs(timezoneOffset) % 60;
+  const offsetSign = timezoneOffset <= 0 ? '+' : '-';
+  const timezoneString = `${offsetSign}${offsetHours.toString().padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`;
+  
+  // Get ISO string and replace Z with actual timezone
   const isoString = date.toISOString();
   
-  // Replace milliseconds and Z with the required format
+  // Replace milliseconds and Z with the actual timezone format
   // From: 2025-08-09T18:30:00.000Z
-  // To: 2025-08-09T18:52:56+00:00
-  const formattedDate = isoString.replace(/\.\d{3}Z$/, '+00:00');
+  // To: 2025-08-09T00:00:00+05:30 (start) or 2025-08-09T23:59:59+05:30 (end)
+  const formattedDate = isoString.replace(/\.\d{3}Z$/, timezoneString);
   
   return formattedDate;
 }
 
 // Function to create URL-encoded date range filter
 function createDateRangeFilter(startDate, endDate) {
-  const startFormatted = convertToRequiredFormat(startDate);
-  const endFormatted = convertToRequiredFormat(endDate);
+  const startFormatted = convertToRequiredFormat(startDate, false); // Start of day (00:00:00)
+  const endFormatted = convertToRequiredFormat(endDate, true);      // End of day (23:59:59)
+ 
+  console.log(startFormatted, "startFormatted");
+  console.log(endFormatted, "endFormatted");
   
   // Create the filter string: Created_Time:between:startDate,endDate
   const filterString = `Created_Time:between:${startFormatted},${endFormatted}`;
   
   // URL encode the entire filter string
   return encodeURIComponent(filterString);
+
+  
 }
 
 export async function POST(request) {
@@ -52,7 +73,7 @@ export async function POST(request) {
     // Build URL with date range filter if provided
     const contactsUrl = `https://www.zohoapis.in/crm/v8/Contacts/search?criteria=${dateRangeFilter}`;
     
-    const leadsUrl = `https://www.zohoapis.in/crm/v8/Leads/search?criteria=${dateRangeFilter}`;
+    // const leadsUrl = `https://www.zohoapis.in/crm/v8/Leads/search?criteria=${dateRangeFilter}`;
 
 
 
@@ -63,22 +84,22 @@ export async function POST(request) {
         'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
       }
     });
-    const leadsResponse = await fetch(leadsUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Zoho-oauthtoken ${accessToken}`,
-        'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
-      }
-    });
+    // const leadsResponse = await fetch(leadsUrl, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Authorization': `Zoho-oauthtoken ${accessToken}`,
+    //     'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
+    //   }
+    // });
 
     if (!contactsResponse.ok) {
         let error = await contactsResponse.json();
         console.log(error, "error");
       throw new Error(`Contacts API failed: ${contactsResponse}`);
     }
-    if (!leadsResponse.ok) {
-      throw new Error(`Leads API failed: ${leadsResponse.status}`);
-    }
+    // if (!leadsResponse.ok) {
+    //   throw new Error(`Leads API failed: ${leadsResponse.status}`);
+    // }
 
     let contactsData ;
     try {
@@ -103,32 +124,31 @@ export async function POST(request) {
       moduleName: 'Contacts'
     }));
 
-    let leadsData ;
-    try {
-      leadsData = await leadsResponse.json();
-      if(body.city) {
-        leadsData.data = leadsData?.data.filter(item => item.City === body.city);
-      }
-      if(body.executive) {
-        leadsData.data = leadsData?.data.filter(item => item.Field_Executive === body.executive);
-      }
-      if(body.status) {
-        leadsData.data = leadsData?.data.filter(item => item.StatusPrespcription === body.status);
-      }
-    } catch (error) {
-      leadsData = {data: []};
-    }
+    // let leadsData ;
+    // try {
+    //   leadsData = await leadsResponse.json();
+    //   if(body.city) {
+    //     leadsData.data = leadsData?.data.filter(item => item.City === body.city);
+    //   }
+    //   if(body.executive) {
+    //     leadsData.data = leadsData?.data.filter(item => item.Field_Executive === body.executive);
+    //   }
+    //   if(body.status) {
+    //     leadsData.data = leadsData?.data.filter(item => item.StatusPrespcription === body.status);
+    //   }
+    // } catch (error) {
+    //   leadsData = {data: []};
+    // }
 
-    leadsData.data = leadsData?.data.map(item => ({
-      ...item,
-      moduleName: 'Leads'
-    }));
+    // leadsData.data = leadsData?.data.map(item => ({
+    //   ...item,
+    //   moduleName: 'Leads'
+    // }));
 
 
 
     let allData = [
-      ...contactsData?.data,
-      ...leadsData?.data
+      ...contactsData?.data
     ];
 
 
@@ -158,6 +178,14 @@ export async function POST(request) {
       return parseFloat(value) || 0;
     }
 
+    const getParametrName = (parameter) => {
+      switch(parameter) {
+        case 'Fasting': return 'FBG';
+        case 'hour_dietary_recall_protein_intake': return 'PPBS';
+        default: return parameter;
+      }
+    }
+
     // Function to calculate parameter statistics
     function calculateParameterStats(parameter, data) {
       // Calculate Before Program Average
@@ -166,11 +194,18 @@ export async function POST(request) {
         beforeValues.reduce((sum, val) => sum + val, 0) / beforeValues.length : 0;
 
       // Calculate Month 1, 2 & 3 Average
-      const month1Values = data.map(item => getNumericValue(item[`${parameter}_Month_1`])).filter(val => val !== 0);
-      const month2Values = data.map(item => getNumericValue(item[`${parameter}_Month_2`])).filter(val => val !== 0);
-      const month3Values = data.map(item => getNumericValue(item[`${parameter}_Month_3`])).filter(val => val !== 0);
+      console.log(parameter, "parameter");
+      const month1Values = data.map(item => getNumericValue(item[`${getParametrName(parameter)}_Month_1`])).filter(val => val !== 0);
+      console.log(month1Values, "data month1");
+      const month2Values = data.map(item => getNumericValue(item[`${getParametrName(parameter)}_Month_2`])).filter(val => val !== 0);
+      console.log(month2Values, "data month2");
+      const month3Values = data.map(item => getNumericValue(item[`${getParametrName(parameter)}_Month_3`])).filter(val => val !== 0);
+      console.log(month3Values, "data month3");
       
       const month1Avg = month1Values.length > 0 ? 
+
+
+
         month1Values.reduce((sum, val) => sum + val, 0) / month1Values.length : 0;
       const month2Avg = month2Values.length > 0 ? 
         month2Values.reduce((sum, val) => sum + val, 0) / month2Values.length : 0;
@@ -210,7 +245,8 @@ export async function POST(request) {
     // Return the contacts data and table statistics
     return Response.json({
       success: true,
-      tableData: tableData
+      tableData: tableData,
+      data: allData
     });
 
   } catch (error) {
