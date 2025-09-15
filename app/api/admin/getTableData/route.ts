@@ -218,8 +218,15 @@ export async function POST(request) {
 
       // Calculate percentage change
       let percentageChange = 0;
-      if (beforeProgramAvg !== 0 && monthsAvg !== 0) {
-        percentageChange = ((monthsAvg - beforeProgramAvg) / beforeProgramAvg) * 100;
+      if (beforeProgramAvg === 0 && month3Avg === 0) {
+        // Both are 0, percentage change is 0
+        percentageChange = 0;
+      } else if (beforeProgramAvg === 0 && month3Avg !== 0) {
+        // Started from 0, treat as 100% increase if month3 is positive
+        percentageChange = month3Avg > 0 ? 100 : -100;
+      } else if (beforeProgramAvg !== 0) {
+        // Normal calculation when beforeProgramAvg is not 0
+        percentageChange = ((month3Avg - beforeProgramAvg) / beforeProgramAvg) * 100;
       }
 
       return {

@@ -52,7 +52,8 @@ async function getLevelData(doctorNames: string)
         "Fasting",
         "PPBG",
         "HbA1c",
-        "Doctor_Name"
+        "Doctor_Name",
+        "Body_Weight_kg"
       ].join(',');
 
     const ContactsLevelRes = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
@@ -77,36 +78,33 @@ async function getLevelData(doctorNames: string)
 
     const Leveldata = [...(ContactsLevelData.data || []), ...(LeadsLevelData.data || [])];
 
+
+
+
     // Calculate average weight change
     const calculateAverageWeightChange = (data: any[]) => {
-        let totalWeightChange = 0;
-        let validEntries = 0;
+    
+      let beforeProgramAvg = data.reduce((acc, item) => acc + safeParseNumber(item?.Body_Weight_kg), 0) / data.length;
+      let month3Avg = data.reduce((acc, item) => acc + safeParseNumber(item?.Body_Weight_kg_Month_3), 0) / data.length;
+      let percentageChange = 0;
+      
+      if(beforeProgramAvg === 0 && month3Avg === 0) {
+        percentageChange = 0;
+      } else if(beforeProgramAvg === 0 && month3Avg !== 0) {
+        percentageChange = month3Avg > 0 ? 100 : -100;
+      } else if(beforeProgramAvg !== 0) {
+        percentageChange = ((month3Avg - beforeProgramAvg) / beforeProgramAvg) * 100;
+      }
+        
+        return percentageChange.toFixed(2);
+        
 
-        data.forEach((item) => {
-            const initialWeight = safeParseNumber(item?.Weight);
-            const month1Weight = safeParseNumber(item?.Body_Weight_kg_Month_1);
-            const month2Weight = safeParseNumber(item?.Body_Weight_kg_Month_2);
-            const month3Weight = safeParseNumber(item?.Body_Weight_kg_Month_3);
-
-            // Calculate change from initial to latest available month
-            let latestWeight = initialWeight;
-            if (month3Weight) latestWeight = month3Weight;
-            else if (month2Weight) latestWeight = month2Weight;
-            else if (month1Weight) latestWeight = month1Weight;
-
-            if (initialWeight && latestWeight && initialWeight !== latestWeight) {
-                const weightChange = latestWeight - initialWeight;
-                totalWeightChange += weightChange;
-                validEntries++;
-            }
-        });
-
-        return validEntries > 0 ? Number((totalWeightChange / validEntries).toFixed(2)) : 0;
+ 
     };
 
     const resLevelData = {
         patientContinued: ContactsLevelData.data?.length || 0,
-        aveRageWeight: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Weight), 0) / Leveldata.length).toFixed(2) : "0.00",
+        aveRageWeight: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Body_Weight_kg), 0) / Leveldata.length).toFixed(2) : "0.00",
         aveRageWeightChange: calculateAverageWeightChange(Leveldata),
         aveRageBMR: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Metabolism_BMR), 0) / Leveldata.length).toFixed(2) : "0.00",
         aveRageFBS: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Fasting), 0) / Leveldata.length).toFixed(2) : "0.00",
@@ -144,13 +142,12 @@ async function getHcpData(doctorNames: string)
   const fields = [
    "hour_dietary_recall_calorie_intake",
    "How_many_days_do_you_exercise_in_a_week",
-   "Time_of_Consumption",
    "Quality_hours_of_sleep_do_you_get_at_night",
    "BMI",
    "Body_Fat",
    "Muscle_Mass",
    "Body_Water",
-   "BoneBone_Mass_Kg",
+   "Bone_Mass_Kg",
    "hour_dietary_recall_calorie_intake",
    "hour_dietary_recall_carb_intake",
    "hour_dietary_recall_protein_intake",
@@ -185,13 +182,12 @@ async function getHcpData(doctorNames: string)
   const resHcpData = {
     "hour_dietary_recall_calorie_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_calorie_intake), 0) / HcpData.length).toFixed(2) : "0.00",
     "How_many_days_do_you_exercise_in_a_week": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.How_many_days_do_you_exercise_in_a_week), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Time_of_Consumption": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Time_of_Consumption), 0) / HcpData.length).toFixed(2) : "0.00",
     "Quality_hours_of_sleep_do_you_get_at_night": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Quality_hours_of_sleep_do_you_get_at_night), 0) / HcpData.length).toFixed(2) : "0.00",
     "BMI": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.BMI), 0) / HcpData.length).toFixed(2) : "0.00",
     "Body_Fat": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Body_Fat), 0) / HcpData.length).toFixed(2) : "0.00",
     "Muscle_Mass": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Muscle_Mass), 0) / HcpData.length).toFixed(2) : "0.00",
     "Body_Water": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Body_Water), 0) / HcpData.length).toFixed(2) : "0.00",
-    "BoneBone_Mass_Kg": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.BoneBone_Mass_Kg), 0) / HcpData.length).toFixed(2) : "0.00",
+    "Bone_Mass_Kg": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Bone_Mass_Kg), 0) / HcpData.length).toFixed(2) : "0.00",
     "hour_dietary_recall_carb_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_carb_intake), 0) / HcpData.length).toFixed(2) : "0.00",
     "hour_dietary_recall_protein_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_protein_intake), 0) / HcpData.length).toFixed(2) : "0.00",
     "Usage_frequency_Month_1": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Usage_frequency_Month_1), 0) / HcpData.length).toFixed(2) : "0.00",
@@ -429,7 +425,9 @@ async function getPatientLevelData(doctorNames: string)
       "How_many_days_do_you_exercise_in_a_week_month1",
       "How_many_days_do_you_exercise_in_a_week_month2",
       "How_many_days_do_you_exercise_in_a_week_month3"
-    ])
+    ]),
+
+    contactData: combinedData,
 
   };
 
