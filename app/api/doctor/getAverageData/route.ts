@@ -17,7 +17,7 @@ export async function GET(request: Request) {
         }
     })
   } catch (error) {
-    console.error('Error fetching average data:', error);
+    //console.error('Error fetching average data:', error);
     return Response.json({
       success: false,
       error: error.message
@@ -34,13 +34,25 @@ async function getLevelData(doctorNames: string)
   
   // Helper function to safely parse numeric values
   const safeParseNumber = (value: any) => {
-    if (value === null || value === undefined || value === '') return 0;
+    if (value === null || value === undefined || value === '') return null;
     const num = Number(value);
-    if (isNaN(num) || !isFinite(num)) return 0;
+    if (isNaN(num) || !isFinite(num)) return null;
     // Limit extremely large numbers
-    if (Math.abs(num) > 1000000) return 0;
+    if (Math.abs(num) > 1000000) return null;
     return num;
   }; 
+
+  // Helper function to calculate average excluding null/0 values
+  const calculateAverage = (data: any[], field: string) => {
+    const validValues = data
+      .map(item => safeParseNumber(item?.[field]))
+      .filter(val => val !== null && val !== 0);
+    
+    if (validValues.length === 0) return "0.00";
+    
+    const sum = validValues.reduce((acc, val) => acc + val, 0);
+    return Number(sum / validValues.length).toFixed(2);
+  };
 
       const fields = [
         "StatusPrespcription",
@@ -83,9 +95,21 @@ async function getLevelData(doctorNames: string)
 
     // Calculate average weight change
     const calculateAverageWeightChange = (data: any[]) => {
-    
-      let beforeProgramAvg = data.reduce((acc, item) => acc + safeParseNumber(item?.Body_Weight_kg), 0) / data.length;
-      let month3Avg = data.reduce((acc, item) => acc + safeParseNumber(item?.Body_Weight_kg_Month_3), 0) / data.length;
+      const beforeProgramValues = data
+        .map(item => safeParseNumber(item?.Body_Weight_kg))
+        .filter(val => val !== null && val !== 0);
+      
+      const month3Values = data
+        .map(item => safeParseNumber(item?.Body_Weight_kg_Month_3))
+        .filter(val => val !== null && val !== 0);
+      
+      if (beforeProgramValues.length === 0 || month3Values.length === 0) {
+        return "0.00";
+      }
+      
+      const beforeProgramAvg = beforeProgramValues.reduce((a, b) => a + b, 0) / beforeProgramValues.length;
+      const month3Avg = month3Values.reduce((a, b) => a + b, 0) / month3Values.length;
+      
       let percentageChange = 0;
       
       if(beforeProgramAvg === 0 && month3Avg === 0) {
@@ -96,20 +120,17 @@ async function getLevelData(doctorNames: string)
         percentageChange = ((month3Avg - beforeProgramAvg) / beforeProgramAvg) * 100;
       }
         
-        return percentageChange.toFixed(2);
-        
-
- 
+      return percentageChange.toFixed(2);
     };
 
     const resLevelData = {
         patientContinued: ContactsLevelData.data?.length || 0,
-        aveRageWeight: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Body_Weight_kg), 0) / Leveldata.length).toFixed(2) : "0.00",
+        aveRageWeight: calculateAverage(Leveldata, "Body_Weight_kg"),
         aveRageWeightChange: calculateAverageWeightChange(Leveldata),
-        aveRageBMR: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Metabolism_BMR), 0) / Leveldata.length).toFixed(2) : "0.00",
-        aveRageFBS: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.Fasting), 0) / Leveldata.length).toFixed(2) : "0.00",
-        aveRagePPBS: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.PPBG), 0) / Leveldata.length).toFixed(2) : "0.00",
-        aveRageHbA1c: Leveldata.length > 0 ? Number(Leveldata.reduce((acc, item) => acc + safeParseNumber(item?.HbA1c), 0) / Leveldata.length).toFixed(2) : "0.00"
+        aveRageBMR: calculateAverage(Leveldata, "Metabolism_BMR"),
+        aveRageFBS: calculateAverage(Leveldata, "Fasting"),
+        aveRagePPBS: calculateAverage(Leveldata, "PPBG"),
+        aveRageHbA1c: calculateAverage(Leveldata, "HbA1c")
     };
 
 
@@ -118,7 +139,7 @@ async function getLevelData(doctorNames: string)
 
 
 
-    console.log(resLevelData, "resLevelData")
+    //console.log(resLevelData, "resLevelData")
 
     return{ resLevelData: resLevelData,total: Leveldata.length};
 
@@ -132,13 +153,26 @@ async function getHcpData(doctorNames: string)
   
   // Helper function to safely parse numeric values
   const safeParseNumber = (value: any) => {
-    if (value === null || value === undefined || value === '') return 0;
+    if (value === null || value === undefined || value === '') return null;
     const num = Number(value);
-    if (isNaN(num) || !isFinite(num)) return 0;
+    if (isNaN(num) || !isFinite(num)) return null;
     // Limit extremely large numbers
-    if (Math.abs(num) > 1000000) return 0;
+    if (Math.abs(num) > 1000000) return null;
     return num;
   };
+
+  // Helper function to calculate average excluding null/0 values
+  const calculateAverage = (data: any[], field: string) => {
+    const validValues = data
+      .map(item => safeParseNumber(item?.[field]))
+      .filter(val => val !== null && val !== 0);
+    
+    if (validValues.length === 0) return "0.00";
+    
+    const sum = validValues.reduce((acc, val) => acc + val, 0);
+    return Number(sum / validValues.length).toFixed(2);
+  };
+
   const fields = [
    "hour_dietary_recall_calorie_intake",
    "How_many_days_do_you_exercise_in_a_week",
@@ -154,7 +188,8 @@ async function getHcpData(doctorNames: string)
    "Quality_hours_of_sleep_do_you_get_at_night",
    "Usage_frequency_Month_1",
    "How_many_litres_of_water_do_you_drink_in_a_day",
-   "Doctor_Name"
+   "Doctor_Name",
+   "Last_Name"
   ].join(',');
 
   const ContactsHcpRes = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
@@ -175,26 +210,30 @@ async function getHcpData(doctorNames: string)
   const LeadsHcpData = await LeadsHcpRes.json()
   
   let HcpData = [...(ContactsHcpData.data || []), ...(LeadsHcpData.data || [])];
+  //console.log(HcpData, "HcpData")
   if (doctorNames) {
     HcpData = HcpData?.filter(item => item.Doctor_Name === doctorNames);
   }
-  
+
+  //console.log(HcpData.length, "HcpData")
+  const onlyExcersiseData = HcpData.map(item =>{ return {Last_Name: item.Last_Name, How_many_days_do_you_exercise_in_a_week: item.How_many_days_do_you_exercise_in_a_week}});
+  //console.log(onlyExcersiseData, "onlyExcersiseData")
   const resHcpData = {
-    "hour_dietary_recall_calorie_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_calorie_intake), 0) / HcpData.length).toFixed(2) : "0.00",
-    "How_many_days_do_you_exercise_in_a_week": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.How_many_days_do_you_exercise_in_a_week), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Quality_hours_of_sleep_do_you_get_at_night": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Quality_hours_of_sleep_do_you_get_at_night), 0) / HcpData.length).toFixed(2) : "0.00",
-    "BMI": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.BMI), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Body_Fat": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Body_Fat), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Muscle_Mass": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Muscle_Mass), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Body_Water": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Body_Water), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Bone_Mass_Kg": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Bone_Mass_Kg), 0) / HcpData.length).toFixed(2) : "0.00",
-    "hour_dietary_recall_carb_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_carb_intake), 0) / HcpData.length).toFixed(2) : "0.00",
-    "hour_dietary_recall_protein_intake": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.hour_dietary_recall_protein_intake), 0) / HcpData.length).toFixed(2) : "0.00",
-    "Usage_frequency_Month_1": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.Usage_frequency_Month_1), 0) / HcpData.length).toFixed(2) : "0.00",
-    "How_many_litres_of_water_do_you_drink_in_a_day": HcpData.length > 0 ? Number(HcpData.reduce((acc, item) => acc + safeParseNumber(item?.How_many_litres_of_water_do_you_drink_in_a_day), 0) / HcpData.length).toFixed(2) : "0.00"
+    "hour_dietary_recall_calorie_intake": calculateAverage(HcpData, "hour_dietary_recall_calorie_intake"),
+    "How_many_days_do_you_exercise_in_a_week": calculateAverage(HcpData, "How_many_days_do_you_exercise_in_a_week"),
+    "Quality_hours_of_sleep_do_you_get_at_night": calculateAverage(HcpData, "Quality_hours_of_sleep_do_you_get_at_night"),
+    "BMI": calculateAverage(HcpData, "BMI"),
+    "Body_Fat": calculateAverage(HcpData, "Body_Fat"),
+    "Muscle_Mass": calculateAverage(HcpData, "Muscle_Mass"),
+    "Body_Water": calculateAverage(HcpData, "Body_Water"),
+    "Bone_Mass_Kg": calculateAverage(HcpData, "Bone_Mass_Kg"),
+    "hour_dietary_recall_carb_intake": calculateAverage(HcpData, "hour_dietary_recall_carb_intake"),
+    "hour_dietary_recall_protein_intake": calculateAverage(HcpData, "hour_dietary_recall_protein_intake"),
+    "Usage_frequency_Month_1": calculateAverage(HcpData, "Usage_frequency_Month_1"),
+    "How_many_litres_of_water_do_you_drink_in_a_day": calculateAverage(HcpData, "How_many_litres_of_water_do_you_drink_in_a_day")
   }
 
-  console.log(resHcpData, "resHcpData")
+  //console.log(resHcpData, "resHcpData")
 
   return resHcpData;
 
@@ -208,11 +247,11 @@ async function getPatientLevelData(doctorNames: string)
   
   // Helper function to safely parse numeric values
   const safeParseNumber = (value: any) => {
-    if (value === null || value === undefined || value === '') return 0;
+    if (value === null || value === undefined || value === '') return null;
     const num = Number(value);
-    if (isNaN(num) || !isFinite(num)) return 0;
+    if (isNaN(num) || !isFinite(num)) return null;
     // Limit extremely large numbers
-    if (Math.abs(num) > 1000000) return 0;
+    if (Math.abs(num) > 1000000) return null;
     return num;
   };
 
@@ -342,7 +381,7 @@ async function getPatientLevelData(doctorNames: string)
   // Calculate averages for each metric category
   const calculateAverages = (data: any[], fields: string[]) => {
     return fields.map(field => {
-      const values = data.map(item => safeParseNumber(item[field])).filter(val => val > 0);
+      const values = data.map(item => safeParseNumber(item[field])).filter(val => val !== null && val !== 0);
       const average = values.length > 0 ? values.reduce((a, b) => a + b, 0) / values.length : 0;
       return Number(average.toFixed(2));
     });
