@@ -58,7 +58,7 @@ export async function GET(request) {
     }
 
     let contactsData = await contactsResponse.json();
-    // console.log(contactsData.data[0], "contactsData");
+    // //console.log(contactsData.data[0], "contactsData");
 
     contactsData.data = contactsData?.data.map(item => ({
       ...item,

@@ -14,19 +14,19 @@ export const getRefreshToken = async () => {
     
     if (global.tokenCache.accessToken) {
         const timeRemaining = global.tokenCache.expirationTime - currentTime;
-        console.log(`Token cache: ${hasValidToken ? 'VALID' : 'EXPIRED'} (${Math.round(timeRemaining / 1000 / 60)}min remaining)`);
+        //console.log(`Token cache: ${hasValidToken ? 'VALID' : 'EXPIRED'} (${Math.round(timeRemaining / 1000 / 60)}min remaining)`);
     } else {
-        console.log("Token cache: EMPTY");
+        //console.log("Token cache: EMPTY");
     }
     
     // If we have a valid cached token that hasn't expired, return it
     if (hasValidToken) {
-        console.log("🔄 Using cached token");
+        //console.log("🔄 Using cached token");
         return global.tokenCache.accessToken;
     }
 
     // If no valid cached token, fetch a new one
-    console.log("Fetching new access token...");
+    //console.log("Fetching new access token...");
     const tokenResponse = await fetch('https://accounts.zoho.in/oauth/v2/token', {
         method: 'POST',
         headers: {
@@ -54,7 +54,7 @@ export const getRefreshToken = async () => {
       global.tokenCache.accessToken = accessToken;
       global.tokenCache.expirationTime = newExpirationTime;
       
-      console.log("✅ Token cached successfully for ~2.5 minutes (3400 seconds)");
+      //console.log("✅ Token cached successfully for ~2.5 minutes (3400 seconds)");
       
       return accessToken;
 }   

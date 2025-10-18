@@ -139,7 +139,7 @@ async function getLevelData(doctorNames: string)
 
 
 
-    //console.log(resLevelData, "resLevelData")
+    ////console.log(resLevelData, "resLevelData")
 
     return{ resLevelData: resLevelData,total: Leveldata.length};
 
@@ -210,14 +210,14 @@ async function getHcpData(doctorNames: string)
   const LeadsHcpData = await LeadsHcpRes.json()
   
   let HcpData = [...(ContactsHcpData.data || []), ...(LeadsHcpData.data || [])];
-  //console.log(HcpData, "HcpData")
+  ////console.log(HcpData, "HcpData")
   if (doctorNames) {
     HcpData = HcpData?.filter(item => item.Doctor_Name === doctorNames);
   }
 
-  //console.log(HcpData.length, "HcpData")
+  ////console.log(HcpData.length, "HcpData")
   const onlyExcersiseData = HcpData.map(item =>{ return {Last_Name: item.Last_Name, How_many_days_do_you_exercise_in_a_week: item.How_many_days_do_you_exercise_in_a_week}});
-  //console.log(onlyExcersiseData, "onlyExcersiseData")
+  ////console.log(onlyExcersiseData, "onlyExcersiseData")
   const resHcpData = {
     "hour_dietary_recall_calorie_intake": calculateAverage(HcpData, "hour_dietary_recall_calorie_intake"),
     "How_many_days_do_you_exercise_in_a_week": calculateAverage(HcpData, "How_many_days_do_you_exercise_in_a_week"),
@@ -233,7 +233,7 @@ async function getHcpData(doctorNames: string)
     "How_many_litres_of_water_do_you_drink_in_a_day": calculateAverage(HcpData, "How_many_litres_of_water_do_you_drink_in_a_day")
   }
 
-  //console.log(resHcpData, "resHcpData")
+  ////console.log(resHcpData, "resHcpData")
 
   return resHcpData;
 

@@ -1,5 +1,43 @@
 import { getRefreshToken } from "@/app/utils/getRefreshToken";
 
+// Function to fetch all pages of data from Zoho API
+async function fetchAllPages(baseUrl, accessToken) {
+  let allData = [];
+  let page = 1;
+  let hasMoreRecords = true;
+
+  while (hasMoreRecords) {
+    const urlWithPage = `${baseUrl}&page=${page}`;
+    
+    const response = await fetch(urlWithPage, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Zoho-oauthtoken ${accessToken}`,
+        'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`API failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    console.log(data.info, "data",baseUrl);
+    
+    // Append current page data to allData
+    if (data.data && data.data.length > 0) {
+      allData = [...allData, ...data.data];
+    }
+
+    // Check if there are more records
+    hasMoreRecords = data.info && data.info.more_records === true;
+    page++;
+  }
+
+  return { data: allData };
+}
+
 // Function to convert date string to the required format
 function convertToRequiredFormat(dateString, isEndDate = false) {
   const date = new Date(dateString);
@@ -36,8 +74,8 @@ function createDateRangeFilter(startDate, endDate) {
   const startFormatted = convertToRequiredFormat(startDate, false); // Start of day (00:00:00)
   const endFormatted = convertToRequiredFormat(endDate, true);      // End of day (23:59:59)
  
-  console.log(startFormatted, "startFormatted");
-  console.log(endFormatted, "endFormatted");
+  //console.log(startFormatted, "startFormatted");
+  //console.log(endFormatted, "endFormatted");
   
   // Create the filter string: Created_Time:between:startDate,endDate
   const filterString = `Created_Time:between:${startFormatted},${endFormatted}`;
@@ -77,33 +115,12 @@ export async function POST(request) {
 
 
 
-    const contactsResponse = await fetch(contactsUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Zoho-oauthtoken ${accessToken}`,
-        'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
-      }
-    });
-    const leadsResponse = await fetch(leadsUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Zoho-oauthtoken ${accessToken}`,
-        'Cookie': '_zcsr_tmp=2c457748-76e7-4104-8147-6df9dccc1b0b; crmcsr=2c457748-76e7-4104-8147-6df9dccc1b0b'
-      }
-    });
+    // Fetch all pages of data using the pagination helper
+    let contactsData;
+    let leadsData;
 
-    if (!contactsResponse.ok) {
-        let error = await contactsResponse.json();
-        console.log(error, "error");
-      throw new Error(`Contacts API failed: ${contactsResponse}`);
-    }
-    if (!leadsResponse.ok) {
-      throw new Error(`Leads API failed: ${leadsResponse.status}`);
-    }
-
-    let contactsData ;
     try {
-      contactsData = await contactsResponse.json();
+      contactsData = await fetchAllPages(contactsUrl, accessToken);
 
       if(body.city) {
         contactsData.data = contactsData?.data.filter(item => item.City === body.city);
@@ -117,16 +134,15 @@ export async function POST(request) {
     } catch (error) {
       contactsData = {data: []};
     }
-    // console.log(contactsData.data[0], "contactsData");
+    // //console.log(contactsData.data[0], "contactsData");
 
     contactsData.data = contactsData?.data.map(item => ({
       ...item,
       moduleName: 'Contacts'
     }));
 
-    let leadsData ;
     try {
-      leadsData = await leadsResponse.json();
+      leadsData = await fetchAllPages(leadsUrl, accessToken);
       if(body.city) {
         leadsData.data = leadsData?.data.filter(item => item.City === body.city);
       }
@@ -139,11 +155,13 @@ export async function POST(request) {
     } catch (error) {
       leadsData = {data: []};
     }
-
+    // console.log(leadsData, "leadsData");
     leadsData.data = leadsData?.data.map(item => ({
       ...item,
       moduleName: 'Leads'
     }));
+
+    
 
 
       const uniqueDoctorParticipated = [...new Set([...contactsData?.data.map(item => item.Doctor_Name), ...leadsData?.data.map(item => item.Doctor_Name)])];
