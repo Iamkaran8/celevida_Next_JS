@@ -23,6 +23,8 @@ import { DoctorSegmentation } from "../../../components/charts/DoctorSegmentatio
 import { Loader } from "../../../components/loader/Loader";
 import ExportButtons from "../../../components/ExportButtons/ExportButtons";
 import { exportToCSV, exportToPDF } from "../../../app/utils/exportUtils";
+import ClickableCard from "../../../components/ClickableCard/ClickableCard";
+import * as ExcelExport from "../../../app/utils/excelExportUtils";
 
 
 export default function Dashboard() {
@@ -112,6 +114,45 @@ export default function Dashboard() {
         }
     };
 
+    // Individual component export handlers
+    const exportData = {
+        onboardedPatients,
+        Prescribed,
+        Nurture,
+        totalDoctorParticipated,
+        avgTableData,
+        genderCount,
+        ageGroups,
+        Call_Disposition,
+        ratingCount,
+        cities,
+        Feedbacks
+    };
+
+    const handleExportTotalPatients = () => ExcelExport.exportPatientsList(exportData, filters);
+    const handleExportDoctors = () => ExcelExport.exportDoctorsList(exportData, filters);
+    const handleExportPrescribed = () => {
+        const prescribedData = {
+            ...exportData,
+            Feedbacks: exportData.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Onboarded')
+        };
+        ExcelExport.exportPatientsList(prescribedData, filters);
+    };
+    const handleExportNurture = () => {
+        const nurtureData = {
+            ...exportData,
+            Feedbacks: exportData.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Nurture')
+        };
+        ExcelExport.exportPatientsList(nurtureData, filters);
+    };
+    const handleExportGender = () => ExcelExport.exportGenderData(exportData, filters);
+    const handleExportAgeGroup = () => ExcelExport.exportAgeGroupData(exportData, filters);
+    const handleExportPatientSegmentation = () => ExcelExport.exportPatientSegmentation(exportData, filters);
+    const handleExportDoctorSegmentation = () => ExcelExport.exportDoctorSegmentation(exportData, filters);
+    const handleExportCallDisposition = () => ExcelExport.exportCallDispositionData(exportData, filters);
+    const handleExportRating = () => ExcelExport.exportRatingData(exportData, filters);
+    const handleExportTopCities = () => ExcelExport.exportTopCitiesData(exportData, filters);
+
 
 
 
@@ -150,46 +191,58 @@ export default function Dashboard() {
 
             {/* Patient Status Cards */}
             <div className={styles.patient_container}>
-                <PatientStatusDetails
-                    title="Total Patients"
-                    logo="/images/onboardedpatients.svg"
-                    color="#1B2559"
-                    count={onboardedPatients}
-                />
-                <PatientStatusDetails
-                    title="Prescribed"
-                    logo="/images/Prescribed.svg"
-                    color="#23B883"
-                    count={Prescribed}
-                />
-                <PatientStatusDetails
-                    title="Nurture Patients"
-                    logo="/images/Nurture.svg"
-                    color="#4085F3"
-                    count={Nurture}
-                />
+                <ClickableCard onExport={handleExportTotalPatients}>
+                    <PatientStatusDetails
+                        title="Total Patients"
+                        logo="/images/onboardedpatients.svg"
+                        color="#1B2559"
+                        count={onboardedPatients}
+                    />
+                </ClickableCard>
+                <ClickableCard onExport={handleExportPrescribed}>
+                    <PatientStatusDetails
+                        title="Prescribed"
+                        logo="/images/Prescribed.svg"
+                        color="#23B883"
+                        count={Prescribed}
+                    />
+                </ClickableCard>
+                <ClickableCard onExport={handleExportNurture}>
+                    <PatientStatusDetails
+                        title="Nurture Patients"
+                        logo="/images/Nurture.svg"
+                        color="#4085F3"
+                        count={Nurture}
+                    />
+                </ClickableCard>
             </div>
 
             {/* KPI Cards */}
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
                     {/* <PatientSegmentation /> */}
-                    <DoctorSegmentation />
+                    <ClickableCard onExport={handleExportDoctorSegmentation}>
+                        <DoctorSegmentation />
+                    </ClickableCard>
                 </div>
                 <div className={styles.second_section_right} style={{ display: 'flex', flexDirection: 'column' }}>
                     <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                        <PatientsKpiCard
-                            title="Total Patients Enrolled"
-                            value={onboardedPatients}
-                            trend={12}
-                            icon={User}
-                            color="#10b981"
-                        />
-                        <PatientsKpiCard
-                            title="Total Doctors Participated"
-                            value={totalDoctorParticipated}
-                            trend={8}
-                        />
+                        <ClickableCard onExport={handleExportTotalPatients}>
+                            <PatientsKpiCard
+                                title="Total Patients Enrolled"
+                                value={onboardedPatients}
+                                trend={12}
+                                icon={User}
+                                color="#10b981"
+                            />
+                        </ClickableCard>
+                        <ClickableCard onExport={handleExportDoctors}>
+                            <PatientsKpiCard
+                                title="Total Doctors Participated"
+                                value={totalDoctorParticipated}
+                                trend={8}
+                            />
+                        </ClickableCard>
                     </div>
                 </div>
             </div>
@@ -197,25 +250,35 @@ export default function Dashboard() {
             {/* Charts Section */}
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <GraphOuterContainer title="Gender" component={<GenderChart />} />
+                    <ClickableCard onExport={handleExportGender}>
+                        <GraphOuterContainer title="Gender" component={<GenderChart />} />
+                    </ClickableCard>
                 </div>
                 <div className={styles.second_section_right}>
-                    <GraphOuterContainer title="Age Group" component={<AgeGroupChart />} />
+                    <ClickableCard onExport={handleExportAgeGroup}>
+                        <GraphOuterContainer title="Age Group" component={<AgeGroupChart />} />
+                    </ClickableCard>
                 </div>
             </div>
 
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <GraphOuterContainer title="Patient Status Funnel" component={<PatientFunnelChart />} />
+                    <ClickableCard onExport={handleExportPatientSegmentation}>
+                        <GraphOuterContainer title="Patient Status Funnel" component={<PatientFunnelChart />} />
+                    </ClickableCard>
                 </div>
                 <div className={styles.second_section_right}>
-                    <GraphOuterContainer title="Program Rating Distribution" component={<RatingDistribution />} />
+                    <ClickableCard onExport={handleExportRating}>
+                        <GraphOuterContainer title="Program Rating Distribution" component={<RatingDistribution />} />
+                    </ClickableCard>
                 </div>
             </div>
 
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <GraphOuterContainer title="Call Completion Rate with Trendline" component={<CallCompletionChart />} />
+                    <ClickableCard onExport={handleExportCallDisposition}>
+                        <GraphOuterContainer title="Call Completion Rate with Trendline" component={<CallCompletionChart />} />
+                    </ClickableCard>
                 </div>
 
                 <div className={`${styles.second_section_right} ${styles.anotherClass}`} style={{ background: '#fff', border: '1px solid #d9d9d9', borderRadius: '4px', margin: '10px', padding: '20px' }}>
@@ -225,7 +288,9 @@ export default function Dashboard() {
 
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <TopCitiesTable />
+                    <ClickableCard onExport={handleExportTopCities}>
+                        <TopCitiesTable />
+                    </ClickableCard>
                 </div>
                 <div className={styles.second_section_right} >
 
@@ -233,26 +298,54 @@ export default function Dashboard() {
             </div>
 
             {/* Average Charts */}
-            <ChartSection titleLeft="HbA1c Progress" dataLeft={hba1cData} dataKeyLeft="HbA1c" colorLeft="#B1740F"
-                titleRight="BMI Progress" dataRight={bmiData} dataKeyRight="BMI" colorRight="#1789FC"  />
+            <ChartSection 
+                titleLeft="HbA1c Progress" dataLeft={hba1cData} dataKeyLeft="HbA1c" colorLeft="#B1740F"
+                titleRight="BMI Progress" dataRight={bmiData} dataKeyRight="BMI" colorRight="#1789FC"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('HbA1c', hba1cData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('BMI', bmiData, exportData)}
+            />
 
-            <ChartSection titleLeft="Weight Progress" dataLeft={weightData} dataKeyLeft="Weight" colorLeft="#F26419"
-                titleRight="FBS Progress" dataRight={fbsData} dataKeyRight="FBS" colorRight="#fb6f92"  />
+            <ChartSection 
+                titleLeft="Weight Progress" dataLeft={weightData} dataKeyLeft="Weight" colorLeft="#F26419"
+                titleRight="FBS Progress" dataRight={fbsData} dataKeyRight="FBS" colorRight="#fb6f92"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('Weight', weightData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('FBS', fbsData, exportData)}
+            />
 
-            <ChartSection titleLeft="PPBS Progress" dataLeft={ppbsData} dataKeyLeft="PPBS" colorLeft="#fca311"
-                titleRight="Visceral Fat Progress" dataRight={visceralFatData} dataKeyRight="VisceralFat" colorRight="#390099"  />
+            <ChartSection 
+                titleLeft="PPBS Progress" dataLeft={ppbsData} dataKeyLeft="PPBS" colorLeft="#fca311"
+                titleRight="Visceral Fat Progress" dataRight={visceralFatData} dataKeyRight="VisceralFat" colorRight="#390099"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('PPBS', ppbsData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('Visceral Fat', visceralFatData, exportData)}
+            />
 
-            <ChartSection titleLeft="Muscle Mass Progress (%)" dataLeft={muscleMassData} dataKeyLeft="MuscleMass" colorLeft="#fbf8cc"
-                titleRight="Muscle Weight Progress" dataRight={muscleWeightData} dataKeyRight="MuscleWeight" colorRight="#00f5d4"  />
+            <ChartSection 
+                titleLeft="Muscle Mass Progress (%)" dataLeft={muscleMassData} dataKeyLeft="MuscleMass" colorLeft="#fbf8cc"
+                titleRight="Muscle Weight Progress" dataRight={muscleWeightData} dataKeyRight="MuscleWeight" colorRight="#00f5d4"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('Muscle Mass', muscleMassData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('Muscle Weight', muscleWeightData, exportData)}
+            />
 
-            <ChartSection titleLeft="Bone Mass Progress" dataLeft={boneMassData} dataKeyLeft="BoneMass" colorLeft="#f48498"
-                titleRight="Body Fat Progress (%)" dataRight={bodyFatData} dataKeyRight="BodyFat" colorRight="#1780a1"  />
+            <ChartSection 
+                titleLeft="Bone Mass Progress" dataLeft={boneMassData} dataKeyLeft="BoneMass" colorLeft="#f48498"
+                titleRight="Body Fat Progress (%)" dataRight={bodyFatData} dataKeyRight="BodyFat" colorRight="#1780a1"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('Bone Mass', boneMassData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('Body Fat', bodyFatData, exportData)}
+            />
 
-            <ChartSection titleLeft="Muscle % Progress" dataLeft={musclePercentData} dataKeyLeft="MusclePercent" colorLeft="#aeb8fe"
-                titleRight="Protein Intake (g)" dataRight={proteinIntakeData} dataKeyRight="Protein" colorRight="#570000"  />
+            <ChartSection 
+                titleLeft="Muscle % Progress" dataLeft={musclePercentData} dataKeyLeft="MusclePercent" colorLeft="#aeb8fe"
+                titleRight="Protein Intake (g)" dataRight={proteinIntakeData} dataKeyRight="Protein" colorRight="#570000"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('Muscle Percent', musclePercentData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('Protein Intake', proteinIntakeData, exportData)}
+            />
 
-            <ChartSection titleLeft="Carb Intake (g)" dataLeft={carbIntakeData} dataKeyLeft="Carbs" colorLeft="#136f63"
-                titleRight="Calorie Intake (kcal)" dataRight={calorieIntakeData} dataKeyRight="Calories" colorRight="red"  />
+            <ChartSection 
+                titleLeft="Carb Intake (g)" dataLeft={carbIntakeData} dataKeyLeft="Carbs" colorLeft="#136f63"
+                titleRight="Calorie Intake (kcal)" dataRight={calorieIntakeData} dataKeyRight="Calories" colorRight="red"
+                onExportLeft={() => ExcelExport.exportHealthMetricData('Carb Intake', carbIntakeData, exportData)}
+                onExportRight={() => ExcelExport.exportHealthMetricData('Calorie Intake', calorieIntakeData, exportData)}
+            />
 
         </>
     );
@@ -260,13 +353,17 @@ export default function Dashboard() {
 
 // Reusable Chart Section Component
 const ChartSection = ({ titleLeft, dataLeft, dataKeyLeft, colorLeft, domainLeft,
-    titleRight, dataRight, dataKeyRight, colorRight, domainRight }) => (
+    titleRight, dataRight, dataKeyRight, colorRight, domainRight, onExportLeft, onExportRight }) => (
     <div className={styles.second_section}>
         <div className={styles.second_section_left}>
-            <GraphOuterContainer title={titleLeft} component={<AverageChart color={colorLeft} dataKey={dataKeyLeft} percentageChange={dataLeft.percentageChange} data={dataLeft.data} domain={domainLeft} />} />
+            <ClickableCard onExport={onExportLeft}>
+                <GraphOuterContainer title={titleLeft} component={<AverageChart color={colorLeft} dataKey={dataKeyLeft} percentageChange={dataLeft.percentageChange} data={dataLeft.data} domain={domainLeft} />} />
+            </ClickableCard>
         </div>
         <div className={styles.second_section_right}>
-            <GraphOuterContainer title={titleRight} component={<AverageChart color={colorRight} dataKey={dataKeyRight} data={dataRight.data} percentageChange={dataRight.percentageChange} domain={domainRight} />} />
+            <ClickableCard onExport={onExportRight}>
+                <GraphOuterContainer title={titleRight} component={<AverageChart color={colorRight} dataKey={dataKeyRight} data={dataRight.data} percentageChange={dataRight.percentageChange} domain={domainRight} />} />
+            </ClickableCard>
         </div>
     </div>
 );
