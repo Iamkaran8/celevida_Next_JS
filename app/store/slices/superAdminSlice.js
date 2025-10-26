@@ -1,4 +1,5 @@
 import { fetchExecutives } from "../../../app/utils/apis/fetchExecutives";
+import { fetchDoctors } from "../../../app/utils/apis/fetchDoctors";
 import { adminavgtabledata } from "../../../app/utils/apis/adminavgtabledata";
 import { filterapi } from "../../../app/utils/apis/filterapi";
 import { createSlice } from "@reduxjs/toolkit";
@@ -32,7 +33,8 @@ const initialState = {
     },
     ratingCount: {},
     cities: [],
-    executives: []
+    executives: [],
+    doctors: []
 };
 
 export const superAdminSlice = createSlice({
@@ -186,6 +188,19 @@ export const superAdminSlice = createSlice({
             .addCase(fetchExecutives.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload || "Failed to fetch executives";
+            })
+            // Fetch doctors
+            .addCase(fetchDoctors.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchDoctors.fulfilled, (state, action) => {
+                state.loading = false;
+                state.doctors = action.payload;
+            })
+            .addCase(fetchDoctors.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload || "Failed to fetch doctors";
             })
     },
 });

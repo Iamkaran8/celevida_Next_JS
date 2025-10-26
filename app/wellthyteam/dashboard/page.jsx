@@ -21,15 +21,18 @@ import { useState } from "react";
 import { transformData } from "../../../app/utils/transformData";
 import { DoctorSegmentation } from "../../../components/charts/DoctorSegmentation";
 import { Loader } from "../../../components/loader/Loader";
+import ExportButtons from "../../../components/ExportButtons/ExportButtons";
+import { exportToCSV, exportToPDF } from "../../../app/utils/exportUtils";
 
 
 export default function Dashboard() {
 
     const [filters, setFilters] = useState({});
+    const [isExporting, setIsExporting] = useState(false);
 
     const filteredPatients = useSelector(selectFilteredPatients);
     const { prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
-    const { avgTableData, loading, error, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated } = useSelector((state) => state.superadmin);
+    const { avgTableData, loading, error, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated, genderCount, ageGroups, Call_Disposition, ratingCount, cities, Feedbacks } = useSelector((state) => state.superadmin);
 
     const mappedPatients = [...filteredPatients]
         .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
@@ -71,12 +74,57 @@ export default function Dashboard() {
     if (error) return <p>Error loading data</p>;
     if (!avgTableData?.length) return <p>No data available</p>;
 
+    // Export handlers
+    const handleExportCSV = () => {
+        setIsExporting(true);
+        try {
+            const exportData = {
+                onboardedPatients,
+                Prescribed,
+                Nurture,
+                totalDoctorParticipated,
+                avgTableData,
+                genderCount,
+                ageGroups,
+                Call_Disposition,
+                ratingCount,
+                cities,
+                Feedbacks
+            };
+            exportToCSV(exportData, filters);
+        } catch (error) {
+            console.error('Error exporting CSV:', error);
+            alert('Failed to export CSV. Please try again.');
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
+    const handleExportPDF = async () => {
+        setIsExporting(true);
+        try {
+            await exportToPDF(filters);
+        } catch (error) {
+            console.error('Error exporting PDF:', error);
+            alert('Failed to export PDF. Please try again.');
+        } finally {
+            setIsExporting(false);
+        }
+    };
+
 
 
 
     return (
         <>
             <Header title="Welcome" />
+
+            {/* Export Buttons */}
+            <ExportButtons 
+                onExportCSV={handleExportCSV} 
+                onExportPDF={handleExportPDF}
+                isExporting={isExporting}
+            />
 
             {/* Filter Bar */}
             <div style={{ display: 'flex', justifyContent: 'end', marginBottom: '10px' }}>
@@ -91,9 +139,10 @@ export default function Dashboard() {
             {/* Selected Filters Display */}
             <div style={{ margin: "20px 0", padding: "10px", border: "1px solid #ddd", borderRadius: "6px", background: "#f9f9f9" }}>
                 <h4>Selected Filters</h4>
-                <p><b>City:</b> {filters.city || "All"}</p>
-                <p><b>Executive:</b> {filters.executive || "All"}</p>
-                <p><b>Status:</b> {filters.status || "All"}</p>
+                <p><b>Cities:</b> {filters.cities?.length > 0 ? filters.cities.join(', ') : "All"}</p>
+                <p><b>Executives:</b> {filters.executives?.length > 0 ? filters.executives.join(', ') : "All"}</p>
+                <p><b>Doctors:</b> {filters.doctors?.length > 0 ? filters.doctors.join(', ') : "All"}</p>
+                <p><b>Status:</b> {filters.statuses?.length > 0 ? filters.statuses.join(', ') : "All"}</p>
                 {filters.dateRange && (
                     <p><b>Date Range:</b> {filters.dateRange.startDate} - {filters.dateRange.endDate}</p>
                 )}

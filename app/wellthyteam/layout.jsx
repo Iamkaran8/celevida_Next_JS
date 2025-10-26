@@ -10,6 +10,7 @@ import { fetchDoctorNames } from '../utils/apis/fetchdoctornames'
 import { filterapi } from '../utils/apis/filterapi'
 import { adminavgtabledata } from '../utils/apis/adminavgtabledata'
 import { fetchExecutives } from '../utils/apis/fetchExecutives'
+import { fetchDoctors } from '../utils/apis/fetchDoctors'
 
 
 
@@ -22,6 +23,7 @@ export default function layout({ children }) {
         dispatch(doctorapi(""));
         dispatch(fetchDoctorNames())
         dispatch(fetchExecutives())
+        dispatch(fetchDoctors())
     }, []);
 
 
@@ -38,9 +40,10 @@ export default function layout({ children }) {
         const endDate = formatter.format(today);
 
         const filters = {
-            city: "",
-            executive: "",
-            status: "",
+            cities: [],
+            executives: [],
+            doctors: [],
+            statuses: [],
             dateRange: {
                 startDate,
                 endDate

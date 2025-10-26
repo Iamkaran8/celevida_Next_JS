@@ -8,6 +8,7 @@ import { doctorapi } from '../utils/apis/doctorapi'
 import ProtectedRoute from '../../components/productedRoute/ProtectedRoute'
 import { fetchDoctorNames } from '../utils/apis/fetchdoctornames'
 import { fetchExecutives } from '../utils/apis/fetchExecutives'
+import { fetchDoctors } from '../utils/apis/fetchDoctors'
 import { filterapi } from '../utils/apis/filterapi'
 import { adminavgtabledata } from '../utils/apis/adminavgtabledata'
 
@@ -25,6 +26,7 @@ export default function layout({ children }) {
             dispatch(doctorapi(""));
             dispatch(fetchDoctorNames())
             dispatch(fetchExecutives())
+            dispatch(fetchDoctors())
         }
     }, [dispatch, doctorName]);
 
@@ -41,9 +43,10 @@ export default function layout({ children }) {
         const endDate = formatter.format(today);
 
         const filters = {
-            city: "",
-            executive: "",
-            status: "",
+            cities: [],
+            executives: [],
+            doctors: [],
+            statuses: [],
             dateRange: {
                 startDate,
                 endDate

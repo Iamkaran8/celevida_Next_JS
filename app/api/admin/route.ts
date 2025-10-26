@@ -122,14 +122,17 @@ export async function POST(request) {
     try {
       contactsData = await fetchAllPages(contactsUrl, accessToken);
 
-      if(body.city) {
-        contactsData.data = contactsData?.data.filter(item => item.City === body.city);
+      if(body.cities && body.cities.length > 0) {
+        contactsData.data = contactsData?.data.filter(item => body.cities.includes(item.City));
       }
-      if(body.executive) {
-        contactsData.data = contactsData?.data.filter(item => item.Field_Executive === body.executive);
+      if(body.executives && body.executives.length > 0) {
+        contactsData.data = contactsData?.data.filter(item => body.executives.includes(item.Field_Executive));
       }
-      if(body.status) {
-        contactsData.data = contactsData?.data.filter(item => item.StatusPrespcription === body.status);
+      if(body.doctors && body.doctors.length > 0) {
+        contactsData.data = contactsData?.data.filter(item => body.doctors.includes(item.Doctor_Name));
+      }
+      if(body.statuses && body.statuses.length > 0) {
+        contactsData.data = contactsData?.data.filter(item => body.statuses.includes(item.StatusPrespcription));
       }
     } catch (error) {
       contactsData = {data: []};
@@ -143,14 +146,17 @@ export async function POST(request) {
 
     try {
       leadsData = await fetchAllPages(leadsUrl, accessToken);
-      if(body.city) {
-        leadsData.data = leadsData?.data.filter(item => item.City === body.city);
+      if(body.cities && body.cities.length > 0) {
+        leadsData.data = leadsData?.data.filter(item => body.cities.includes(item.City));
       }
-      if(body.executive) {
-        leadsData.data = leadsData?.data.filter(item => item.Field_Executive === body.executive);
+      if(body.executives && body.executives.length > 0) {
+        leadsData.data = leadsData?.data.filter(item => body.executives.includes(item.Field_Executive));
       }
-      if(body.status) {
-        leadsData.data = leadsData?.data.filter(item => item.StatusPrespcription === body.status);
+      if(body.doctors && body.doctors.length > 0) {
+        leadsData.data = leadsData?.data.filter(item => body.doctors.includes(item.Doctor_Name));
+      }
+      if(body.statuses && body.statuses.length > 0) {
+        leadsData.data = leadsData?.data.filter(item => body.statuses.includes(item.StatusPrespcription));
       }
     } catch (error) {
       leadsData = {data: []};
