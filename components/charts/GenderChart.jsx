@@ -88,6 +88,7 @@ export default function GenderChart() {
     cutout: "50%",
   };
 
+
   return (
     <>
 

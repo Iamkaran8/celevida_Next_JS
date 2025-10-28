@@ -149,14 +149,14 @@ export default function Dashboard() {
                 <div className={styles.second_section_right} style={{ display: 'flex', flexDirection: 'column' }}>
                     <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", display: 'flex', flexDirection: 'column', gap: '20px' }}>
                         <PatientsKpiCard
-                            title="Total Patients Enrolled"
+                            title="Total Clinics/HCPs participated"
                             value={onboardedPatients}
                             trend={12}
                             icon={User}
                             color="#10b981"
                         />
                         <PatientsKpiCard
-                            title="Total Doctors Participated"
+                            title="Change to Total Camps/Visits Conducted"
                             value={totalDoctorParticipated}
                             trend={8}
                         />
@@ -186,7 +186,7 @@ export default function Dashboard() {
 
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <GraphOuterContainer title="Call Completion Rate with Trendline" component={<CallCompletionChart filteredPatients={filteredPatients} />} />
+                    <GraphOuterContainer title="Change to Celevida Onboarded Call Coordination Trend" component={<CallCompletionChart filteredPatients={filteredPatients} />} />
                 </div>
                 <div className={styles.second_section_right}>
                     {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart filteredPatients={filteredPatients} />} /> */}

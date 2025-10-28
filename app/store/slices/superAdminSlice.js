@@ -134,19 +134,48 @@ export const superAdminSlice = createSlice({
 
 
 
-                    const cityCounts = {};
-                    patients.forEach((p) => {
-                        const city = (p.City || "Unknown").toLowerCase(); // convert to lowercase
-                        if (cityCounts[city]) cityCounts[city]++;
-                        else cityCounts[city] = 1;
+                    // Calculate city-wise statistics
+                    const cityStats = {};
+                    patients.forEach((p, index) => {
+                        const city = (p.City || "Unknown").toLowerCase();
+                        
+                        if (!cityStats[city]) {
+                            cityStats[city] = {
+                                doctors: new Set(),
+                                campsCount: 0,
+                                contacts: 0,
+                                leads: 0,
+                                total: 0
+                            };
+                        }
+                        
+                        // Count unique doctors
+                        if (p.Doctor_Name) {
+                            cityStats[city].doctors.add(p.Doctor_Name);
+                            cityStats[city].campsCount++; // Count each record with a doctor as a camp
+                        }
+                        
+                        // Count contacts and leads
+                        if (p.moduleName === 'Contacts') {
+                            cityStats[city].contacts++;
+                        } else if (p.moduleName === 'Leads') {
+                            cityStats[city].leads++;
+                        }
+                        
+                        cityStats[city].total++;
                     });
 
-                    state.cities = Object.entries(cityCounts)
-                        .map(([cityname, count]) => ({
+                    state.cities = Object.entries(cityStats)
+                        .map(([cityname, stats]) => ({
                             cityname: cityname.charAt(0).toUpperCase() + cityname.slice(1), // Capitalize first letter
-                            count
+                            count: stats.total,
+                            totalClinics: stats.doctors.size,
+                            totalCamps: stats.campsCount,
+                            totalContacts: stats.contacts,
+                            totalLeads: stats.leads,
+                            grandTotal: stats.contacts + stats.leads
                         }))
-                        .sort((a, b) => b.count - a.count);
+                        .sort((a, b) => b.grandTotal - a.grandTotal);
 
                 });
 

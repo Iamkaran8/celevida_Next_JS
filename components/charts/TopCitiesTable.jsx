@@ -21,25 +21,41 @@ export default function TopCitiesTable() {
           marginBottom: "16px",
         }}
       >
-        Top Cities / Clinics Covered
+        City wise performance
       </h3>
 
-      <div style={{ maxHeight: "300px", overflowY: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <div style={{ maxHeight: "400px", overflowY: "auto", overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "800px" }}>
           <thead>
             <tr style={{ background: "#f9fafb", textAlign: "left" }}>
-              <th style={{ padding: "10px", fontSize: "14px" }}>Rank</th>
-              <th style={{ padding: "10px", fontSize: "14px" }}>City</th>
-              <th style={{ padding: "10px", fontSize: "14px" }}> Count</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1 }}>Rank</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1 }}>City Name</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Clinics Participated</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Camps Conducted</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Patients Onboarded</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Patient Nurtured</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Grand Total of Patients</th>
             </tr>
           </thead>
           <tbody>
             {cities.map((city, index) => (
               <tr key={city.cityname} style={{ borderTop: "1px solid #f3f4f6" }}>
                 <td style={{ padding: "10px", fontSize: "14px" }}>{index + 1}</td>
-                <td style={{ padding: "10px", fontSize: "14px" }}>{city.cityname}</td>
-                <td style={{ padding: "10px", fontSize: "14px", fontWeight: "600" }}>
-                  {city.count}
+                <td style={{ padding: "10px", fontSize: "14px", fontWeight: "500" }}>{city.cityname}</td>
+                <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
+                  {city.totalClinics || 0}
+                </td>
+                <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
+                  {city.totalCamps || 0}
+                </td>
+                <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
+                  {city.totalContacts || 0}
+                </td>
+                <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
+                  {city.totalLeads || 0}
+                </td>
+                <td style={{ padding: "10px", fontSize: "14px", fontWeight: "600", textAlign: "center", color: "#059669" }}>
+                  {city.grandTotal || 0}
                 </td>
               </tr>
             ))}

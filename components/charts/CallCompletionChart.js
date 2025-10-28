@@ -99,17 +99,27 @@ export default function CallCompletionChart() {
   // Get Call_Disposition from Redux
   const { Call_Disposition } = useSelector((state) => state.superadmin);
 
-  // Labels are the keys of Call_Disposition
-  const labels = Object.keys(Call_Disposition);
+  // All possible call disposition labels - always shown
+  const allLabels = [
+    "Completed Journey",
+    "Not Interested",
+    "Not Eligible",
+    "Welcome Call Done",
+    "Connected",
+    "Not Connected",
+    "Busy",
+    "RNR",
+    "Call Back"
+  ];
 
-  // Data is the corresponding counts
-  const dataValues = Object.values(Call_Disposition);
+  // Map data values to all labels, default to 0 if not present
+  const dataValues = allLabels.map(label => Call_Disposition?.[label] || 0);
 
   const data = {
-    labels,
+    labels: allLabels,
     datasets: [
       {
-        label: "Call Completion Count",
+        label: "Call Disposition Count",
         data: dataValues,
         borderColor: "rgba(54, 162, 235, 1)",
         backgroundColor: "rgba(54, 162, 235, 0.3)",
@@ -127,17 +137,26 @@ export default function CallCompletionChart() {
       legend: { position: "top" },
       title: {
         display: false,
-        text: "Call Completion Rate with Trendline",
+        text: "Call Disposition Analysis",
       },
       tooltip: {
         callbacks: {
-          label: (ctx) => `${ctx.raw}`, // you can also append % if needed
+          label: (ctx) => `Count: ${ctx.raw}`,
         },
       },
     },
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          precision: 0,
+        },
+      },
+      x: {
+        ticks: {
+          maxRotation: 45,
+          minRotation: 45,
+        },
       },
     },
   };

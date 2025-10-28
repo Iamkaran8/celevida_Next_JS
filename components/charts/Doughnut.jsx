@@ -12,13 +12,20 @@ import { Doughnut } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip,);
 
 export default function DoughnutChart({ prescribed, nurture, not_prescribed }) {
+  // Filter out zero values for cleaner chart
+  const segments = [
+    { label: "prescribed", value: prescribed, color: "#23b883" },
+    { label: "nurture", value: nurture, color: "#4085f3" },
+    { label: "not prescribed", value: not_prescribed, color: "rgba(255, 206, 86, 0.8)" }
+  ].filter(segment => segment.value > 0);
+
   const data = {
-    labels: ["prescribed", "nurture", "not prescribed"],
+    labels: segments.map(s => s.label),
     datasets: [
       {
         label: "Patients",
-        data: [prescribed, nurture, not_prescribed],
-        backgroundColor: ["#23b883", "#4085f3", "rgba(255, 206, 86, 0.8)"],
+        data: segments.map(s => s.value),
+        backgroundColor: segments.map(s => s.color),
         hoverOffset: 4,
       },
     ],
