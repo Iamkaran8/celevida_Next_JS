@@ -57,16 +57,16 @@ import { useSelector } from 'react-redux';
 ChartJS.register(FunnelController, TrapezoidElement, Title, Tooltip, Legend);
 
 export default function PatientFunnelChart() {
-  const { onboardedPatients, completedPatients, loading,Prescribed } = useSelector(
+  const { totalPatients, completedPatients, loading, Prescribed } = useSelector(
     (state) => state.superadmin
   );
 
   const data = {
-    labels: ['Total Patients',"Prescribed", 'Completed (90 Days)'],
+    labels: ['Total Patients', "Prescribed", 'Completed (90 Days)'],
     datasets: [
       {
         label: 'Patients',
-        data: [onboardedPatients,Prescribed, completedPatients],
+        data: [totalPatients, Prescribed, completedPatients],
         backgroundColor: [
           'rgba(54, 162, 235, 0.8)',
           'rgba(75, 192, 192, 0.8)',

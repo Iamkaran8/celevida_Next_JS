@@ -4,6 +4,21 @@ import { useSelector } from "react-redux";
 export default function TopCitiesTable() {
   const { cities } = useSelector(state => state.superadmin);
 
+  // Calculate totals - sum all city rows
+  const totals = cities.reduce((acc, city) => ({
+    totalClinics: acc.totalClinics + (city.totalClinics || 0),
+    totalCamps: acc.totalCamps + (city.totalCamps || 0),
+    totalContacts: acc.totalContacts + (city.totalContacts || 0),
+    totalLeads: acc.totalLeads + (city.totalLeads || 0),
+    grandTotal: acc.grandTotal + (city.grandTotal || 0)
+  }), {
+    totalClinics: 0,
+    totalCamps: 0,
+    totalContacts: 0,
+    totalLeads: 0,
+    grandTotal: 0
+  });
+
   return (
     <div
       style={{
@@ -60,6 +75,26 @@ export default function TopCitiesTable() {
               </tr>
             ))}
           </tbody>
+          <tfoot>
+            <tr style={{ borderTop: "2px solid #d1d5db", background: "#f9fafb", fontWeight: "600" }}>
+              <td style={{ padding: "12px 10px", fontSize: "14px" }} colSpan="2">Total</td>
+              <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
+                {totals.totalClinics}
+              </td>
+              <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
+                {totals.totalCamps}
+              </td>
+              <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
+                {totals.totalContacts}
+              </td>
+              <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
+                {totals.totalLeads}
+              </td>
+              <td style={{ padding: "12px 10px", fontSize: "14px", fontWeight: "700", textAlign: "center", color: "#059669" }}>
+                {totals.grandTotal}
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </div>

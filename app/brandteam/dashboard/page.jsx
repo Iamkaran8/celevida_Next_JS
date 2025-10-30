@@ -31,10 +31,13 @@ export default function Dashboard() {
     // const { doctorNames } = useSelector((state) => state.doctor);
 
     const { prescribed, nurture, } = useSelector((state) => state.doctor);
-    const { avgTableData, loading, error, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated, genderCount, ageGroups, Call_Disposition, ratingCount, cities, Feedbacks } = useSelector((state) => state.superadmin);
+    const { avgTableData, loading, error, totalPatients, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated, genderCount, ageGroups, Call_Disposition, ratingCount, cities, Feedbacks } = useSelector((state) => state.superadmin);
 
     const [filters, setFilters] = useState({});
     const [isExporting, setIsExporting] = useState(false);
+    
+    // Calculate city-wise total clinics (sum across all cities)
+    const totalClinicsAcrossCities = cities.reduce((sum, city) => sum + (city.totalClinics || 0), 0);
     const hba1cData = transformData(avgTableData, "HbA1c", "HbA1c");
     const bmiData = transformData(avgTableData, "BMI", "BMI");
     const weightData = transformData(avgTableData, "Body_Weight_kg", "Weight");
@@ -55,6 +58,7 @@ export default function Dashboard() {
         setIsExporting(true);
         try {
             const exportData = {
+                totalPatients,
                 onboardedPatients,
                 Prescribed,
                 Nurture,
@@ -124,7 +128,7 @@ export default function Dashboard() {
                     title="Total Patients"
                     logo="/images/onboardedpatients.svg"
                     color="#1B2559"
-                    count={onboardedPatients}
+                    count={totalPatients}
                 />
                 <PatientStatusDetails
                     title="Prescribed"
@@ -150,13 +154,13 @@ export default function Dashboard() {
                     <div style={{ border: "1px solid #D9D9D9", backgroundColor: "white", borderRadius: "4px", padding: "20px", margin: "10px", display: 'flex', flexDirection: 'column', gap: '20px' }}>
                         <PatientsKpiCard
                             title="Total Clinics/HCPs participated"
-                            value={onboardedPatients}
+                            value={totalClinicsAcrossCities}
                             trend={12}
                             icon={User}
                             color="#10b981"
                         />
                         <PatientsKpiCard
-                            title="Change to Total Camps/Visits Conducted"
+                            title="  Total Camps/Visits Conducted"
                             value={totalDoctorParticipated}
                             trend={8}
                         />
@@ -186,7 +190,7 @@ export default function Dashboard() {
 
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
-                    <GraphOuterContainer title="Change to Celevida Onboarded Call Coordination Trend" component={<CallCompletionChart filteredPatients={filteredPatients} />} />
+                    <GraphOuterContainer title="  Celevida Onboarded Call Coordination Trend" component={<CallCompletionChart filteredPatients={filteredPatients} />} />
                 </div>
                 <div className={styles.second_section_right}>
                     {/* <GraphOuterContainer title="Celevida Prescribed" component={<CelevidaChart filteredPatients={filteredPatients} />} /> */}

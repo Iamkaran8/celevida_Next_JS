@@ -34,7 +34,10 @@ export default function Dashboard() {
 
     const filteredPatients = useSelector(selectFilteredPatients);
     const { prescribed, nurture, doctorNames } = useSelector((state) => state.doctor);
-    const { avgTableData, loading, error, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated, genderCount, ageGroups, Call_Disposition, ratingCount, cities, Feedbacks } = useSelector((state) => state.superadmin);
+    const { avgTableData, loading, error, totalPatients, onboardedPatients, Prescribed, Nurture, totalDoctorParticipated, genderCount, ageGroups, Call_Disposition, ratingCount, cities, Feedbacks } = useSelector((state) => state.superadmin);
+
+    // Calculate city-wise total clinics (sum across all cities)
+    const totalClinicsAcrossCities = cities.reduce((sum, city) => sum + (city.totalClinics || 0), 0);
 
     const mappedPatients = [...filteredPatients]
         .sort((a, b) => new Date(b.Created_Time) - new Date(a.Created_Time))
@@ -81,6 +84,7 @@ export default function Dashboard() {
         setIsExporting(true);
         try {
             const exportData = {
+                totalPatients,
                 onboardedPatients,
                 Prescribed,
                 Nurture,
@@ -116,6 +120,7 @@ export default function Dashboard() {
 
     // Individual component export handlers
     const exportData = {
+        totalPatients,
         onboardedPatients,
         Prescribed,
         Nurture,
@@ -196,8 +201,9 @@ export default function Dashboard() {
                         title="Total Patients"
                         logo="/images/onboardedpatients.svg"
                         color="#1B2559"
-                        count={onboardedPatients}
+                        count={totalPatients}
                     />
+                    
                 </ClickableCard>
                 <ClickableCard onExport={handleExportPrescribed}>
                     <PatientStatusDetails
@@ -230,7 +236,7 @@ export default function Dashboard() {
                         <ClickableCard onExport={handleExportTotalPatients}>
                             <PatientsKpiCard
                                 title="Total Clinics/HCPs participated"
-                                value={onboardedPatients}
+                                value={totalClinicsAcrossCities}
                                 trend={12}
                                 icon={User}
                                 color="#10b981"
@@ -238,7 +244,7 @@ export default function Dashboard() {
                         </ClickableCard>
                         <ClickableCard onExport={handleExportDoctors}>
                             <PatientsKpiCard
-                                title="Change to Total Camps/Visits Conducted"
+                                title="  Total Camps/Visits Conducted"
                                 value={totalDoctorParticipated}
                                 trend={8}
                             />
@@ -277,7 +283,7 @@ export default function Dashboard() {
             <div className={styles.second_section}>
                 <div className={styles.second_section_left}>
                     <ClickableCard onExport={handleExportCallDisposition}>
-                        <GraphOuterContainer title="Change to Celevida Onboarded Call Coordination Trend" component={<CallCompletionChart />} />
+                        <GraphOuterContainer title="  Celevida Onboarded Call Coordination Trend" component={<CallCompletionChart />} />
                     </ClickableCard>
                 </div>
 
