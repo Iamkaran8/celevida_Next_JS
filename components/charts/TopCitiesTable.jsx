@@ -45,8 +45,8 @@ export default function TopCitiesTable() {
             <tr style={{ background: "#f9fafb", textAlign: "left" }}>
               <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1 }}>Rank</th>
               <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1 }}>City Name</th>
-              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Clinics Participated</th>
-              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Camps Conducted</th>
+              <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Clinics/HCP Participated</th>
+              {/* <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Camps Conducted</th> */}
               <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Patients Onboarded</th>
               <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Total Patient Nurtured</th>
               <th style={{ padding: "10px", fontSize: "14px", fontWeight: "600", position: "sticky", top: 0, background: "#f9fafb", zIndex: 1, textAlign: "center" }}>Grand Total of Patients</th>
@@ -60,9 +60,9 @@ export default function TopCitiesTable() {
                 <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
                   {city.totalClinics || 0}
                 </td>
-                <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
+                {/* <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
                   {city.totalCamps || 0}
-                </td>
+                </td> */}
                 <td style={{ padding: "10px", fontSize: "14px", textAlign: "center" }}>
                   {city.totalContacts || 0}
                 </td>
@@ -81,9 +81,9 @@ export default function TopCitiesTable() {
               <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
                 {totals.totalClinics}
               </td>
-              <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
+              {/* <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
                 {totals.totalCamps}
-              </td>
+              </td> */}
               <td style={{ padding: "12px 10px", fontSize: "14px", textAlign: "center", color: "#1f2937" }}>
                 {totals.totalContacts}
               </td>

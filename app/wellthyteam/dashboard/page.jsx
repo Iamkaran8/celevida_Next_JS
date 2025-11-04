@@ -134,7 +134,7 @@ export default function Dashboard() {
         Feedbacks
     };
 
-    const handleExportTotalPatients = () => ExcelExport.exportPatientsList(exportData, filters);
+    const handleExportTotalPatients = () => ExcelExport.exportDoctorsList(exportData, filters); // Export unique doctors for "Total Clinics/HCPs participated"
     const handleExportDoctors = () => ExcelExport.exportDoctorsList(exportData, filters);
     const handleExportPrescribed = () => {
         const prescribedData = {
@@ -215,7 +215,7 @@ export default function Dashboard() {
                 </ClickableCard>
                 <ClickableCard onExport={handleExportNurture}>
                     <PatientStatusDetails
-                        title="Remains Same"
+                        title="Nurture Patients"
                         logo="/images/Nurture.svg"
                         color="#4085F3"
                         count={Nurture}
@@ -242,13 +242,13 @@ export default function Dashboard() {
                                 color="#10b981"
                             />
                         </ClickableCard>
-                        <ClickableCard onExport={handleExportDoctors}>
+                        {/* <ClickableCard onExport={handleExportDoctors}>
                             <PatientsKpiCard
                                 title="  Total Camps/Visits Conducted"
                                 value={totalDoctorParticipated}
                                 trend={8}
                             />
-                        </ClickableCard>
+                        </ClickableCard> */}
                     </div>
                 </div>
             </div>

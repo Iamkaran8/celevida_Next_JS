@@ -173,7 +173,7 @@ export default function Dashboard() {
         />
 
         <PatientStatusDetails
-          title="Remains Same"
+          title="Nurture Patients "
           logo="/images/Nurture.svg"
           color="#4085F3"
           count={filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Nurture").length}

@@ -137,7 +137,7 @@ export default function Dashboard() {
                     count={Prescribed}
                 />
                 <PatientStatusDetails
-                    title="Remains Same"
+                    title="Nurture Patients "
                     logo="/images/Nurture.svg"
                     color="#4085F3"
                     count={Nurture}
@@ -159,11 +159,11 @@ export default function Dashboard() {
                             icon={User}
                             color="#10b981"
                         />
-                        <PatientsKpiCard
+                        {/* <PatientsKpiCard
                             title="  Total Camps/Visits Conducted"
                             value={totalDoctorParticipated}
                             trend={8}
-                        />
+                        /> */}
                     </div>
                 </div>
             </div>
