@@ -198,7 +198,7 @@ export default function Dashboard() {
             <div className={styles.patient_container}>
                 <ClickableCard onExport={handleExportTotalPatients}>
                     <PatientStatusDetails
-                        title="Total Patients"
+                        title="Total Patients Screened"
                         logo="/images/onboardedpatients.svg"
                         color="#1B2559"
                         count={totalPatients}
@@ -207,7 +207,7 @@ export default function Dashboard() {
                 </ClickableCard>
                 <ClickableCard onExport={handleExportPrescribed}>
                     <PatientStatusDetails
-                        title="Prescribed"
+                        title="Wellness Patients"
                         logo="/images/Prescribed.svg"
                         color="#23B883"
                         count={Prescribed}
@@ -215,7 +215,7 @@ export default function Dashboard() {
                 </ClickableCard>
                 <ClickableCard onExport={handleExportNurture}>
                     <PatientStatusDetails
-                        title="Nurture Patients"
+                        title="Remains Same"
                         logo="/images/Nurture.svg"
                         color="#4085F3"
                         count={Nurture}

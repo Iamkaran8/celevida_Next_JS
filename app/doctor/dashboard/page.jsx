@@ -165,7 +165,7 @@ export default function Dashboard() {
         />
 
         <PatientStatusDetails
-          title="Prescribed"
+          title="Wellness Patients"
           logo="/images/Prescribed.svg"
           color="#23B883"
           count={filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Onboarded").length}
@@ -173,7 +173,7 @@ export default function Dashboard() {
         />
 
         <PatientStatusDetails
-          title="Nurture Patients"
+          title="Remains Same"
           logo="/images/Nurture.svg"
           color="#4085F3"
           count={filteredPatients.filter(p => p.StatusPrespcription === "Celevida_Nurture").length}

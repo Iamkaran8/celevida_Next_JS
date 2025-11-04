@@ -125,7 +125,7 @@ export default function Dashboard() {
             {/* Patient Status Cards */}
             <div className={styles.patient_container}>
                 <PatientStatusDetails
-                    title="Total Patients"
+                    title="Total Patients Screened"
                     logo="/images/onboardedpatients.svg"
                     color="#1B2559"
                     count={totalPatients}
@@ -137,7 +137,7 @@ export default function Dashboard() {
                     count={Prescribed}
                 />
                 <PatientStatusDetails
-                    title="Nurture Patients"
+                    title="Remains Same"
                     logo="/images/Nurture.svg"
                     color="#4085F3"
                     count={Nurture}
