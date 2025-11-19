@@ -129,7 +129,10 @@ export async function POST(request) {
         contactsData.data = contactsData?.data.filter(item => body.executives.includes(item.Field_Executive));
       }
       if(body.doctors && body.doctors.length > 0) {
-        contactsData.data = contactsData?.data.filter(item => body.doctors.includes(item.Doctor_Name));
+        console.log('Filtering contacts by doctors:', body.doctors);
+        console.log('Sample Doctor_Name values:', contactsData.data.slice(0, 5).map(item => item.Doctor_Name));
+        contactsData.data = contactsData?.data.filter(item => item.Doctor_Name && body.doctors.includes(item.Doctor_Name));
+        console.log('Filtered contacts count:', contactsData.data.length);
       }
       if(body.statuses && body.statuses.length > 0) {
         contactsData.data = contactsData?.data.filter(item => body.statuses.includes(item.StatusPrespcription));
@@ -153,7 +156,10 @@ export async function POST(request) {
         leadsData.data = leadsData?.data.filter(item => body.executives.includes(item.Field_Executive));
       }
       if(body.doctors && body.doctors.length > 0) {
-        leadsData.data = leadsData?.data.filter(item => body.doctors.includes(item.Doctor_Name));
+        console.log('Filtering leads by doctors:', body.doctors);
+        console.log('Sample Doctor_Name values:', leadsData.data.slice(0, 5).map(item => item.Doctor_Name));
+        leadsData.data = leadsData?.data.filter(item => item.Doctor_Name && body.doctors.includes(item.Doctor_Name));
+        console.log('Filtered leads count:', leadsData.data.length);
       }
       if(body.statuses && body.statuses.length > 0) {
         leadsData.data = leadsData?.data.filter(item => body.statuses.includes(item.StatusPrespcription));
