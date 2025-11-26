@@ -29,7 +29,7 @@ export const exportDoctorsList = (data, filters) => {
 
     // Create workbook
     const wb = XLSX.utils.book_new();
-    
+
     // Summary sheet
     const summaryData = [
         ['Total Doctors Participated Report'],
@@ -184,19 +184,22 @@ export const exportGenderData = (data, filters) => {
 
     const wb = XLSX.utils.book_new();
 
+    // Calculate actual total from gender counts
+    const totalPatients = (data.genderCount?.male || 0) + (data.genderCount?.female || 0) + (data.genderCount?.other || 0);
+
     // Summary
     const genderData = [
         ['Gender Distribution Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
-        ['Total Patients:', data.onboardedPatients || 0],
+        ['Total Patients:', totalPatients],
         [],
         ['Gender', 'Count', 'Percentage'],
-        ['Male', data.genderCount?.male || 0, `${((data.genderCount?.male || 0) / data.onboardedPatients * 100).toFixed(2)}%`],
-        ['Female', data.genderCount?.female || 0, `${((data.genderCount?.female || 0) / data.onboardedPatients * 100).toFixed(2)}%`],
-        ['Other', data.genderCount?.other || 0, `${((data.genderCount?.other || 0) / data.onboardedPatients * 100).toFixed(2)}%`],
+        ['Male', data.genderCount?.male || 0, `${((data.genderCount?.male || 0) / totalPatients * 100).toFixed(2)}%`],
+        ['Female', data.genderCount?.female || 0, `${((data.genderCount?.female || 0) / totalPatients * 100).toFixed(2)}%`],
+        ['Other', data.genderCount?.other || 0, `${((data.genderCount?.other || 0) / totalPatients * 100).toFixed(2)}%`],
         [],
-        ['Total', data.onboardedPatients || 0, '100%']
+        ['Total', totalPatients, '100%']
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(genderData);
@@ -205,7 +208,7 @@ export const exportGenderData = (data, filters) => {
     // Detailed patient list for EACH gender
     if (data.Feedbacks && data.Feedbacks.length > 0) {
         const genders = ['male', 'female', 'other'];
-        
+
         genders.forEach(gender => {
             const genderPatients = data.Feedbacks
                 .filter(p => (p.Genders || '').toLowerCase() === gender)
@@ -341,8 +344,8 @@ export const exportHealthMetricData = (metricName, chartData, data) => {
     const wb = XLSX.utils.book_new();
 
     // Find the metric in avgTableData
-    const metricInfo = data.avgTableData?.find(m => 
-        m.parameter.toLowerCase().includes(metricName.toLowerCase()) || 
+    const metricInfo = data.avgTableData?.find(m =>
+        m.parameter.toLowerCase().includes(metricName.toLowerCase()) ||
         metricName.toLowerCase().includes(m.parameter.toLowerCase())
     );
 
@@ -507,7 +510,7 @@ export const exportTopCitiesData = (data, filters) => {
 
     (data.cities || []).forEach(city => {
         citiesData.push([
-            city.cityname, 
+            city.cityname,
             city.count,
             `${(city.count / data.onboardedPatients * 100).toFixed(2)}%`
         ]);
@@ -568,7 +571,7 @@ export const exportDoctorSegmentation = (data, filters) => {
 
     // Get doctor statistics
     const doctorStats = {};
-    
+
     if (data.Feedbacks && data.Feedbacks.length > 0) {
         data.Feedbacks.forEach(patient => {
             const doctorName = patient.Doctor_Name || 'Unknown';
@@ -581,7 +584,7 @@ export const exportDoctorSegmentation = (data, filters) => {
                 };
             }
             doctorStats[doctorName].total++;
-            
+
             if (patient.StatusPrespcription === 'Celevida_Onboarded') {
                 doctorStats[doctorName].prescribed++;
             } else if (patient.StatusPrespcription === 'Celevida_Nurture') {

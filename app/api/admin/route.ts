@@ -8,7 +8,7 @@ async function fetchAllPages(baseUrl, accessToken) {
 
   while (hasMoreRecords) {
     const urlWithPage = `${baseUrl}&page=${page}`;
-    
+
     const response = await fetch(urlWithPage, {
       method: 'GET',
       headers: {
@@ -23,8 +23,8 @@ async function fetchAllPages(baseUrl, accessToken) {
 
     const data = await response.json();
 
-    console.log(data.info, "data",baseUrl);
-    
+    console.log(data.info, "data", baseUrl);
+
     // Append current page data to allData
     if (data.data && data.data.length > 0) {
       allData = [...allData, ...data.data];
@@ -41,7 +41,7 @@ async function fetchAllPages(baseUrl, accessToken) {
 // Function to convert date string to the required format
 function convertToRequiredFormat(dateString, isEndDate = false) {
   const date = new Date(dateString);
-  
+
   // Set time based on whether it's start or end date
   if (isEndDate) {
     // End date: set to 23:59:59 (11:59 PM)
@@ -50,22 +50,22 @@ function convertToRequiredFormat(dateString, isEndDate = false) {
     // Start date: set to 00:00:00 (12:00 AM)
     date.setHours(0, 0, 0, 0);
   }
-  
+
   // Get timezone offset in minutes and convert to hours:minutes format
   const timezoneOffset = date.getTimezoneOffset();
   const offsetHours = Math.floor(Math.abs(timezoneOffset) / 60);
   const offsetMinutes = Math.abs(timezoneOffset) % 60;
   const offsetSign = timezoneOffset <= 0 ? '+' : '-';
   const timezoneString = `${offsetSign}${offsetHours.toString().padStart(2, '0')}:${offsetMinutes.toString().padStart(2, '0')}`;
-  
+
   // Get ISO string and replace Z with actual timezone
   const isoString = date.toISOString();
-  
+
   // Replace milliseconds and Z with the actual timezone format
   // From: 2025-08-09T18:30:00.000Z
   // To: 2025-08-09T00:00:00+05:30 (start) or 2025-08-09T23:59:59+05:30 (end)
   const formattedDate = isoString.replace(/\.\d{3}Z$/, timezoneString);
-  
+
   return formattedDate;
 }
 
@@ -73,17 +73,23 @@ function convertToRequiredFormat(dateString, isEndDate = false) {
 function createDateRangeFilter(startDate, endDate) {
   const startFormatted = convertToRequiredFormat(startDate, false); // Start of day (00:00:00)
   const endFormatted = convertToRequiredFormat(endDate, true);      // End of day (23:59:59)
- 
+
   //console.log(startFormatted, "startFormatted");
   //console.log(endFormatted, "endFormatted");
-  
+
   // Create the filter string: Created_Time:between:startDate,endDate
   const filterString = `Created_Time:between:${startFormatted},${endFormatted}`;
-  
+
   // URL encode the entire filter string
   return encodeURIComponent(filterString);
 
-  
+
+}
+
+// Helper function to normalize strings for case-insensitive comparison (lowercase + remove spaces)
+function normalizeString(str) {
+  if (!str) return '';
+  return str.toString().toLowerCase().replace(/\s+/g, '');
 }
 
 export async function POST(request) {
@@ -110,7 +116,7 @@ export async function POST(request) {
 
     // Build URL with date range filter if provided
     const contactsUrl = `https://www.zohoapis.in/crm/v8/Contacts/search?criteria=${dateRangeFilter}`;
-    
+
     const leadsUrl = `https://www.zohoapis.in/crm/v8/Leads/search?criteria=${dateRangeFilter}`;
 
 
@@ -122,23 +128,29 @@ export async function POST(request) {
     try {
       contactsData = await fetchAllPages(contactsUrl, accessToken);
 
-      if(body.cities && body.cities.length > 0) {
+      if (body.cities && body.cities.length > 0) {
         contactsData.data = contactsData?.data.filter(item => body.cities.includes(item.City));
       }
-      if(body.executives && body.executives.length > 0) {
-        contactsData.data = contactsData?.data.filter(item => body.executives.includes(item.Field_Executive));
+      if (body.executives && body.executives.length > 0) {
+        const normalizedExecutives = body.executives.map(exec => normalizeString(exec));
+        contactsData.data = contactsData?.data.filter(item =>
+          normalizedExecutives.includes(normalizeString(item.Field_Executive))
+        );
       }
-      if(body.doctors && body.doctors.length > 0) {
+      if (body.doctors && body.doctors.length > 0) {
         console.log('Filtering contacts by doctors:', body.doctors);
         console.log('Sample Doctor_Name values:', contactsData.data.slice(0, 5).map(item => item.Doctor_Name));
-        contactsData.data = contactsData?.data.filter(item => item.Doctor_Name && body.doctors.includes(item.Doctor_Name));
+        const normalizedDoctors = body.doctors.map(doc => normalizeString(doc));
+        contactsData.data = contactsData?.data.filter(item =>
+          item.Doctor_Name && normalizedDoctors.includes(normalizeString(item.Doctor_Name))
+        );
         console.log('Filtered contacts count:', contactsData.data.length);
       }
-      if(body.statuses && body.statuses.length > 0) {
+      if (body.statuses && body.statuses.length > 0) {
         contactsData.data = contactsData?.data.filter(item => body.statuses.includes(item.StatusPrespcription));
       }
     } catch (error) {
-      contactsData = {data: []};
+      contactsData = { data: [] };
     }
     // //console.log(contactsData.data[0], "contactsData");
 
@@ -149,23 +161,29 @@ export async function POST(request) {
 
     try {
       leadsData = await fetchAllPages(leadsUrl, accessToken);
-      if(body.cities && body.cities.length > 0) {
+      if (body.cities && body.cities.length > 0) {
         leadsData.data = leadsData?.data.filter(item => body.cities.includes(item.City));
       }
-      if(body.executives && body.executives.length > 0) {
-        leadsData.data = leadsData?.data.filter(item => body.executives.includes(item.Field_Executive));
+      if (body.executives && body.executives.length > 0) {
+        const normalizedExecutives = body.executives.map(exec => normalizeString(exec));
+        leadsData.data = leadsData?.data.filter(item =>
+          normalizedExecutives.includes(normalizeString(item.Field_Executive))
+        );
       }
-      if(body.doctors && body.doctors.length > 0) {
+      if (body.doctors && body.doctors.length > 0) {
         console.log('Filtering leads by doctors:', body.doctors);
         console.log('Sample Doctor_Name values:', leadsData.data.slice(0, 5).map(item => item.Doctor_Name));
-        leadsData.data = leadsData?.data.filter(item => item.Doctor_Name && body.doctors.includes(item.Doctor_Name));
+        const normalizedDoctors = body.doctors.map(doc => normalizeString(doc));
+        leadsData.data = leadsData?.data.filter(item =>
+          item.Doctor_Name && normalizedDoctors.includes(normalizeString(item.Doctor_Name))
+        );
         console.log('Filtered leads count:', leadsData.data.length);
       }
-      if(body.statuses && body.statuses.length > 0) {
+      if (body.statuses && body.statuses.length > 0) {
         leadsData.data = leadsData?.data.filter(item => body.statuses.includes(item.StatusPrespcription));
       }
     } catch (error) {
-      leadsData = {data: []};
+      leadsData = { data: [] };
     }
     // console.log(leadsData, "leadsData");
     leadsData.data = leadsData?.data.map(item => ({
@@ -173,17 +191,17 @@ export async function POST(request) {
       moduleName: 'Leads'
     }));
 
-    
 
 
-      const uniqueDoctorParticipated = [...new Set([...contactsData?.data.map(item => item.Doctor_Name), ...leadsData?.data.map(item => item.Doctor_Name)])];
 
-      const totalDoctorParticipated = uniqueDoctorParticipated.length;
+    const uniqueDoctorParticipated = [...new Set([...contactsData?.data.map(item => item.Doctor_Name), ...leadsData?.data.map(item => item.Doctor_Name)])];
 
-   const allData = [...contactsData?.data, ...leadsData?.data];
-   console.log(allData.length, "allData");
-   console.log(leadsData?.data.length, "leadsData");
-   console.log(contactsData?.data.length, "contactsData");
+    const totalDoctorParticipated = uniqueDoctorParticipated.length;
+
+    const allData = [...contactsData?.data, ...leadsData?.data];
+    console.log(allData.length, "allData");
+    console.log(leadsData?.data.length, "leadsData");
+    console.log(contactsData?.data.length, "contactsData");
     // Return the contacts data
     return Response.json({
       success: true,
@@ -191,7 +209,7 @@ export async function POST(request) {
         ...contactsData?.data,
         ...leadsData?.data
       ],
-      totalDoctorParticipated:totalDoctorParticipated
+      totalDoctorParticipated: totalDoctorParticipated
     });
 
   } catch (error) {

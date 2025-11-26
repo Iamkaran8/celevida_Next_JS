@@ -74,6 +74,7 @@ export default function Dashboard() {
     const proteinIntakeData = transformData(avgTableData, "hour_dietary_recall_protein_intake", "Protein");
     const carbIntakeData = transformData(avgTableData, "hour_dietary_recall_carb_intake", "Carbs");
     const calorieIntakeData = transformData(avgTableData, "hour_dietary_recall_calorie_intake", "Calories");
+    const fiberIntakeData = transformData(avgTableData, "Fiber_Intake", "Fiber");
 
     if (loading) return <Loader />;
     if (error) return <p>Error loading data</p>;
@@ -166,8 +167,8 @@ export default function Dashboard() {
             <Header title="Welcome" />
 
             {/* Export Buttons */}
-            <ExportButtons 
-                onExportCSV={handleExportCSV} 
+            <ExportButtons
+                onExportCSV={handleExportCSV}
                 onExportPDF={handleExportPDF}
                 isExporting={isExporting}
             />
@@ -203,7 +204,7 @@ export default function Dashboard() {
                         color="#1B2559"
                         count={totalPatients}
                     />
-                    
+
                 </ClickableCard>
                 <ClickableCard onExport={handleExportPrescribed}>
                     <PatientStatusDetails
@@ -304,53 +305,60 @@ export default function Dashboard() {
             </div>
 
             {/* Average Charts */}
-            <ChartSection 
+            <ChartSection
                 titleLeft="HbA1c Progress" dataLeft={hba1cData} dataKeyLeft="HbA1c" colorLeft="#B1740F"
                 titleRight="BMI Progress" dataRight={bmiData} dataKeyRight="BMI" colorRight="#1789FC"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('HbA1c', hba1cData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('BMI', bmiData, exportData)}
             />
 
-            <ChartSection 
+            <ChartSection
                 titleLeft="Weight Progress" dataLeft={weightData} dataKeyLeft="Weight" colorLeft="#F26419"
                 titleRight="FBS Progress" dataRight={fbsData} dataKeyRight="FBS" colorRight="#fb6f92"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('Weight', weightData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('FBS', fbsData, exportData)}
             />
 
-            <ChartSection 
+            <ChartSection
                 titleLeft="PPBS Progress" dataLeft={ppbsData} dataKeyLeft="PPBS" colorLeft="#fca311"
                 titleRight="Visceral Fat Progress" dataRight={visceralFatData} dataKeyRight="VisceralFat" colorRight="#390099"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('PPBS', ppbsData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('Visceral Fat', visceralFatData, exportData)}
             />
 
-            <ChartSection 
+            <ChartSection
                 titleLeft="Muscle Mass Progress (%)" dataLeft={muscleMassData} dataKeyLeft="MuscleMass" colorLeft="#fbf8cc"
                 titleRight="Muscle Weight Progress" dataRight={muscleWeightData} dataKeyRight="MuscleWeight" colorRight="#00f5d4"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('Muscle Mass', muscleMassData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('Muscle Weight', muscleWeightData, exportData)}
             />
 
-            <ChartSection 
+            <ChartSection
                 titleLeft="Bone Mass Progress" dataLeft={boneMassData} dataKeyLeft="BoneMass" colorLeft="#f48498"
                 titleRight="Body Fat Progress (%)" dataRight={bodyFatData} dataKeyRight="BodyFat" colorRight="#1780a1"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('Bone Mass', boneMassData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('Body Fat', bodyFatData, exportData)}
             />
 
-            <ChartSection 
+            <ChartSection
                 titleLeft="Muscle % Progress" dataLeft={musclePercentData} dataKeyLeft="MusclePercent" colorLeft="#aeb8fe"
                 titleRight="Protein Intake (g)" dataRight={proteinIntakeData} dataKeyRight="Protein" colorRight="#570000"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('Muscle Percent', musclePercentData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('Protein Intake', proteinIntakeData, exportData)}
             />
 
-            <ChartSection 
+            <ChartSection
                 titleLeft="Carb Intake (g)" dataLeft={carbIntakeData} dataKeyLeft="Carbs" colorLeft="#136f63"
                 titleRight="Calorie Intake (kcal)" dataRight={calorieIntakeData} dataKeyRight="Calories" colorRight="red"
                 onExportLeft={() => ExcelExport.exportHealthMetricData('Carb Intake', carbIntakeData, exportData)}
                 onExportRight={() => ExcelExport.exportHealthMetricData('Calorie Intake', calorieIntakeData, exportData)}
+            />
+
+            <ChartSection
+                titleLeft="Fiber Intake (Kcal)" dataLeft={fiberIntakeData} dataKeyLeft="Fiber" colorLeft="#22c55e"
+                titleRight="" dataRight={{ data: [] }} dataKeyRight="" colorRight=""
+                onExportLeft={() => ExcelExport.exportHealthMetricData('Fiber Intake', fiberIntakeData, exportData)}
+                onExportRight={() => { }}
             />
 
         </>

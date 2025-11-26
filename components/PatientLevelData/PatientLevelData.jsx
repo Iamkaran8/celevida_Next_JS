@@ -42,6 +42,13 @@ export const PatientLevelData = ({ patientData }) => {
         patient.hour_dietary_recall_protein_intake_Month_3,
     ]
 
+    const fiberIntake = [
+        patient.Fiber_Intake,
+        patient.Fiber_Intake_Month_1,
+        patient.Fiber_Intake_Month_2,
+        patient.Fiber_Intake_Month_3,
+    ]
+
     // Compute Diet Recall (Avg Calorie) per month dynamically
     const dietRecallAvgByMonth = calorieIntake.map((_, index) => {
         const cal = Number(calorieIntake[index]) || 0
@@ -61,6 +68,7 @@ export const PatientLevelData = ({ patientData }) => {
         { label: "Calorie intake", values: calorieIntake },
         { label: "Carb intake", values: carbIntake },
         { label: "Protein intake", values: proteinIntake },
+        { label: "Fiber intake", values: fiberIntake },
         { label: "Celevida Consumption", values: [patient.Time_of_Consumption, patient.Time_of_Consumption_Month1, patient.Time_of_Consumption_Month2, patient.Time_of_Consumption_Month3] },
         { label: "Usage frequency", values: [patient.Usage_frequency, patient.Usage_frequency_Month_1, patient.Usage_frequency_Month_2, patient.Usage_frequency_Month_3] },
         { label: "Notes for the Dr.", values: [patient.HC_Updates] },

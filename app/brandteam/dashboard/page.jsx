@@ -35,7 +35,7 @@ export default function Dashboard() {
 
     const [filters, setFilters] = useState({});
     const [isExporting, setIsExporting] = useState(false);
-    
+
     // Calculate city-wise total clinics (sum across all cities)
     const totalClinicsAcrossCities = cities.reduce((sum, city) => sum + (city.totalClinics || 0), 0);
     const hba1cData = transformData(avgTableData, "HbA1c", "HbA1c");
@@ -52,6 +52,7 @@ export default function Dashboard() {
     const proteinIntakeData = transformData(avgTableData, "hour_dietary_recall_protein_intake", "Protein");
     const carbIntakeData = transformData(avgTableData, "hour_dietary_recall_carb_intake", "Carbs");
     const calorieIntakeData = transformData(avgTableData, "hour_dietary_recall_calorie_intake", "Calories");
+    const fiberIntakeData = transformData(avgTableData, "Fiber_Intake", "Fiber");
 
     // Export handlers
     const handleExportCSV = () => {
@@ -97,8 +98,8 @@ export default function Dashboard() {
             <Header title="Brand Team" />
 
             {/* Export Buttons */}
-            <ExportButtons 
-                onExportCSV={handleExportCSV} 
+            <ExportButtons
+                onExportCSV={handleExportCSV}
                 onExportPDF={handleExportPDF}
                 isExporting={isExporting}
             />
@@ -216,22 +217,25 @@ export default function Dashboard() {
                 titleRight="BMI Progress" dataRight={bmiData} dataKeyRight="BMI" colorRight="#1789FC" />
 
             <ChartSection titleLeft="Weight Progress" dataLeft={weightData} dataKeyLeft="Weight" colorLeft="#F26419"
-                titleRight="FBS Progress" dataRight={fbsData} dataKeyRight="FBS" colorRight="#fb6f92"  />
+                titleRight="FBS Progress" dataRight={fbsData} dataKeyRight="FBS" colorRight="#fb6f92" />
 
             <ChartSection titleLeft="PPBS Progress" dataLeft={ppbsData} dataKeyLeft="PPBS" colorLeft="#fca311"
-                titleRight="Visceral Fat Progress" dataRight={visceralFatData} dataKeyRight="VisceralFat" colorRight="#390099"  />
+                titleRight="Visceral Fat Progress" dataRight={visceralFatData} dataKeyRight="VisceralFat" colorRight="#390099" />
 
             <ChartSection titleLeft="Muscle Mass Progress (%)" dataLeft={muscleMassData} dataKeyLeft="MuscleMass" colorLeft="#fbf8cc"
-                titleRight="Muscle Weight Progress" dataRight={muscleWeightData} dataKeyRight="MuscleWeight" colorRight="#00f5d4"  />
+                titleRight="Muscle Weight Progress" dataRight={muscleWeightData} dataKeyRight="MuscleWeight" colorRight="#00f5d4" />
 
             <ChartSection titleLeft="Bone Mass Progress" dataLeft={boneMassData} dataKeyLeft="BoneMass" colorLeft="#f48498"
-                titleRight="Body Fat Progress (%)" dataRight={bodyFatData} dataKeyRight="BodyFat" colorRight="#1780a1"  />
+                titleRight="Body Fat Progress (%)" dataRight={bodyFatData} dataKeyRight="BodyFat" colorRight="#1780a1" />
 
             <ChartSection titleLeft="Muscle % Progress" dataLeft={musclePercentData} dataKeyLeft="MusclePercent" colorLeft="#aeb8fe"
-                titleRight="Protein Intake (g)" dataRight={proteinIntakeData} dataKeyRight="Protein" colorRight="#570000"  />
+                titleRight="Protein Intake (g)" dataRight={proteinIntakeData} dataKeyRight="Protein" colorRight="#570000" />
 
             <ChartSection titleLeft="Carb Intake (g)" dataLeft={carbIntakeData} dataKeyLeft="Carbs" colorLeft="#136f63"
                 titleRight="Calorie Intake (kcal)" dataRight={calorieIntakeData} dataKeyRight="Calories" colorRight="red" />
+
+            <ChartSection titleLeft="Fiber Intake (Kcal)" dataLeft={fiberIntakeData} dataKeyLeft="Fiber" colorLeft="#22c55e"
+                titleRight="" dataRight={{ data: [] }} dataKeyRight="" colorRight="" />
 
         </div>
     );
