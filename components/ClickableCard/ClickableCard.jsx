@@ -9,7 +9,7 @@ export default function ClickableCard({ children, onExport, title, showDownloadI
         e.stopPropagation();
         e.preventDefault();
         if (onExport) {
-            onExport();
+            onExport(title);
         }
     };
 

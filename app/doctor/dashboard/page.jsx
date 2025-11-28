@@ -30,7 +30,7 @@ export default function Dashboard() {
   const [search, setSearch] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
-  
+
 
   const formRef = useRef(null);
 
@@ -97,7 +97,16 @@ export default function Dashboard() {
     }));
 
   const handleNavigate = () => {
-    router.push(`/doctor/avg?doctor=${encodeURIComponent(selectedDoctor)}`);
+    // Use logged-in doctor's name for regular doctors, or selectedDoctor for Super Admin
+    const doctorName = user?.data?.data[0]?.role === "Super Admin"
+      ? selectedDoctor
+      : user?.data?.data[0]?.Name;
+
+    if (doctorName) {
+      router.push(`/doctor/avg?doctor=${encodeURIComponent(doctorName)}`);
+    } else {
+      alert("Unable to determine doctor name. Please try again.");
+    }
   };
 
   return (

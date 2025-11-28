@@ -1,11 +1,15 @@
+
 import * as XLSX from 'xlsx';
 
 /**
  * Export Total Doctors Participated Data
  */
-export const exportDoctorsList = (data, filters) => {
+export const exportDoctorsList = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `doctors_participated_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'doctors_list';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     // Get unique doctors from the data
     const doctorsSet = new Set();
@@ -32,7 +36,7 @@ export const exportDoctorsList = (data, filters) => {
 
     // Summary sheet
     const summaryData = [
-        ['Total Doctors Participated Report'],
+        [title || 'Total Doctors Participated Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Applied Filters:'],
@@ -40,7 +44,7 @@ export const exportDoctorsList = (data, filters) => {
         ['Executives:', filters.executives?.length > 0 ? filters.executives.join(', ') : 'All'],
         ['Doctors:', filters.doctors?.length > 0 ? filters.doctors.join(', ') : 'All'],
         ['Status:', filters.statuses?.length > 0 ? filters.statuses.join(', ') : 'All'],
-        ['Date Range:', filters.dateRange ? `${filters.dateRange.startDate} - ${filters.dateRange.endDate}` : 'All'],
+        ['Date Range:', filters.dateRange ? `${filters.dateRange.startDate} - ${filters.dateRange.endDate} ` : 'All'],
         [],
         ['Total Doctors:', data.totalDoctorParticipated || doctorDetails.length],
         ['Total Patients:', data.onboardedPatients || 0],
@@ -61,15 +65,18 @@ export const exportDoctorsList = (data, filters) => {
 /**
  * Export Total Patients Data with full patient details
  */
-export const exportPatientsList = (data, filters) => {
+export const exportPatientsList = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `total_patients_detailed_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'total_patients_detailed';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
     // Summary
     const summaryData = [
-        ['Total Patients Detailed Report'],
+        [title || 'Total Patients Detailed Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Applied Filters:'],
@@ -128,7 +135,7 @@ export const exportPatientsList = (data, filters) => {
 
         if (prescribedPatients.length > 0) {
             const wsPrescribed = XLSX.utils.json_to_sheet(prescribedPatients);
-            XLSX.utils.book_append_sheet(wb, wsPrescribed, `Prescribed (${prescribedPatients.length})`);
+            XLSX.utils.book_append_sheet(wb, wsPrescribed, `Prescribed(${prescribedPatients.length})`);
         }
 
         // Nurture Patients - separate sheet
@@ -148,7 +155,7 @@ export const exportPatientsList = (data, filters) => {
 
         if (nurturePatients.length > 0) {
             const wsNurture = XLSX.utils.json_to_sheet(nurturePatients);
-            XLSX.utils.book_append_sheet(wb, wsNurture, `Nurture (${nurturePatients.length})`);
+            XLSX.utils.book_append_sheet(wb, wsNurture, `Nurture(${nurturePatients.length})`);
         }
 
         // Not Prescribed Patients - separate sheet
@@ -168,7 +175,7 @@ export const exportPatientsList = (data, filters) => {
 
         if (notPrescribedPatients.length > 0) {
             const wsNotPrescribed = XLSX.utils.json_to_sheet(notPrescribedPatients);
-            XLSX.utils.book_append_sheet(wb, wsNotPrescribed, `Not Prescribed (${notPrescribedPatients.length})`);
+            XLSX.utils.book_append_sheet(wb, wsNotPrescribed, `Not Prescribed(${notPrescribedPatients.length})`);
         }
     }
 
@@ -178,9 +185,12 @@ export const exportPatientsList = (data, filters) => {
 /**
  * Export Gender Distribution with detailed patient lists by gender
  */
-export const exportGenderData = (data, filters) => {
+export const exportGenderData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `gender_distribution_detailed_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'gender_distribution_detailed';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
@@ -189,15 +199,15 @@ export const exportGenderData = (data, filters) => {
 
     // Summary
     const genderData = [
-        ['Gender Distribution Report'],
+        [title || 'Gender Distribution Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Total Patients:', totalPatients],
         [],
         ['Gender', 'Count', 'Percentage'],
-        ['Male', data.genderCount?.male || 0, `${((data.genderCount?.male || 0) / totalPatients * 100).toFixed(2)}%`],
-        ['Female', data.genderCount?.female || 0, `${((data.genderCount?.female || 0) / totalPatients * 100).toFixed(2)}%`],
-        ['Other', data.genderCount?.other || 0, `${((data.genderCount?.other || 0) / totalPatients * 100).toFixed(2)}%`],
+        ['Male', data.genderCount?.male || 0, `${((data.genderCount?.male || 0) / totalPatients * 100).toFixed(2)}% `],
+        ['Female', data.genderCount?.female || 0, `${((data.genderCount?.female || 0) / totalPatients * 100).toFixed(2)}% `],
+        ['Other', data.genderCount?.other || 0, `${((data.genderCount?.other || 0) / totalPatients * 100).toFixed(2)}% `],
         [],
         ['Total', totalPatients, '100%']
     ];
@@ -241,15 +251,18 @@ export const exportGenderData = (data, filters) => {
 /**
  * Export Age Group Distribution with detailed patient lists
  */
-export const exportAgeGroupData = (data, filters) => {
+export const exportAgeGroupData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `age_group_detailed_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'age_group_detailed';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
     // Summary with age distribution
     const summaryData = [
-        ['Age Group Distribution Report'],
+        [title || 'Age Group Distribution Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Total Patients:', data.onboardedPatients || 0],
@@ -258,7 +271,7 @@ export const exportAgeGroupData = (data, filters) => {
     ];
 
     Object.entries(data.ageGroups || {}).forEach(([ageGroup, count]) => {
-        summaryData.push([ageGroup, count, `${(count / data.onboardedPatients * 100).toFixed(2)}%`]);
+        summaryData.push([ageGroup, count, `${(count / data.onboardedPatients * 100).toFixed(2)}% `]);
     });
 
     const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
@@ -286,7 +299,7 @@ export const exportAgeGroupData = (data, filters) => {
                     'Patient Name': p.Last_Name || 'N/A',
                     'Exact Age': p.Age || 'N/A',
                     'Age Group': groupName,
-                    'Why in this group?': `Age ${p.Age} falls in range ${range.min}-${range.max === 999 ? '∞' : range.max}`,
+                    'Why in this group?': `Age ${p.Age} falls in range ${range.min} -${range.max === 999 ? '∞' : range.max} `,
                     'Gender': p.Genders || 'N/A',
                     'City': p.City || 'N/A',
                     'Status': p.StatusPrespcription || 'N/A',
@@ -309,21 +322,24 @@ export const exportAgeGroupData = (data, filters) => {
 /**
  * Export Patient Segmentation
  */
-export const exportPatientSegmentation = (data, filters) => {
+export const exportPatientSegmentation = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `patient_segmentation_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'patient_segmentation';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
     // Segmentation data
     const segmentationData = [
-        ['Patient Segmentation Report'],
+        [title || 'Patient Segmentation Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Segment', 'Count', 'Percentage'],
-        ['Prescribed', data.Prescribed || 0, `${((data.Prescribed || 0) / data.onboardedPatients * 100).toFixed(2)}%`],
-        ['Nurture', data.Nurture || 0, `${((data.Nurture || 0) / data.onboardedPatients * 100).toFixed(2)}%`],
-        ['Not Prescribed', (data.onboardedPatients - data.Prescribed - data.Nurture) || 0, `${(((data.onboardedPatients - data.Prescribed - data.Nurture) || 0) / data.onboardedPatients * 100).toFixed(2)}%`],
+        ['Prescribed', data.Prescribed || 0, `${((data.Prescribed || 0) / data.onboardedPatients * 100).toFixed(2)}% `],
+        ['Nurture', data.Nurture || 0, `${((data.Nurture || 0) / data.onboardedPatients * 100).toFixed(2)}% `],
+        ['Not Prescribed', (data.onboardedPatients - data.Prescribed - data.Nurture) || 0, `${(((data.onboardedPatients - data.Prescribed - data.Nurture) || 0) / data.onboardedPatients * 100).toFixed(2)}% `],
         [],
         ['Total', data.onboardedPatients || 0, '100%']
     ];
@@ -337,9 +353,12 @@ export const exportPatientSegmentation = (data, filters) => {
 /**
  * Export Health Metrics Chart Data
  */
-export const exportHealthMetricData = (metricName, chartData, data) => {
+export const exportHealthMetricData = (metricName, chartData, data, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `${metricName.toLowerCase().replace(/\s+/g, '_')}_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : metricName.toLowerCase().replace(/\s+/g, '_');
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
@@ -351,7 +370,7 @@ export const exportHealthMetricData = (metricName, chartData, data) => {
 
     // Summary
     const summaryData = [
-        [`${metricName} Progress Report`],
+        [title || `${metricName} Progress Report`],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Metric', 'Value'],
@@ -360,7 +379,7 @@ export const exportHealthMetricData = (metricName, chartData, data) => {
         ['Month 2 Average', metricInfo?.month2Avg || 0],
         ['Month 3 Average', metricInfo?.month3Avg || 0],
         ['Overall Average', metricInfo?.monthsAvg || 0],
-        ['Percentage Change', `${metricInfo?.percentageChange || 0}%`],
+        ['Percentage Change', `${metricInfo?.percentageChange || 0}% `],
         []
     ];
 
@@ -379,15 +398,18 @@ export const exportHealthMetricData = (metricName, chartData, data) => {
 /**
  * Export Call Completion/Disposition Data with patient lists
  */
-export const exportCallDispositionData = (data, filters) => {
+export const exportCallDispositionData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `call_disposition_detailed_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'call_disposition_detailed';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
     // Summary
     const dispositionData = [
-        ['Call Disposition Report'],
+        [title || 'Call Disposition Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Total Patients:', data.onboardedPatients || 0],
@@ -396,7 +418,7 @@ export const exportCallDispositionData = (data, filters) => {
     ];
 
     Object.entries(data.Call_Disposition || {}).forEach(([status, count]) => {
-        dispositionData.push([status, count, `${(count / data.onboardedPatients * 100).toFixed(2)}%`]);
+        dispositionData.push([status, count, `${(count / data.onboardedPatients * 100).toFixed(2)}% `]);
     });
 
     const wsSummary = XLSX.utils.aoa_to_sheet(dispositionData);
@@ -436,15 +458,18 @@ export const exportCallDispositionData = (data, filters) => {
 /**
  * Export Rating Distribution with patient lists by rating
  */
-export const exportRatingData = (data, filters) => {
+export const exportRatingData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `rating_distribution_detailed_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'rating_distribution_detailed';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
     // Summary
     const ratingData = [
-        ['Program Rating Distribution Report'],
+        [title || 'Program Rating Distribution Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Total Patients:', data.onboardedPatients || 0],
@@ -492,15 +517,18 @@ export const exportRatingData = (data, filters) => {
 /**
  * Export Top Cities Data with detailed patient lists per city
  */
-export const exportTopCitiesData = (data, filters) => {
+export const exportTopCitiesData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `top_cities_detailed_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'top_cities_detailed';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
     // Summary
     const citiesData = [
-        ['Top Cities Report'],
+        [title || 'Top Cities Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Total Patients:', data.onboardedPatients || 0],
@@ -563,9 +591,12 @@ export const exportTopCitiesData = (data, filters) => {
 /**
  * Export Doctor Segmentation
  */
-export const exportDoctorSegmentation = (data, filters) => {
+export const exportDoctorSegmentation = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
-    const filename = `doctor_segmentation_${timestamp}.xlsx`;
+    const baseFilename = title
+        ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
+        : 'doctor_segmentation';
+    const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
 
