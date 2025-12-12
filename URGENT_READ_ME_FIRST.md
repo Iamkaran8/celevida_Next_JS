@@ -220,3 +220,4 @@ Before redeploying to production:
 **Time is critical. Act now to secure your application!**
 
 For detailed technical information, see: `SECURITY_ISSUES.md`
+

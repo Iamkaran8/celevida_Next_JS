@@ -397,6 +397,7 @@ export const exportHealthMetricData = (metricName, chartData, data, title) => {
 
 /**
  * Export Call Completion/Disposition Data with patient lists
+ * Updates: Rectified Total Patients, "Executive" replaced with "VHCs who called"
  */
 export const exportCallDispositionData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
@@ -407,24 +408,29 @@ export const exportCallDispositionData = (data, filters, title) => {
 
     const wb = XLSX.utils.book_new();
 
-    // Summary
+    // Calculate rectified total patients
+    const totalPatients = data.Feedbacks?.length || 0;
+    const totalCalls = Object.values(data.Call_Disposition || {}).reduce((sum, count) => sum + count, 0);
+
+    // Summary - Rectified Total Patients
     const dispositionData = [
         [title || 'Call Disposition Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
-        ['Total Patients:', data.onboardedPatients || 0],
+        ['Total Patients:', totalPatients],
         [],
         ['Call Status', 'Count', 'Percentage']
     ];
 
     Object.entries(data.Call_Disposition || {}).forEach(([status, count]) => {
-        dispositionData.push([status, count, `${(count / data.onboardedPatients * 100).toFixed(2)}% `]);
+        const percentage = totalCalls > 0 ? ((count / totalCalls) * 100).toFixed(2) : 0;
+        dispositionData.push([status, count, `${percentage}%`]);
     });
 
     const wsSummary = XLSX.utils.aoa_to_sheet(dispositionData);
     XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
 
-    // Create sheet for EACH call disposition status
+    // Create sheet for EACH call disposition status - "Executive" replaced with "VHCs who called"
     if (data.Feedbacks && data.Feedbacks.length > 0) {
         Object.keys(data.Call_Disposition || {}).forEach(status => {
             const statusPatients = data.Feedbacks
@@ -439,7 +445,7 @@ export const exportCallDispositionData = (data, filters, title) => {
                     'City': p.City || 'N/A',
                     'Status': p.StatusPrespcription || 'N/A',
                     'Doctor': p.Doctor_Name || 'N/A',
-                    'Executive': p.Field_Executive || 'N/A',
+                    'VHCs who called': p.Field_Executive || 'N/A', // Replaced "Executive"
                     'Mobile': p.Mobile || 'N/A',
                     'Rating': p.Rating || 'N/A',
                     'Created Date': p.Created_Time ? new Date(p.Created_Time).toLocaleDateString() : 'N/A'
@@ -457,6 +463,7 @@ export const exportCallDispositionData = (data, filters, title) => {
 
 /**
  * Export Rating Distribution with patient lists by rating
+ * Rectified % in Summary Tab
  */
 export const exportRatingData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
@@ -467,18 +474,23 @@ export const exportRatingData = (data, filters, title) => {
 
     const wb = XLSX.utils.book_new();
 
-    // Summary
+    // Calculate rectified total
+    const totalPatients = data.Feedbacks?.length || 0;
+    const totalRatedPatients = Object.values(data.ratingCount || {}).reduce((sum, count) => sum + count, 0);
+
+    // Summary - Rectified %
     const ratingData = [
         [title || 'Program Rating Distribution Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
-        ['Total Patients:', data.onboardedPatients || 0],
+        ['Total Patients:', totalPatients],
         [],
         ['Rating', 'Count', 'Percentage']
     ];
 
     Object.entries(data.ratingCount || {}).forEach(([rating, count]) => {
-        ratingData.push([rating, count, `${(count / data.onboardedPatients * 100).toFixed(2)}%`]);
+        const percentage = totalRatedPatients > 0 ? ((count / totalRatedPatients) * 100).toFixed(2) : 0;
+        ratingData.push([rating, count, `${percentage}%`]);
     });
 
     const wsSummary = XLSX.utils.aoa_to_sheet(ratingData);
@@ -500,7 +512,6 @@ export const exportRatingData = (data, filters, title) => {
                     'Doctor': p.Doctor_Name || 'N/A',
                     'Executive': p.Field_Executive || 'N/A',
                     'Mobile': p.Mobile || 'N/A',
-                    'Call Disposition': p.Call_Disposition || 'N/A',
                     'Created Date': p.Created_Time ? new Date(p.Created_Time).toLocaleDateString() : 'N/A'
                 }));
 
@@ -516,6 +527,7 @@ export const exportRatingData = (data, filters, title) => {
 
 /**
  * Export Top Cities Data with detailed patient lists per city
+ * Rectified % in Summary Tab, renamed "Total Patients" to "Total HCPs Participated"
  */
 export const exportTopCitiesData = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
@@ -526,21 +538,24 @@ export const exportTopCitiesData = (data, filters, title) => {
 
     const wb = XLSX.utils.book_new();
 
-    // Summary
+    // Calculate total for percentage
+    const totalPatientsAcrossCities = (data.cities || []).reduce((sum, city) => sum + (city.count || 0), 0);
+
+    // Summary - Rectified %, renamed "Total Patients" to "Total HCPs Participated"
     const citiesData = [
         [title || 'Top Cities Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
-        ['Total Patients:', data.onboardedPatients || 0],
-        [],
-        ['City', 'Patient Count', 'Percentage']
+        ['City', 'Patient Count', 'Percentage', 'Total HCPs Participated']
     ];
 
     (data.cities || []).forEach(city => {
+        const percentage = totalPatientsAcrossCities > 0 ? ((city.count / totalPatientsAcrossCities) * 100).toFixed(2) : 0;
         citiesData.push([
             city.cityname,
             city.count,
-            `${(city.count / data.onboardedPatients * 100).toFixed(2)}%`
+            `${percentage}%`,
+            city.totalClinics || 0
         ]);
     });
 
@@ -549,39 +564,28 @@ export const exportTopCitiesData = (data, filters, title) => {
 
     // Create sheet for EACH city with all patients from that city
     if (data.Feedbacks && data.Feedbacks.length > 0) {
-        // Group patients by city
-        const citiesMap = {};
-        data.Feedbacks.forEach(p => {
-            const city = p.City || 'Unknown';
-            if (!citiesMap[city]) {
-                citiesMap[city] = [];
+        (data.cities || []).forEach(city => {
+            const cityPatients = data.Feedbacks
+                .filter(p => p.City === city.cityname)
+                .map((p, index) => ({
+                    'Sr No': index + 1,
+                    'Patient Name': p.Last_Name || 'N/A',
+                    'City': city.cityname,
+                    'Age': p.Age || 'N/A',
+                    'Gender': p.Genders || 'N/A',
+                    'Status': p.StatusPrespcription || 'N/A',
+                    'Doctor': p.Doctor_Name || 'N/A',
+                    'Executive': p.Field_Executive || 'N/A',
+                    'Mobile': p.Mobile || 'N/A',
+                    'Rating': p.Rating || 'N/A',
+                    'Created Date': p.Created_Time ? new Date(p.Created_Time).toLocaleDateString() : 'N/A'
+                }));
+
+            if (cityPatients.length > 0) {
+                const ws = XLSX.utils.json_to_sheet(cityPatients);
+                const sheetName = city.cityname.substring(0, 30); // Excel sheet name limit
+                XLSX.utils.book_append_sheet(wb, ws, `${sheetName} (${city.count})`);
             }
-            citiesMap[city].push(p);
-        });
-
-        // Sort cities by patient count (descending)
-        const sortedCities = Object.entries(citiesMap)
-            .sort((a, b) => b[1].length - a[1].length);
-
-        sortedCities.forEach(([cityName, patients]) => {
-            const cityPatients = patients.map((p, index) => ({
-                'Sr No': index + 1,
-                'Patient Name': p.Last_Name || 'N/A',
-                'City': cityName,
-                'Age': p.Age || 'N/A',
-                'Gender': p.Genders || 'N/A',
-                'Status': p.StatusPrespcription || 'N/A',
-                'Doctor': p.Doctor_Name || 'N/A',
-                'Executive': p.Field_Executive || 'N/A',
-                'Mobile': p.Mobile || 'N/A',
-                'Rating': p.Rating || 'N/A',
-                'Created Date': p.Created_Time ? new Date(p.Created_Time).toLocaleDateString() : 'N/A'
-            }));
-
-            const ws = XLSX.utils.json_to_sheet(cityPatients);
-            // Limit sheet name to 31 characters (Excel limit)
-            const sheetName = `${cityName.substring(0, 25)} (${patients.length})`;
-            XLSX.utils.book_append_sheet(wb, ws, sheetName);
         });
     }
 

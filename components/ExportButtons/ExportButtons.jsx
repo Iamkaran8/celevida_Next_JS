@@ -15,13 +15,16 @@ export default function ExportButtons({ onExportCSV, onExportPDF, isExporting })
         user?.role?.toLowerCase()?.trim() ||
         null;
 
-    // Strict check: only "super admin" should see PDF button
+    // Check for Super Admin and Brand Team roles
     const isSuperAdmin = role === "super admin";
+    const isBrandTeam = role === "brand team";
 
+    // Show buttons for both Super Admin and Brand Team
+    const showExportButtons = isSuperAdmin || isBrandTeam;
 
     return (
         <div className={styles.exportContainer}>
-            {isSuperAdmin && (
+            {showExportButtons && (
                 <button 
                     className={styles.exportButton} 
                     onClick={onExportCSV}
@@ -33,7 +36,7 @@ export default function ExportButtons({ onExportCSV, onExportPDF, isExporting })
             )}
             
             
-            {isSuperAdmin && (
+            {showExportButtons && (
                 <button 
                     className={styles.exportButton} 
                     onClick={onExportPDF}
