@@ -761,3 +761,4 @@ export const exportBrandDoctorSegmentation = (data, filters, title) => {
 
     XLSX.writeFile(wb, filename);
 };
+
