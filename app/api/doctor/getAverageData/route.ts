@@ -1,4 +1,5 @@
 import { getRefreshToken } from "@/app/utils/getRefreshToken";
+import { fetchAllPages } from "@/app/utils/zohoPagination";
 
 export async function GET(request: Request) {
   try {
@@ -68,21 +69,12 @@ async function getLevelData(doctorNames: string)
         "Body_Weight_kg"
       ].join(',');
 
-    const ContactsLevelRes = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Zoho-oauthtoken ${accessToken}`,
-      }
-    })
-    const LeadsLevelRes = await fetch(`https://www.zohoapis.in/crm/v8/Leads?fields=${fields}`, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Zoho-oauthtoken ${accessToken}`,
-        }
-    })
-  
-    const ContactsLevelData = await ContactsLevelRes.json()
-    const LeadsLevelData = await LeadsLevelRes.json()
+    // Fetch all pages with pagination
+    const contactsBaseUrl = `https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`;
+    const leadsBaseUrl = `https://www.zohoapis.in/crm/v8/Leads?fields=${fields}`;
+    
+    const ContactsLevelData = await fetchAllPages(contactsBaseUrl, accessToken);
+    const LeadsLevelData = await fetchAllPages(leadsBaseUrl, accessToken);
     if (doctorNames) {
       ContactsLevelData.data = ContactsLevelData.data?.filter(item => item.Doctor_Name === doctorNames);
       LeadsLevelData.data = LeadsLevelData.data?.filter(item => item.Doctor_Name === doctorNames);
@@ -192,22 +184,12 @@ async function getHcpData(doctorNames: string)
    "Last_Name"
   ].join(',');
 
-  const ContactsHcpRes = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Zoho-oauthtoken ${accessToken}`,
-    }
-  })
+  // Fetch all pages with pagination
+  const contactsBaseUrl = `https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`;
+  const leadsBaseUrl = `https://www.zohoapis.in/crm/v8/Leads?fields=${fields}`;
   
-  const LeadsHcpRes = await fetch(`https://www.zohoapis.in/crm/v8/Leads?fields=${fields}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Zoho-oauthtoken ${accessToken}`,
-    }
-  })
-  
-  const ContactsHcpData = await ContactsHcpRes.json()
-  const LeadsHcpData = await LeadsHcpRes.json()
+  const ContactsHcpData = await fetchAllPages(contactsBaseUrl, accessToken);
+  const LeadsHcpData = await fetchAllPages(leadsBaseUrl, accessToken);
   
   let HcpData = [...(ContactsHcpData.data || []), ...(LeadsHcpData.data || [])];
   ////console.log(HcpData, "HcpData")
@@ -314,28 +296,17 @@ async function getPatientLevelData(doctorNames: string)
   const chunk1 = allFields.slice(0, 50);
   const chunk2 = allFields.slice(50);
 
-  // Function to make API calls for both contacts and leads
+  // Function to make API calls for both contacts and leads with pagination
   const makeApiCalls = async (fields: string[]) => {
     const fieldsString = fields.join(',');
     
-    const [contactsRes, leadsRes] = await Promise.all([
-      fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fieldsString}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Zoho-oauthtoken ${accessToken}`,
-        }
-      }),
-      fetch(`https://www.zohoapis.in/crm/v8/Leads?fields=${fieldsString}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Zoho-oauthtoken ${accessToken}`,
-        }
-      })
-    ]);
-
+    const contactsBaseUrl = `https://www.zohoapis.in/crm/v8/Contacts?fields=${fieldsString}`;
+    const leadsBaseUrl = `https://www.zohoapis.in/crm/v8/Leads?fields=${fieldsString}`;
+    
+    // Fetch all pages with pagination for both endpoints in parallel
     const [contactsData, leadsData] = await Promise.all([
-      contactsRes.json(),
-      leadsRes.json()
+      fetchAllPages(contactsBaseUrl, accessToken),
+      fetchAllPages(leadsBaseUrl, accessToken)
     ]);
 
     if (doctorNames) {
@@ -343,7 +314,7 @@ async function getPatientLevelData(doctorNames: string)
       leadsData.data = leadsData.data?.filter(item => item.Doctor_Name === doctorNames);
     }
 
-      return [...(contactsData.data || []), ...(leadsData.data || [])];
+    return [...(contactsData.data || []), ...(leadsData.data || [])];
   };
 
   // Make parallel API calls for both chunks

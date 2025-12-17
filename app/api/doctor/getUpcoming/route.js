@@ -1,4 +1,5 @@
 import { getRefreshToken } from "@/app/utils/getRefreshToken";
+import { fetchAllPages } from "@/app/utils/zohoPagination";
 
 export async function GET(request) {
   try {
@@ -16,19 +17,15 @@ export async function GET(request) {
       "Age",
       "Mobile",
       "Appointment_Date",
-      "Preferred_Time"
+      "Preferred_Time",
+      "Doctor_Name"
     ].join(',');
     //   "Appointment_Date": "2025-09-04",
     //   "Preferred_Time": "9:00 AM - 11:00 AM",
 
-    const response = await fetch(`https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Zoho-oauthtoken ${accessToken}`,
-      }
-    });
-
-    const data = await response.json();
+    // Fetch all pages of contacts with pagination
+    const baseUrl = `https://www.zohoapis.in/crm/v8/Contacts?fields=${fields}`;
+    const data = await fetchAllPages(baseUrl, accessToken);
 
     if (!data?.data || data.data.length === 0) {
       return Response.json({ data: [], message: "No contacts found" });
