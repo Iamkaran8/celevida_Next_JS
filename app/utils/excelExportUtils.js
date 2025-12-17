@@ -331,17 +331,23 @@ export const exportPatientSegmentation = (data, filters, title) => {
 
     const wb = XLSX.utils.book_new();
 
-    // Segmentation data
+    // Calculate counts
+    const prescribedCount = data.Prescribed || 0;
+    const nurtureCount = data.Nurture || 0;
+    const totalPatients = data.onboardedPatients || 0;
+    const notUpdatedCount = totalPatients - (prescribedCount + nurtureCount);
+
+    // Segmentation data with "Not Updated"
     const segmentationData = [
         [title || 'Patient Segmentation Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Segment', 'Count', 'Percentage'],
-        ['Prescribed', data.Prescribed || 0, `${((data.Prescribed || 0) / data.onboardedPatients * 100).toFixed(2)}% `],
-        ['Nurture', data.Nurture || 0, `${((data.Nurture || 0) / data.onboardedPatients * 100).toFixed(2)}% `],
-        ['Not Prescribed', (data.onboardedPatients - data.Prescribed - data.Nurture) || 0, `${(((data.onboardedPatients - data.Prescribed - data.Nurture) || 0) / data.onboardedPatients * 100).toFixed(2)}% `],
+        ['Prescribed', prescribedCount, `${totalPatients > 0 ? ((prescribedCount / totalPatients) * 100).toFixed(2) : 0}% `],
+        ['Nurture', nurtureCount, `${totalPatients > 0 ? ((nurtureCount / totalPatients) * 100).toFixed(2) : 0}% `],
+        ['Not Updated', notUpdatedCount, `${totalPatients > 0 ? ((notUpdatedCount / totalPatients) * 100).toFixed(2) : 0}% `],
         [],
-        ['Total', data.onboardedPatients || 0, '100%']
+        ['Total', totalPatients, '100%']
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(segmentationData);
@@ -445,7 +451,7 @@ export const exportCallDispositionData = (data, filters, title) => {
                     'City': p.City || 'N/A',
                     'Status': p.StatusPrespcription || 'N/A',
                     'Doctor': p.Doctor_Name || 'N/A',
-                    'VHCs who called': p.Field_Executive || 'N/A', // Replaced "Executive"
+                    'VHCs who called': p.Owner.name || 'N/A', // Replaced "Executive"
                     'Mobile': p.Mobile || 'N/A',
                     'Rating': p.Rating || 'N/A',
                     'Created Date': p.Created_Time ? new Date(p.Created_Time).toLocaleDateString() : 'N/A'
@@ -599,7 +605,7 @@ export const exportDoctorSegmentation = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
     const baseFilename = title
         ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
-        : 'doctor_segmentation';
+        : 'patient_segmentation';
     const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
@@ -640,7 +646,7 @@ export const exportDoctorSegmentation = (data, filters, title) => {
     }));
 
     const ws = XLSX.utils.json_to_sheet(doctorList);
-    XLSX.utils.book_append_sheet(wb, ws, 'Doctor Segmentation');
+    XLSX.utils.book_append_sheet(wb, ws, 'Patient Segmentation');
 
     XLSX.writeFile(wb, filename);
 };

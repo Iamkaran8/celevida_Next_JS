@@ -24,7 +24,7 @@ import Filters from "../../../components/filter/Filters";
 import { useState } from "react";
 import { transformData } from "../../../app/utils/transformData";
 import ExportButtons from "../../../components/ExportButtons/ExportButtons";
-import { exportToCSV, exportToPDF } from "../../../app/utils/exportUtils";
+import { exportToPDF } from "../../../app/utils/exportUtils";
 import * as BrandExport from "../../../app/utils/brandTeamExports";
 import ClickableCard from "../../../components/ClickableCard/ClickableCard";
 
@@ -74,7 +74,7 @@ export default function Dashboard() {
                 cities,
                 Feedbacks
             };
-            exportToCSV(exportData, filters);
+            BrandExport.exportBrandToCSV(exportData, filters);
         } catch (error) {
             console.error('Error exporting CSV:', error);
             alert('Failed to export CSV. Please try again.');

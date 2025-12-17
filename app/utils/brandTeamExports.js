@@ -41,7 +41,7 @@ export const exportBrandTotalPatients = (data, filters, title) => {
         ['Status:', filters.statuses?.length > 0 ? filters.statuses.join(', ') : 'All'],
         ['Date Range:', filters.dateRange ? `${filters.dateRange.startDate} - ${filters.dateRange.endDate}` : 'All'],
         [],
-        ['SUM of Total Patients Screened:', totalSum],
+        ['Total Patients Screened:', totalSum],
         []
     ];
 
@@ -53,18 +53,12 @@ export const exportBrandTotalPatients = (data, filters, title) => {
         const patientsList = data.Feedbacks.map((p, index) => ({
             'Sr No': index + 1,
             'Patient ID': p.id || 'N/A',
-            'Patient Name': p.Last_Name || 'N/A',
             'Age': p.Age || 'N/A',
             'Gender': p.Genders || 'N/A',
             'Status': p.StatusPrespcription || 'N/A',
             'City': p.City || 'N/A',
-            'State': p.State || 'N/A',
             'Doctor Name': p.Doctor_Name || 'N/A',
             'Field Executive': p.Field_Executive || 'N/A',
-            'Mobile': p.Mobile || 'N/A',
-            'Email': p.Email || 'N/A',
-            'Call Disposition': p.Call_Disposition || 'N/A',
-            'Rating': p.Rating || 'N/A',
             'Created Date': p.Created_Time ? new Date(p.Created_Time).toLocaleString() : 'N/A'
         }));
 
@@ -286,8 +280,9 @@ export const exportBrandPatientSegmentation = (data, filters, title) => {
     const totalPatients = data.Feedbacks?.length || 0;
     const wellnessCount = data.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Onboarded').length || 0;
     const nurtureCount = data.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Nurture').length || 0;
+    const notUpdatedCount = totalPatients - (wellnessCount + nurtureCount);
 
-    // Segmentation data - "Not Prescribed" REMOVED
+    // Segmentation data - added "Not Updated"
     const segmentationData = [
         ['Patient Status Funnel'],
         ['Generated:', new Date().toLocaleString()],
@@ -295,7 +290,7 @@ export const exportBrandPatientSegmentation = (data, filters, title) => {
         ['Segment', 'Count', 'Percentage'],
         ['Wellness Patients', wellnessCount, `${totalPatients > 0 ? ((wellnessCount / totalPatients) * 100).toFixed(2) : 0}%`],
         ['Nurture Patients', nurtureCount, `${totalPatients > 0 ? ((nurtureCount / totalPatients) * 100).toFixed(2) : 0}%`],
-        // 'Not Prescribed': REMOVED
+        ['Not Updated', notUpdatedCount, `${totalPatients > 0 ? ((notUpdatedCount / totalPatients) * 100).toFixed(2) : 0}%`],
         [],
         ['Total', totalPatients, '100%']
     ];
@@ -353,7 +348,6 @@ export const exportBrandGenderData = (data, filters, title) => {
                     'Gender': p.Genders || 'N/A',
                     'Age': p.Age || 'N/A',
                     'City': p.City || 'N/A',
-                    'State': p.State || 'N/A',
                     'Status': p.StatusPrespcription || 'N/A',
                     'Doctor': p.Doctor_Name || 'N/A',
                     'Field Executive': p.Field_Executive || 'N/A',
@@ -464,8 +458,9 @@ export const exportBrandPatientFunnel = (data, filters, title) => {
     const totalPatients = data.Feedbacks?.length || 0;
     const wellnessCount = data.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Onboarded').length || 0;
     const nurtureCount = data.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Nurture').length || 0;
+    const notUpdatedCount = totalPatients - (wellnessCount + nurtureCount);
 
-    // Funnel data - Rectified total, "Not Prescribed" REMOVED
+    // Funnel data - Rectified total, added "Not Updated"
     const funnelData = [
         [title || 'Patient Status Funnel Report'],
         ['Generated:', new Date().toLocaleString()],
@@ -474,7 +469,7 @@ export const exportBrandPatientFunnel = (data, filters, title) => {
         ['Total Patients Screened', totalPatients],
         ['Wellness Patients', wellnessCount],
         ['Nurture Patients', nurtureCount],
-        // 'Not Prescribed': REMOVED
+        ['Not Updated', notUpdatedCount],
     ];
 
     const ws = XLSX.utils.aoa_to_sheet(funnelData);
@@ -532,7 +527,7 @@ export const exportBrandCallDisposition = (data, filters, title) => {
                     'Patient Status': p.StatusPrespcription || 'N/A',
                     'City': p.City || 'N/A',
                     'Doctor': p.Doctor_Name || 'N/A',
-                    'VHCs who called': p.Field_Executive || 'N/A', // Replaced "Executive" with "VHCs who called"
+                    'VHCs who called': p.Owner.name || 'N/A', // Replaced "Executive" with "VHCs who called"
                     // 'Mobile': EXCLUDED
                     // 'Rating': EXCLUDED
                     'Call Date': p.Created_Time ? new Date(p.Created_Time).toLocaleDateString() : 'N/A'
@@ -707,7 +702,7 @@ export const exportBrandDoctorSegmentation = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
     const baseFilename = title
         ? title.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
-        : 'doctor_segmentation';
+        : 'patient_segmentation';
     const filename = `${baseFilename}_${timestamp}.xlsx`;
 
     const wb = XLSX.utils.book_new();
@@ -738,7 +733,7 @@ export const exportBrandDoctorSegmentation = (data, filters, title) => {
 
     // Summary
     const summaryData = [
-        [title || 'Doctor Segmentation Report'],
+        [title || 'Patient Segmentation Report'],
         ['Generated:', new Date().toLocaleString()],
         [],
         ['Doctor Name', 'Total Patients', 'Wellness', 'Nurture', 'Others', 'Prescription Rate']
@@ -760,5 +755,126 @@ export const exportBrandDoctorSegmentation = (data, filters, title) => {
     XLSX.utils.book_append_sheet(wb, ws, 'Doctor Segmentation');
 
     XLSX.writeFile(wb, filename);
+};
+
+/**
+ * Export Brand Team Data to CSV (without Patient Name and Phone Number)
+ */
+export const exportBrandToCSV = (data, filters) => {
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `celevida_brand_report_${timestamp}.csv`;
+
+    // Create CSV header with filter information
+    let csvContent = "Celevida Health Analytics Report (Brand Team)\n";
+    csvContent += `Generated: ${new Date().toLocaleString()}\n\n`;
+
+    // Add filter information
+    csvContent += "Applied Filters:\n";
+    csvContent += `Cities: ${filters.cities?.length > 0 ? filters.cities.join(', ') : 'All'}\n`;
+    csvContent += `Executives: ${filters.executives?.length > 0 ? filters.executives.join(', ') : 'All'}\n`;
+    csvContent += `Doctors: ${filters.doctors?.length > 0 ? filters.doctors.join(', ') : 'All'}\n`;
+    csvContent += `Status: ${filters.statuses?.length > 0 ? filters.statuses.join(', ') : 'All'}\n`;
+    if (filters.dateRange) {
+        csvContent += `Date Range: ${filters.dateRange.startDate} - ${filters.dateRange.endDate}\n`;
+    }
+    csvContent += "\n\n";
+
+    // Patient Summary Statistics
+    csvContent += "PATIENT SUMMARY STATISTICS\n";
+    csvContent += "Metric,Count\n";
+    const totalPatients = data.Feedbacks?.length || 0;
+    const wellnessCount = data.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Onboarded').length || 0;
+    const nurtureCount = data.Feedbacks?.filter(p => p.StatusPrespcription === 'Celevida_Nurture').length || 0;
+    const notUpdatedCount = totalPatients - (wellnessCount + nurtureCount);
+
+    csvContent += `Total Patients,${totalPatients}\n`;
+    csvContent += `Wellness Patients,${wellnessCount}\n`;
+    csvContent += `Nurture Patients,${nurtureCount}\n`;
+    csvContent += `Not Updated,${notUpdatedCount}\n`;
+    csvContent += `Total Doctors Participated,${data.totalDoctorParticipated || 0}\n`;
+    csvContent += "\n\n";
+
+    // Health Metrics Progress Data
+    if (data.avgTableData && data.avgTableData.length > 0) {
+        csvContent += "HEALTH METRICS PROGRESS\n";
+        csvContent += "Parameter,Before Program,Month 1,Month 2,Month 3,Overall Average,Percentage Change\n";
+
+        data.avgTableData.forEach(metric => {
+            csvContent += `${metric.parameter},${metric.beforeProgramAvg || 0},${metric.month1Avg || 0},${metric.month2Avg || 0},${metric.month3Avg || 0},${metric.monthsAvg || 0},${metric.percentageChange || 0}%\n`;
+        });
+        csvContent += "\n\n";
+    }
+
+    // Gender Distribution
+    if (data.genderCount) {
+        csvContent += "GENDER DISTRIBUTION\n";
+        csvContent += "Gender,Count\n";
+        csvContent += `Male,${data.genderCount.male || 0}\n`;
+        csvContent += `Female,${data.genderCount.female || 0}\n`;
+        csvContent += `Other,${data.genderCount.other || 0}\n`;
+        csvContent += "\n\n";
+    }
+
+    // Age Group Distribution
+    if (data.ageGroups) {
+        csvContent += "AGE GROUP DISTRIBUTION\n";
+        csvContent += "Age Group,Count\n";
+        Object.entries(data.ageGroups).forEach(([ageGroup, count]) => {
+            csvContent += `${ageGroup},${count}\n`;
+        });
+        csvContent += "\n\n";
+    }
+
+    // Call Disposition
+    if (data.Call_Disposition) {
+        csvContent += "CALL DISPOSITION\n";
+        csvContent += "Status,Count\n";
+        Object.entries(data.Call_Disposition).forEach(([status, count]) => {
+            csvContent += `${status},${count}\n`;
+        });
+        csvContent += "\n\n";
+    }
+
+    // Rating Distribution
+    if (data.ratingCount) {
+        csvContent += "PROGRAM RATING DISTRIBUTION\n";
+        csvContent += "Rating,Count\n";
+        Object.entries(data.ratingCount).forEach(([rating, count]) => {
+            csvContent += `${rating},${count}\n`;
+        });
+        csvContent += "\n\n";
+    }
+
+    // City Distribution
+    if (data.cities) {
+        csvContent += "TOP CITIES\n";
+        csvContent += "City,Patient Count\n";
+        data.cities.forEach(city => {
+            csvContent += `${city.cityname},${city.count}\n`;
+        });
+        csvContent += "\n\n";
+    }
+
+    // Detailed Patient List - EXCLUDED: Patient Name, Phone Number
+    if (data.Feedbacks && data.Feedbacks.length > 0) {
+        csvContent += "DETAILED PATIENT DATA\n";
+        csvContent += "Patient ID,Status,City,Doctor Name,Gender,Age,Field Executive,Created Date\n";
+
+        data.Feedbacks.forEach(patient => {
+            csvContent += `${patient.id || 'N/A'},${patient.StatusPrespcription || 'N/A'},${patient.City || 'N/A'},${patient.Doctor_Name || 'N/A'},${patient.Genders || 'N/A'},${patient.Age || 'N/A'},${patient.Field_Executive || 'N/A'},${patient.Created_Time ? new Date(patient.Created_Time).toLocaleDateString() : 'N/A'}\n`;
+        });
+    }
+
+    // Create blob and download
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 };
 
