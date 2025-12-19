@@ -423,7 +423,6 @@ export const exportBrandAgeGroupData = (data, filters, title) => {
                     // 'Why in this group?': EXCLUDED
                     'Gender': p.Genders || 'N/A',
                     'City': p.City || 'N/A',
-                    'State': p.State || 'N/A',
                     'Status': p.StatusPrespcription || 'N/A',
                     'Doctor': p.Doctor_Name || 'N/A',
                     // 'Mobile': EXCLUDED
@@ -696,7 +695,7 @@ export const exportBrandHealthMetric = (metricName, chartData, data, title) => {
 };
 
 /**
- * Export Doctor Segmentation (Brand Team) - No exclusions
+ * Export Patient Segmentation (Brand Team) - No exclusions
  */
 export const exportBrandDoctorSegmentation = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
@@ -752,7 +751,7 @@ export const exportBrandDoctorSegmentation = (data, filters, title) => {
     });
 
     const ws = XLSX.utils.aoa_to_sheet(summaryData);
-    XLSX.utils.book_append_sheet(wb, ws, 'Doctor Segmentation');
+    XLSX.utils.book_append_sheet(wb, ws, 'Patient Segmentation');
 
     XLSX.writeFile(wb, filename);
 };

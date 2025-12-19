@@ -104,7 +104,6 @@ export const exportPatientsList = (data, filters, title) => {
             'Gender': p.Genders || 'N/A',
             'Status': p.StatusPrespcription || 'N/A',
             'City': p.City || 'N/A',
-            'State': p.State || 'N/A',
             'Doctor Name': p.Doctor_Name || 'N/A',
             'Field Executive': p.Field_Executive || 'N/A',
             'Mobile': p.Mobile || 'N/A',
@@ -599,7 +598,7 @@ export const exportTopCitiesData = (data, filters, title) => {
 };
 
 /**
- * Export Doctor Segmentation
+ * Export Patient Segmentation
  */
 export const exportDoctorSegmentation = (data, filters, title) => {
     const timestamp = new Date().toISOString().split('T')[0];
